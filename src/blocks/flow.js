@@ -57,3 +57,28 @@ Blockly.JavaScript.flow_wait = function (block) {
 
   return `await $$wait(${ms});\n`;
 };
+
+Blockly.Blocks.flow_frame = {
+  init() {
+    this.jsonInit({
+      message0: 'next frame of %1 ⌛',
+      args0: [
+        {type: 'field_dropdown',
+          name: 'LAYER',
+          options: [
+            ['fglayer', 'fglayer'],
+            ['bglayer', 'bglayer'],
+          ],
+        },
+      ],
+      colour: 195,
+      previousStatement: null,
+      nextStatement: null,
+    });
+  },
+};
+
+Blockly.JavaScript.flow_frame = function (block) {
+  const layerName = block.getFieldValue('LAYER');
+  return `await scene.layer('${layerName}').prepareRender();\n`;
+};
