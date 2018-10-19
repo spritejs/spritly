@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://unpkg.com/spritejs@2.17.8/dist/spritejs.min.js"></script>
+  <script src="/js/spritly.js"></script>
+  <style>
+    html, body {
+      width: 100%;
+      min-width: 1000px;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    #main {
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+    #controls {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      z-index: 9999;
+    }
+    #blocklyDiv {
+      height: 100%;
+      width: 38%;
+      min-width: 560px;
+      border: none;
+    }
+    #stage {
+      width: 62%;
+      background: url(res/img/grid.jpg) repeat;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <button onclick="showCode()">Code</button>
+    <button onclick="runCode()">Run</button>
+  </div>
+  <div id="main">
+    <div id="blocklyDiv"></div>
+    <div id="stage"></div>
+  </div>
+
+  <xml id="toolbox" style="display: none">
+      <category name="Variables" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
+      <category name="Sprites" colour="155">
+        <block type="create_sprite_with"></block>
+        <block type="sprite_append_to"></block>
+        <block type="sprite_attrs">
+          <value name="SPRITE">
+            <block type="variables_get">
+              <field name="VAR">sprite</field>
+            </block>            
+          </value>
+        </block>
+      </category>
+      <category name="Attributes" colour="55">
+        <block type="field_attr"></block>
+        <block type="field_attr_inc">
+          <value name="VALUE">
+            <block type="math_number">
+              <field name="NUM">1</field>
+            </block>
+          </value>    
+        </block>
+        <block type="field_attr_xy">
+          <value name="VALUE">
+            <block type="math_number">
+              <field name="NUM">0</field>
+            </block>
+          </value>
+        </block>
+        <block type="field_attr_size">
+          <value name="VALUE">
+              <block type="math_number">
+                <field name="NUM">100</field>
+              </block>
+          </value>
+        </block>
+        <block type="field_attr_bgcolor">
+            <value name="VALUE">
+                <block type="colour_picker"></block>
+            </value>
+          </block>
+      </category>
+      <category name="Flows" colour="195">
+        <block type="flow_sync"></block>
+        <block type="flow_async"></block>
+        <block type="flow_wait"></block>
+      </category>
+      <category name="Data" colour="260">
+        <block type="lists_create_with"></block>
+        <block type="object_create">
+          <value name="FIELDS">
+              <block type="field_attr"></block>
+          </value>
+        </block>
+      </category>
+      <category name="Logic" colour="%{BKY_LOGIC_HUE}">
+        <block type="controls_if"></block>
+        <block type="logic_compare"></block>
+        <block type="logic_operation"></block>
+        <block type="logic_negate"></block>
+        <block type="logic_boolean"></block>
+      </category>
+      <category name="Loops" colour="%{BKY_LOOPS_HUE}">
+        <block type="controls_repeat_ext">
+          <value name="TIMES">
+            <block type="math_number">
+              <field name="NUM">10</field>
+            </block>
+          </value>
+        </block>
+        <block type="controls_whileUntil"></block>
+      </category>
+      <category name="Math" colour="%{BKY_MATH_HUE}">
+        <block type="math_number">
+          <field name="NUM">123</field>
+        </block>
+        <block type="math_arithmetic"></block>
+        <block type="math_single"></block>
+      </category>
+      <category name="Text" colour="%{BKY_TEXTS_HUE}">
+        <block type="text"></block>
+        <block type="text_length"></block>
+        <block type="text_print"></block>
+      </category>
+      <category name="Color" colour="%{BKY_COLOUR_HUE}">
+        <block type="colour_picker"></block>
+      </category>
+    </xml>
+  
+    <xml id="startBlocks" style="display: none">
+      <block type="flow_async">
+        <value name="STATEMENTS">
+          <block type="variables_set">
+            <field name="VAR">sprite</field>
+            <value name="VALUE">
+              <block type="create_sprite_with">
+                <value name="ATTRS">
+                  <block type="field_attr_xy">
+                    <value name="VALUE">
+                      <block type="math_number">
+                        <field name="NUM">100</field>
+                      </block>                  
+                    </value>
+                  <next><block type="field_attr_xy">
+                    <field name="KEY">y</field>
+                    <value name="VALUE">
+                      <block type="math_number">
+                        <field name="NUM">100</field>
+                      </block>                  
+                    </value>
+                  <next><block type="field_attr_size">
+                    <field name="KEY">width</field>
+                    <value name="VALUE">
+                      <block type="math_number">
+                        <field name="NUM">100</field>
+                      </block>                  
+                    </value>
+                  <next><block type="field_attr_size">
+                    <field name="KEY">height</field>
+                    <value name="VALUE">
+                      <block type="math_number">
+                        <field name="NUM">100</field>
+                      </block>                  
+                    </value>
+                  <next><block type="field_attr_bgcolor">
+                    <value name="VALUE">
+                      <block type="colour_picker"></block>                  
+                    </value>
+                  </block></next>
+                  </block></next>        
+                  </block></next>
+                  </block></next>
+                  </block>
+                </value>
+              </block>        
+            </value>
+            <next><block type="sprite_append_to">
+              <value name="SPRITE">
+                <block type="variables_get">
+                  <field name="VAR">sprite</field>
+                </block>
+              </value>
+            <next><block type="controls_repeat_ext">
+              <value name="TIMES">
+                <block type="math_number">
+                  <field name="NUM">500</field>
+                </block>
+              </value>
+              <value name="DO">
+                <block type="sprite_attrs">
+                  <value name="SPRITE">
+                    <block type="variables_get">
+                      <field name="VAR">sprite</field>
+                    </block>            
+                  </value>
+                  <value name="ATTRS">
+                    <block type="field_attr_xy">
+                      <value name="VALUE">
+                        <block type="field_attr_inc">
+                          <value name="VALUE">
+                            <block type="math_number">
+                              <field name="NUM">1</field>
+                            </block>
+                          </value>  
+                        </block>                 
+                      </value>
+                    </block>
+                  </value>
+                  <next>
+                    <block type="flow_wait"></block>
+                  </next>
+                </block>                    
+              </value>
+            </block></next>
+            </block></next>
+          </block>
+        </value>
+      </block>
+    </xml>
+
+  <script>
+    const {Blockly, initWorkspace} = spritly;
+    const {Scene, Layer, Sprite, Label, Path} = spritejs;
+    
+    function $$_(attrs) {
+      return attrs;
+    }
+
+    function $$wait(ms) {
+      return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
+    }
+
+    const scene = new Scene('#stage', {
+      viewport: 'auto',
+      resolution: 'flex',
+    });
+
+    const fglayer = scene.layer('fglayer');
+
+    const workspace = initWorkspace('blocklyDiv',
+      {
+        media: 'res/media/',
+        toolbox: document.getElementById('toolbox'),
+      });
+
+    Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
+      workspace);
+    
+    function showCode() {
+      // Generate JavaScript code and display it.
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      const code = Blockly.JavaScript.workspaceToCode(workspace);
+      alert(code);
+    }
+
+    function runCode() {
+      scene.layer('fglayer').clear();
+      scene.layer('bglayer').clear();
+
+      // Generate JavaScript code and run it.
+      window.LoopTrap = 1000;
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = 'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
+      const code = Blockly.JavaScript.workspaceToCode(workspace);
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      try {
+        eval(code);
+      } catch (e) {
+        // alert(e);
+      }
+    }
+    workspace.addChangeListener((event) => {
+      if(event.type === Blockly.Events.CHANGE
+      || event.type === Blockly.Events.MOVE
+      || event.type === Blockly.Events.DELETE) {
+        runCode();
+      }
+    });
+    runCode();
+  </script>
+</body>
+</html>
