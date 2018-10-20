@@ -1,5 +1,11 @@
 const Blockly = require('blockly');
 
+const colour = Blockly.Msg.SPRITE_HUE;
+
+Blockly.Blocks.create_sprite_onto = {
+
+};
+
 Blockly.Blocks.create_sprite_with = {
   init() {
     this.appendDummyInput().appendField('create ')
@@ -12,7 +18,7 @@ Blockly.Blocks.create_sprite_with = {
     this.appendStatementInput('ATTRS')
       .setCheck(['KeyValue']);
     this.setOutput(true, 'SPRITE');
-    this.setColour(155);
+    this.setColour(colour);
   },
 };
 
@@ -36,7 +42,7 @@ Blockly.Blocks.sprite_append_to = {
           ],
         },
       ],
-      colour: 155,
+      colour,
       previousStatement: null,
       nextStatement: null,
     });
@@ -58,7 +64,7 @@ Blockly.Blocks.sprite_attrs = {
         {type: 'input_value', name: 'SPRITE', check: 'SPRITE'},
         {type: 'input_statement', name: 'ATTRS', check: 'KeyValue'},
       ],
-      colour: 155,
+      colour,
       previousStatement: null,
       nextStatement: null,
     });

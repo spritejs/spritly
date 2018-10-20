@@ -50,7 +50,7 @@
 
   <xml id="toolbox" style="display: none">
       <category name="Variables" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
-      <category name="Sprites" colour="155">
+      <category name="Sprites" colour="%{BKY_SPRITE_HUE}">
         <block type="create_sprite_with"></block>
         <block type="sprite_append_to"></block>
         <block type="sprite_attrs">
@@ -61,7 +61,7 @@
           </value>
         </block>
       </category>
-      <category name="Attributes" colour="55">
+      <category name="Attributes" colour="%{BKY_ATTRS_HUE}">
         <block type="field_attr"></block>
         <block type="field_attr_inc">
           <value name="VALUE">
@@ -90,7 +90,7 @@
             </value>
           </block>
       </category>
-      <category name="Flows" colour="195">
+      <category name="Flows" colour="%{BKY_FLOW_HUE}">
         <block type="flow_wait"></block>
         <block type="flow_frame"></block>
       </category>
@@ -242,8 +242,6 @@
       resolution: 'flex',
     });
 
-    const fglayer = scene.layer('fglayer');
-
     const workspace = initWorkspace('blocklyDiv',
       {
         media: 'res/media/',
@@ -260,7 +258,7 @@
       const topBlocks = [];
       for(let i = xml.childNodes.length - 1; i >= 0; i--) {
         const block = xml.childNodes[i];
-        console.log(block.lastChild);
+        // console.log(block.lastChild);
         if(block.tagName === 'BLOCK') {
           xml.removeChild(block);
           topBlocks.unshift(block);
@@ -289,14 +287,35 @@
       // Generate JavaScript code and display it.
       alert(getCode().join('\n\n'));
     }
+    
+    function clearHandlers(node) {
+      const handlers = node.getEventHandlers();
+      if(handlers) {
+        Object.keys(handlers).forEach((type) => {
+          delete handlers[type];
+        });
+      }
+    }
 
     function runCode() {
-      scene.layer('fglayer').clear();
-      scene.layer('bglayer').clear();
+      const fglayer = scene.layer('fglayer');
+      const bglayer = scene.layer('bglayer');
+
+      fglayer.clear();
+      bglayer.clear();
+
+      clearHandlers(fglayer);
+      clearHandlers(bglayer);
+      clearHandlers(scene);
 
       try {
         getCode().forEach(eval);
+        scene.on('SIGNAL_START', () => {
+          console.log('start!');
+        });
+        scene.dispatchEvent('SIGNAL_START', {});
       } catch (e) {
+        console.log(e);
         // alert(e);
       }
     }
@@ -307,7 +326,7 @@
         runCode();
       }
     });
-    runCode();
+    // runCode();
   </script>
 </body>
 </html>

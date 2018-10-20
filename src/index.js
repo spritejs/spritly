@@ -1,3 +1,4 @@
+import './messages';
 import './blocks';
 
 const Blockly = require('blockly');

@@ -6,7 +6,7 @@ Blockly.Blocks.object_create = {
     this.appendStatementInput('FIELDS')
       .setCheck(['KeyValue']);
     this.setOutput(true);
-    this.setColour(260);
+    this.setColour(Blockly.Msg.LISTS_HUE);
     this.setTooltip(() => {
       return 'Create object';
     });

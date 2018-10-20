@@ -1,5 +1,7 @@
 const Blockly = require('blockly');
 
+const colour = Blockly.Msg.ATTRS_HUE;
+
 Blockly.Blocks.field_attr_inc = {
   init() {
     this.jsonInit({
@@ -16,7 +18,7 @@ Blockly.Blocks.field_attr_inc = {
           ]},
         {type: 'input_value', name: 'VALUE', check: 'Number'},
       ],
-      colour: 55,
+      colour,
     });
     this.setOutput(true, 'Number');
   },
@@ -42,7 +44,7 @@ function createKVConf(keys = 'key', valueType = '') {
       arg0,
       {type: 'input_value', name: 'VALUE', check: valueType},
     ],
-    colour: 55,
+    colour,
     previousStatement: 'KeyValue',
     nextStatement: 'KeyValue',
   };
