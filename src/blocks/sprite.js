@@ -1,31 +1,16 @@
 const Blockly = require('blockly');
 
 const colour = Blockly.Msg.SPRITE_HUE;
+const previousStatement = 'Statement';
+const nextStatement = 'Statement';
 
-Blockly.Blocks.create_sprite_onto = {
-
-};
-
-Blockly.Blocks.create_sprite_with = {
-  init() {
-    this.appendDummyInput().appendField('create ')
-      .appendField(new Blockly.FieldDropdown([
-        ['Sprite', 'Sprite'],
-        ['Label', 'Label'],
-        ['Path', 'Path'],
-      ]),
-      'TYPE').appendField(' with ');
-    this.appendStatementInput('ATTRS')
-      .setCheck(['KeyValue']);
-    this.setOutput(true, 'SPRITE');
-    this.setColour(colour);
-  },
-};
-
-Blockly.JavaScript.create_sprite_with = function (block) {
-  const fields = Blockly.JavaScript.statementToCode(block, 'ATTRS');
-  const type = block.getFieldValue('TYPE');
-  return [`new ${type}($$_({${fields}\n}))`, Blockly.JavaScript.ORDER_MEMBER];
+const sender_receiver_dropdown = {
+  type: 'field_dropdown',
+  name: 'SPRITE',
+  options: [
+    ['receiver', 'receiver'],
+    ['sender', 'sender'],
+  ],
 };
 
 Blockly.Blocks.sprite_append_to = {
@@ -33,7 +18,7 @@ Blockly.Blocks.sprite_append_to = {
     this.jsonInit({
       message0: 'append %1 to %2',
       args0: [
-        {type: 'input_value', name: 'SPRITE', check: 'SPRITE'},
+        sender_receiver_dropdown,
         {type: 'field_dropdown',
           name: 'LAYER',
           options: [
@@ -43,14 +28,14 @@ Blockly.Blocks.sprite_append_to = {
         },
       ],
       colour,
-      previousStatement: null,
-      nextStatement: null,
+      previousStatement,
+      nextStatement,
     });
   },
 };
 
 Blockly.JavaScript.sprite_append_to = function (block) {
-  const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_ADDITION) || 'null';
+  const sprite = block.getFieldValue('SPRITE');
   const layerName = block.getFieldValue('LAYER');
 
   return `scene.layer('${layerName}').append(${sprite});\n`;
@@ -59,20 +44,23 @@ Blockly.JavaScript.sprite_append_to = function (block) {
 Blockly.Blocks.sprite_attrs = {
   init() {
     this.jsonInit({
-      message0: 'set %1 attributes %2',
+      message0: 'set %1 attrs',
       args0: [
-        {type: 'input_value', name: 'SPRITE', check: 'SPRITE'},
+        sender_receiver_dropdown,
+      ],
+      message1: '%1',
+      args1: [
         {type: 'input_statement', name: 'ATTRS', check: 'KeyValue'},
       ],
       colour,
-      previousStatement: null,
-      nextStatement: null,
+      previousStatement,
+      nextStatement,
     });
   },
 };
 
 Blockly.JavaScript.sprite_attrs = function (block) {
-  const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_ADDITION) || 'null';
+  const sprite = block.getFieldValue('SPRITE');
   const attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
   return `${sprite}.attr($$_({${attrs}\n}));\n`;
 };

@@ -18,9 +18,9 @@ module.exports = function (env = {}) {
   const externals = {}
   const output = {
     path: path.resolve(__dirname, 'dist'),
-    filename: env.esnext ? 'splitly.es6' : 'spritly',
+    filename: env.esnext ? '[name].es6' : '[name]',
     publicPath: '/js/',
-    library: 'spritly',
+    library: '[name]',
     libraryTarget: env.esnext ? 'commonjs2' : 'umd',
   };
 
@@ -33,7 +33,10 @@ module.exports = function (env = {}) {
   return {
     mode: env.production ? 'production' : 'none',
     // entry: './src/web/entry-runtime-with-compiler.js',
-    entry: './src/index.js',
+    entry: {
+      signal: './src/signal.js',
+      spritly: './src/index.js',
+    },
     output,
     resolve: {
       aliasFields: ['browser', 'esnext'],

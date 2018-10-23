@@ -1,6 +1,7 @@
 module.exports = {
   globals: {
     spritly: true,
+    signal: true,
     // Blockly: true,
   },
   extends:  "eslint-config-sprite",

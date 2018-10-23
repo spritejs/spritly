@@ -1,6 +1,8 @@
 const Blockly = require('blockly');
 
 const colour = Blockly.Msg.FLOW_HUE;
+const previousStatement = 'Statement';
+const nextStatement = 'Statement';
 
 Blockly.Blocks.flow_wait = {
   init() {
@@ -10,7 +12,7 @@ Blockly.Blocks.flow_wait = {
         {type: 'field_input', name: 'SEC', check: 'Number', text: '16'},
       ],
       colour,
-      previousStatement: null,
+      previousStatement: 'Statement',
       nextStatement: null,
     });
   },
@@ -36,8 +38,8 @@ Blockly.Blocks.flow_frame = {
         },
       ],
       colour,
-      previousStatement: null,
-      nextStatement: null,
+      previousStatement,
+      nextStatement,
     });
   },
 };

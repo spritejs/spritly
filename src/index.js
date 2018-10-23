@@ -1,5 +1,6 @@
 import './messages';
 import './blocks';
+import {Dropdown} from './dropdown';
 
 const Blockly = require('blockly');
 Blockly.BlockSvg.START_HAT = true;
@@ -7,7 +8,7 @@ Blockly.BlockSvg.START_HAT = true;
 function initWorkspace(el, options) {
   const workspace = Blockly.inject(el, options);
 
-  workspace.createVariable('sprite', '');
+  // workspace.createVariable('sprite', '');
 
   return workspace;
 }
@@ -15,4 +16,5 @@ function initWorkspace(el, options) {
 export {
   Blockly,
   initWorkspace,
+  Dropdown,
 };

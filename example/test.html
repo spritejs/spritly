@@ -19,6 +19,7 @@
       width: 100%;
       height: 100%;
       display: flex;
+      justify-content: space-between;
     }
     #controls {
       position: absolute;
@@ -33,33 +34,40 @@
       border: none;
     }
     #stage {
+      height: 100%;
       width: 62%;
-      background: url(res/img/grid.jpg) repeat;
+      padding-left: 20px;
+      /* background: url(res/img/grid.jpg) repeat; */
+    }
+    #stage iframe {
+      width: 100%;
+      height: 100%;
     }
   </style>
 </head>
 <body>
   <div id="controls">
     <button onclick="showCode()">Code</button>
-    <button onclick="runCode()">Run</button>
+    <button onclick="window.frames[0].location.href = `sandbox.html?t=${Date.now()}`">Run</button>
   </div>
   <div id="main">
     <div id="blocklyDiv"></div>
-    <div id="stage"></div>
+    <div id="stage">
+      <iframe frameborder="no"></iframe>
+    </div>
+    <!-- <div id="stage"></div> -->
   </div>
 
   <xml id="toolbox" style="display: none">
-      <category name="Variables" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
+      <category name="Signals" colour="%{BKY_SIGNALS_HUE}">
+        <block type="signal_do"></block>
+        <block type="signal_new_sprite_as_receiver"></block>
+        <block type="signal_when_receiver_is"></block>
+        <block type="signal_send"></block>
+      </category>
       <category name="Sprites" colour="%{BKY_SPRITE_HUE}">
-        <block type="create_sprite_with"></block>
         <block type="sprite_append_to"></block>
-        <block type="sprite_attrs">
-          <value name="SPRITE">
-            <block type="variables_get">
-              <field name="VAR">sprite</field>
-            </block>            
-          </value>
-        </block>
+        <block type="sprite_attrs"></block>
       </category>
       <category name="Attributes" colour="%{BKY_ATTRS_HUE}">
         <block type="field_attr"></block>
@@ -129,18 +137,22 @@
       <category name="Text" colour="%{BKY_TEXTS_HUE}">
         <block type="text"></block>
         <block type="text_length"></block>
-        <block type="text_print"></block>
+        <!-- <block type="text_print"></block> -->
       </category>
       <category name="Color" colour="%{BKY_COLOUR_HUE}">
         <block type="colour_picker"></block>
       </category>
+      <category name="Log" colour="%{BKY_LOG_HUE}">
+        <block type="log_log"></block>
+        <block type="log_alert"></block>
+      </category>
     </xml>
   
     <xml id="startBlocks" style="display: none">
-      <block type="variables_set">
-        <field name="VAR">sprite</field>
-        <value name="VALUE">
-          <block type="create_sprite_with">
+      <block type="signal_new_sprite_as_receiver">
+        <field name="SIG">START</field>
+        <next>
+          <block type="sprite_attrs">
             <value name="ATTRS">
               <block type="field_attr_xy">
                 <value name="VALUE">
@@ -177,54 +189,47 @@
               </block></next>        
               </block></next>
               </block></next>
-              </block>
+              </block>     
             </value>
-          </block>        
-        </value>
-        <next><block type="sprite_append_to">
-          <value name="SPRITE">
-            <block type="variables_get">
-              <field name="VAR">sprite</field>
-            </block>
-          </value>
-        <next><block type="controls_repeat_ext">
-          <value name="TIMES">
-            <block type="math_number">
-              <field name="NUM">500</field>
-            </block>
-          </value>
-          <value name="DO">
-            <block type="sprite_attrs">
-              <value name="SPRITE">
-                <block type="variables_get">
-                  <field name="VAR">sprite</field>
-                </block>            
-              </value>
-              <value name="ATTRS">
-                <block type="field_attr_xy">
-                  <value name="VALUE">
-                    <block type="field_attr_inc">
-                      <value name="VALUE">
-                        <block type="math_number">
-                          <field name="NUM">1</field>
-                        </block>
-                      </value>  
-                    </block>                 
-                  </value>
+            <next><block type="sprite_append_to">
+            <next><block type="controls_repeat_ext">
+              <value name="TIMES">
+                <block type="math_number">
+                  <field name="NUM">200</field>
                 </block>
               </value>
-              <next>
-                <block type="flow_wait"></block>
-              </next>
-            </block>                    
-          </value>
-        </block></next>
-        </block></next>
+              <value name="DO">
+                <block type="sprite_attrs">
+                  <value name="ATTRS">
+                    <block type="field_attr_xy">
+                      <value name="VALUE">
+                        <block type="field_attr_inc">
+                          <value name="VALUE">
+                            <block type="math_number">
+                              <field name="NUM">1</field>
+                            </block>
+                          </value>  
+                        </block>                 
+                      </value>
+                    </block>
+                  </value>
+                  <next>
+                    <block type="flow_wait"></block>
+                  </next>
+                </block>                    
+              </value>
+            <next><block type="signal_send">
+              <field name="CREATED_SIG_NAME">MOVE_FINISHED</field>
+            </block></next>
+            </block></next>
+            </block></next>
+          </block>
+        </next>
       </block>
     </xml>
 
   <script>
-    const {Blockly, initWorkspace} = spritly;
+    const {Blockly, initWorkspace, Dropdown} = spritly;
     const {Scene, Layer, Sprite, Label, Path} = spritejs;
     
     function $$_(attrs) {
@@ -246,13 +251,32 @@
       {
         media: 'res/media/',
         toolbox: document.getElementById('toolbox'),
+        grid: {spacing: 25,
+          length: 3,
+          colour: '#ccc',
+          snap: true,
+        },
+        zoom: {
+          controls: true,
+          wheel: true,
+        },
       });
+    
+    window.workspace = workspace;
 
     Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
       workspace);
 
     function getCode() {
       const xml = Blockly.Xml.workspaceToDom(workspace);
+      // Add each top block one by one and generate code.
+      Dropdown.set('Signals', 'START');
+      const allCode = [];
+
+      const signal_lists = xml.querySelectorAll('field[name="CREATED_SIG_NAME"]');
+      signal_lists.forEach((sig) => {
+        Dropdown.set('Signals', sig.textContent);
+      });
 
       // Find and remove all top blocks.
       const topBlocks = [];
@@ -260,26 +284,48 @@
         const block = xml.childNodes[i];
         // console.log(block.lastChild);
         if(block.tagName === 'BLOCK') {
+          const type = block.getAttribute('type');
           xml.removeChild(block);
-          topBlocks.unshift(block);
+          if(type === 'signal_do') {
+            const signal = block.querySelector('field').textContent || 'START';
+            topBlocks.unshift({block, type, signal});
+          } else if(type === 'signal_new_sprite_as_receiver') {
+            const signal = block.querySelector('field[name="SIG"]').textContent || 'START';
+            const nodeType = block.querySelector('field[name="RECEIVER"]').textContent || 'Sprite';
+            const id = block.querySelector('field[name="ID"]').textContent;
+            // Signal.listen(signal, spritejs.createElement(nodeType));
+            Dropdown.set('Sprites', id);
+            allCode.push(`Signal.listen('${signal}', spritejs.createElement('${nodeType}', {id: '${id}'}));\n`);
+            topBlocks.unshift({block, type, signal, id});
+          } else if(type === 'signal_when_receiver_is') {
+            const signal = block.querySelector('field[name="SIG"]').textContent || 'START';
+            const id = block.querySelector('field[name="ID"]').textContent;
+            topBlocks.unshift({block, type, signal, id});
+          }
         }
       }
       // Generate JavaScript code and run it.
-      window.LoopTrap = 1000;
+      window.LoopTrap = 100000;
       Blockly.JavaScript.INFINITE_LOOP_TRAP = 'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
-      // Add each top block one by one and generate code.
-      const allCode = [];
+
       for(let i = 0; i < topBlocks.length; i++) {
-        const block = topBlocks[i];
+        const {block, signal, id} = topBlocks[i];
         const headless = new Blockly.Workspace();
         xml.appendChild(block);
         Blockly.Xml.domToWorkspace(xml, headless);
         const code = Blockly.JavaScript.workspaceToCode(headless);
-        allCode.push(`(async function(){\n${code}}());`);
+        allCode.push(`Signal.on('${signal}',
+async function({signal, sender, receiver, data}){
+if(receiver.id === '${id || '$$default$signal$receiver'}'){
+${code}
+}
+});
+        `);
         headless.dispose();
         xml.removeChild(block);
       }
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      allCode.push("Signal.send('START');\n");
       return allCode;
     }
     
@@ -298,32 +344,24 @@
     }
 
     function runCode() {
-      const fglayer = scene.layer('fglayer');
-      const bglayer = scene.layer('bglayer');
-
-      fglayer.clear();
-      bglayer.clear();
-
-      clearHandlers(fglayer);
-      clearHandlers(bglayer);
-      clearHandlers(scene);
-
       try {
-        getCode().forEach(eval);
-        scene.on('SIGNAL_START', () => {
-          console.log('start!');
-        });
-        scene.dispatchEvent('SIGNAL_START', {});
+        const codes = getCode();
+        const code = codes.join('');
+        window.frames[0].exec(code);
       } catch (e) {
         console.log(e);
         // alert(e);
       }
     }
+
+    window.runCode = runCode;
+
     workspace.addChangeListener((event) => {
       if(event.type === Blockly.Events.CHANGE
       || event.type === Blockly.Events.MOVE
       || event.type === Blockly.Events.DELETE) {
-        runCode();
+        // runCode();
+        window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
       }
     });
     // runCode();
