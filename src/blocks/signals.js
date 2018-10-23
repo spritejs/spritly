@@ -138,5 +138,5 @@ Blockly.JavaScript.signal_send = function (block) {
   const target = block.getFieldValue('TARGET');
   const signal = block.getFieldValue('CREATED_SIG_NAME');
 
-  return `Signal.send('${signal}', {sender:${target}});\n`;
+  return `utils.Signal.send('${signal}', {sender:${target}});\n`;
 };

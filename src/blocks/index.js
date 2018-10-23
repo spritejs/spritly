@@ -1,8 +1,7 @@
 import './attr';
+import './async';
 import './flow';
-import './loops';
-import './logic';
-import './object';
+import './literal';
 import './signals';
 import './sprite';
 import './log';

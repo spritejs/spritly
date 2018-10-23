@@ -36,8 +36,8 @@
     #stage {
       height: 100%;
       width: 62%;
-      padding-left: 20px;
-      /* background: url(res/img/grid.jpg) repeat; */
+      margin-left: 20px;
+      background: url(res/img/grid.jpg) repeat;
     }
     #stage iframe {
       width: 100%;
@@ -69,54 +69,119 @@
         <block type="sprite_append_to"></block>
         <block type="sprite_attrs"></block>
       </category>
-      <category name="Attributes" colour="%{BKY_ATTRS_HUE}">
-        <block type="field_attr"></block>
-        <block type="field_attr_inc">
-          <value name="VALUE">
-            <block type="math_number">
-              <field name="NUM">1</field>
+      <category name="Attributes">
+        <category name="KeyValue" colour="%{BKY_ATTRS_KV_HUE}">
+          <block type="field_attr"></block>
+          <block type="field_attr_inc">
+            <value name="VALUE">
+              <block type="number">
+                <field name="NUM">1</field>
+              </block>
+            </value>    
+          </block>
+        </category>
+        <category name="Base" colour="%{BKY_ATTRS_HUE}">
+            <block type="field_attr_anchor">
+                <value name="VALUE">
+                    <block type="number">
+                      <field name="NUM">0.5</field>
+                    </block>
+                </value>          
             </block>
-          </value>    
-        </block>
-        <block type="field_attr_xy">
-          <value name="VALUE">
-            <block type="math_number">
-              <field name="NUM">0</field>
+            <block type="field_attr_xy">
+              <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">0</field>
+                </block>
+              </value>
             </block>
-          </value>
-        </block>
-        <block type="field_attr_size">
-          <value name="VALUE">
-              <block type="math_number">
-                <field name="NUM">100</field>
-              </block>
-          </value>
-        </block>
-        <block type="field_attr_bgcolor">
-          <value name="VALUE">
-              <block type="colour_picker"></block>
-          </value>
-        </block>
-        <block type="field_attr_rotate">
-          <value name="VALUE">
-              <block type="math_number">
-                <field name="NUM">0</field>
-              </block>
-          </value>
-        </block>
-        <block type="field_attr_text">
-          <value name="VALUE">
-              <block type="text">
-                <field name="TEXT">Hello</field>
-              </block>
-          </value>
-        </block>
+            <block type="field_attr_size">
+              <value name="VALUE">
+                  <block type="number">
+                    <field name="NUM">100</field>
+                  </block>
+              </value>
+            </block>
+            <block type="field_attr_bgcolor">
+              <value name="VALUE">
+                  <block type="colour_picker"></block>
+              </value>
+            </block>
+            <block type="field_attr_opacity">
+              <value name="VALUE">
+                  <block type="number">
+                    <field name="NUM">0.5</field>
+                  </block>
+              </value>
+            </block>
+            <block type="field_attr_scale">
+                <value name="VALUE">
+                    <block type="number">
+                      <field name="NUM">1</field>
+                    </block>
+                </value>          
+            </block>
+            <block type="field_attr_translate">
+                <value name="VALUE">
+                    <block type="number">
+                      <field name="NUM">10</field>
+                    </block>
+                </value>          
+            </block>
+            <block type="field_attr_skew">
+                <value name="VALUE">
+                    <block type="number">
+                      <field name="NUM">0</field>
+                    </block>
+                </value>          
+            </block>
+            <block type="field_attr_rotate">
+              <value name="VALUE">
+                  <block type="number">
+                    <field name="NUM">0</field>
+                  </block>
+              </value>
+            </block>
+            <block type="field_attr_border_radius">
+              <value name="VALUE">
+                  <block type="number">
+                    <field name="NUM">0</field>
+                  </block>
+              </value>          
+            </block>
+            <block type="field_attr_border">
+              <value name="STYLE">
+                <block type="string">
+                  <field name="TEXT">solid</field>
+                </block>
+              </value>
+              <value name="WIDTH">
+                <block type="number">
+                  <field name="NUM">1</field>
+                </block>
+              </value> 
+              <value name="COLOUR">
+                <block type="colour_picker"></block>
+              </value>             
+            </block>
+        </category>
+        <category name="Label" colour="%{BKY_ATTRS_LABEL_HUE}">
+          <block type="field_attr_text">
+            <value name="VALUE">
+                <block type="string">
+                  <field name="TEXT">Hello</field>
+                </block>
+            </value>
+          </block>
+        </category>
       </category>
-      <category name="Flows" colour="%{BKY_FLOW_HUE}">
-        <block type="flow_wait"></block>
-        <block type="flow_frame"></block>
-      </category>
-      <category name="Data" colour="260">
+      <category name="Literals" colour="%{BKY_LITERAL_HUE}">
+        <block type="nil"></block>
+        <block type="boolean"></block>
+        <block type="number">
+          <field name="NUM">123</field>
+        </block>
+        <block type="string"></block>
         <block type="lists_create_with"></block>
         <block type="object_create">
           <value name="FIELDS">
@@ -124,17 +189,20 @@
           </value>
         </block>
       </category>
+      <category name="Async" colour="%{BKY_FLOW_HUE}">
+        <block type="flow_wait"></block>
+        <block type="flow_frame"></block>
+      </category>
       <category name="Logic" colour="%{BKY_LOGIC_HUE}">
-        <block type="controls_if"></block>
         <block type="logic_compare"></block>
         <block type="logic_operation"></block>
         <block type="logic_negate"></block>
-        <block type="logic_boolean"></block>
       </category>
-      <category name="Loops" colour="%{BKY_LOOPS_HUE}">
+      <category name="Flows" colour="%{BKY_LOOPS_HUE}">
+        <block type="controls_if"></block>
         <block type="controls_repeat_ext">
           <value name="TIMES">
-            <block type="math_number">
+            <block type="number">
               <field name="NUM">10</field>
             </block>
           </value>
@@ -142,16 +210,8 @@
         <block type="controls_whileUntil"></block>
       </category>
       <category name="Math" colour="%{BKY_MATH_HUE}">
-        <block type="math_number">
-          <field name="NUM">123</field>
-        </block>
         <block type="math_arithmetic"></block>
         <block type="math_single"></block>
-      </category>
-      <category name="Text" colour="%{BKY_TEXTS_HUE}">
-        <block type="text"></block>
-        <block type="text_length"></block>
-        <!-- <block type="text_print"></block> -->
       </category>
       <category name="Color" colour="%{BKY_COLOUR_HUE}">
         <block type="colour_picker"></block>
@@ -170,28 +230,28 @@
             <value name="ATTRS">
               <block type="field_attr_xy">
                 <value name="VALUE">
-                  <block type="math_number">
+                  <block type="number">
                     <field name="NUM">100</field>
                   </block>                  
                 </value>
               <next><block type="field_attr_xy">
                 <field name="KEY">y</field>
                 <value name="VALUE">
-                  <block type="math_number">
+                  <block type="number">
                     <field name="NUM">100</field>
                   </block>                  
                 </value>
               <next><block type="field_attr_size">
                 <field name="KEY">width</field>
                 <value name="VALUE">
-                  <block type="math_number">
+                  <block type="number">
                     <field name="NUM">100</field>
                   </block>                  
                 </value>
               <next><block type="field_attr_size">
                 <field name="KEY">height</field>
                 <value name="VALUE">
-                  <block type="math_number">
+                  <block type="number">
                     <field name="NUM">100</field>
                   </block>                  
                 </value>
@@ -208,7 +268,7 @@
             <next><block type="sprite_append_to">
             <next><block type="controls_repeat_ext">
               <value name="TIMES">
-                <block type="math_number">
+                <block type="number">
                   <field name="NUM">200</field>
                 </block>
               </value>
@@ -219,7 +279,7 @@
                       <value name="VALUE">
                         <block type="field_attr_inc">
                           <value name="VALUE">
-                            <block type="math_number">
+                            <block type="number">
                               <field name="NUM">1</field>
                             </block>
                           </value>  
@@ -309,7 +369,7 @@
             const id = block.querySelector('field[name="ID"]').textContent;
             // Signal.listen(signal, spritejs.createElement(nodeType));
             Dropdown.set('Sprites', id);
-            allCode.push(`Signal.listen('${signal}', spritejs.createElement('${nodeType}', {id: '${id}'}));\n`);
+            allCode.push(`utils.Signal.listen('${signal}', spritejs.createElement('${nodeType}', {id: '${id}'}));\n`);
             topBlocks.unshift({block, type, signal, id});
           } else if(type === 'signal_when_receiver_is') {
             const signal = block.querySelector('field[name="SIG"]').textContent || 'START';
@@ -328,7 +388,7 @@
         xml.appendChild(block);
         Blockly.Xml.domToWorkspace(xml, headless);
         const code = Blockly.JavaScript.workspaceToCode(headless);
-        allCode.push(`Signal.on('${signal}',
+        allCode.push(`utils.Signal.on('${signal}',
 async function({signal, sender, receiver, data}){
 if(receiver.id === '${id || '$$default$signal$receiver'}'){
 ${code}
@@ -339,7 +399,7 @@ ${code}
         xml.removeChild(block);
       }
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-      allCode.push("Signal.send('START');\n");
+      allCode.push("utils.Signal.send('START');\n");
       return allCode;
     }
     

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Sandbox</title>
   <script src="https://unpkg.com/spritejs/dist/spritejs.min.js"></script>
-  <script src="/js/signal.js"></script>
+  <script src="/js/utils.js"></script>
   <style>
     html, body {
       width: 100%;
@@ -28,7 +28,6 @@
     }
     #stage {
       width: 100%;
-      background: url(res/img/grid.jpg) repeat;
     }
   </style>
 </head>
@@ -39,7 +38,6 @@
 
   <script>
     const {Scene, Layer, Sprite, Label, Path} = spritejs;
-    const Signal = signal.default;
 
     function exec(code) {
       const script = document.createElement('script');
@@ -47,16 +45,6 @@
       document.body.appendChild(script);
     }
     window.exec = exec;
-
-    function $$_(attrs) {
-      return attrs;
-    }
-
-    function $$wait(ms) {
-      return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-      });
-    }
 
     const scene = new Scene('#stage', {
       viewport: 'auto',

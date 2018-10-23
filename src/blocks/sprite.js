@@ -62,5 +62,5 @@ Blockly.Blocks.sprite_attrs = {
 Blockly.JavaScript.sprite_attrs = function (block) {
   const sprite = block.getFieldValue('SPRITE');
   const attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
-  return `${sprite}.attr($$_({${attrs}\n}));\n`;
+  return `${sprite}.attr(utils.parse_attr({${attrs}\n}));\n`;
 };

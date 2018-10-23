@@ -34,7 +34,7 @@ module.exports = function (env = {}) {
     mode: env.production ? 'production' : 'none',
     // entry: './src/web/entry-runtime-with-compiler.js',
     entry: {
-      signal: './src/signal.js',
+      utils: './src/utils/index.js',
       spritly: './src/index.js',
     },
     output,
