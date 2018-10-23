@@ -10,4 +10,7 @@ export const Dropdown = {
   get(key) {
     return [...(dropdowns.get(key) || [])];
   },
+  clear() {
+    dropdowns.clear();
+  },
 };

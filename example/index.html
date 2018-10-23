@@ -419,6 +419,7 @@ ${code}
 
     function runCode() {
       try {
+        Dropdown.clear();
         const codes = getCode();
         const code = codes.join('');
         window.frames[0].exec(code);
