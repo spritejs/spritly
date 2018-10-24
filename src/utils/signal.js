@@ -16,13 +16,15 @@ const Signal = {
     receivers.delete(receiver);
     signals.set(signal, {receivers, handlers});
   },
-  send(signal, {sender, data = {}} = {}) {
+  send(signal, {sender, data = {}, receiver} = {}) {
     // console.log('send signal', signal);
     const {receivers, handlers} = signals.get(signal) || {receivers: new Set(), handlers: []};
-    [...receivers, {id: '$$default$signal$receiver'}].forEach((receiver) => {
-      handlers.forEach((handler) => {
-        handler({signal, sender, receiver, data});
-      });
+    [...receivers, {id: '$$default$signal$receiver'}].forEach((_receiver) => {
+      if(receiver == null || receiver === _receiver) {
+        handlers.forEach((handler) => {
+          handler({signal, sender, receiver: _receiver, data, target: receiver});
+        });
+      }
     });
   },
   get signals() {

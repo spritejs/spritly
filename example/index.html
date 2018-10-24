@@ -68,6 +68,7 @@
       <category name="Sprites" colour="%{BKY_SPRITE_HUE}">
         <block type="sprite_append_to"></block>
         <block type="sprite_attrs"></block>
+        <block type="sprite_create_attrs"></block>
       </category>
       <category name="Attributes">
         <category name="KeyValue" colour="%{BKY_ATTRS_KV_HUE}">
@@ -345,6 +346,7 @@
       const xml = Blockly.Xml.workspaceToDom(workspace);
       // Add each top block one by one and generate code.
       Dropdown.set('Signals', 'START');
+      Dropdown.set('Signals', 'ELEMENT_CREATED');
       const allCode = [];
 
       const signal_lists = xml.querySelectorAll('field[name="CREATED_SIG_NAME"]');
@@ -367,9 +369,8 @@
             const signal = block.querySelector('field[name="SIG"]').textContent || 'START';
             const nodeType = block.querySelector('field[name="RECEIVER"]').textContent || 'Sprite';
             const id = block.querySelector('field[name="ID"]').textContent;
-            // Signal.listen(signal, spritejs.createElement(nodeType));
             Dropdown.set('Sprites', id);
-            allCode.push(`utils.Signal.listen('${signal}', spritejs.createElement('${nodeType}', {id: '${id}'}));\n`);
+            allCode.push(`utils.Signal.listen('${signal}', {id: '${id}', $$creator: '${nodeType}'});\n`);
             topBlocks.unshift({block, type, signal, id});
           } else if(type === 'signal_when_receiver_is') {
             const signal = block.querySelector('field[name="SIG"]').textContent || 'START';
@@ -389,8 +390,16 @@
         Blockly.Xml.domToWorkspace(xml, headless);
         const code = Blockly.JavaScript.workspaceToCode(headless);
         allCode.push(`utils.Signal.on('${signal}',
-async function({signal, sender, receiver, data}){
-if(receiver.id === '${id || '$$default$signal$receiver'}'){
+async function({signal, sender, receiver, data, target}){
+if(receiver.id === '${id || '$$default$signal$receiver'}' || target === receiver){
+  if(receiver.$$creator) {
+    receiver.$$target = spritejs.createElement(receiver.$$creator, {id: '${id}'});
+    utils.ElementList.add(receiver.$$target);
+    delete receiver.$$creator;
+  }
+  if(receiver.$$target) {
+    receiver = receiver.$$target;
+  }
 ${code}
 }
 });

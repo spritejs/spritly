@@ -64,7 +64,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
           ['Path', 'Path'],
         ],
       }],
-      message2: 'ID = %1',
+      message2: 'ID is %1',
       args2: [{
         type: 'field_input',
         name: 'ID',
