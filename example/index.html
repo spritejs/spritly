@@ -70,6 +70,9 @@
         <block type="sprite_attrs"></block>
         <block type="sprite_create_attrs"></block>
         <block type="sprite_each_elements_named"></block>
+        <block type="sprite_each_item_attrs"></block>
+        <block type="sprite_item_append_to"></block>
+        <block type="sprite_item_get_index"></block>
       </category>
       <category name="Attributes">
         <category name="KeyValue" colour="%{BKY_ATTRS_KV_HUE}">
@@ -173,6 +176,15 @@
                 <block type="string">
                   <field name="TEXT">Hello</field>
                 </block>
+            </value>
+          </block>
+        </category>
+        <category name="Path" colour="%{BKY_ATTRS_Path_HUE}">
+          <block type="field_attr_d">
+            <value name="VALUE">
+              <block type="string">
+                <field name="TEXT">M0,0L0,100L100,100z</field>
+              </block>
             </value>
           </block>
         </category>

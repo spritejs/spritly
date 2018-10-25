@@ -140,7 +140,7 @@ Blockly.Blocks.sprite_each_elements_named = {
       args1: [{
         type: 'input_statement',
         name: 'DO',
-        check: ['Statement', 'LoopStatement'],
+        check: 'Statement',
       }],
       colour,
       previousStatement,
@@ -152,5 +152,64 @@ Blockly.Blocks.sprite_each_elements_named = {
 Blockly.JavaScript.sprite_each_elements_named = function (block) {
   const name = block.getFieldValue('NAME');
   const code = Blockly.JavaScript.statementToCode(block, 'DO');
-  return `utils.ElementList.getElementsByName('${name}').forEach((item, index) => {\n${code}\n});\n`;
+  return `await Promise.all(utils.ElementList.getElementsByName('${name}').map(async (item, index) => {\n${code}\n}));\n`;
+};
+
+Blockly.Blocks.sprite_each_item_attrs = {
+  init() {
+    this.jsonInit({
+      message0: 'set item attrs',
+      message1: '%1',
+      args1: [
+        {type: 'input_statement', name: 'ATTRS', check: 'KeyValue'},
+      ],
+      colour: colour - 15,
+      previousStatement,
+      nextStatement,
+    });
+  },
+};
+
+Blockly.JavaScript.sprite_each_item_attrs = function (block) {
+  const code = Blockly.JavaScript.statementToCode(block, 'ATTRS');
+  return `item.attr(utils.parse_attr({${code}\n}));\n`;
+};
+
+Blockly.Blocks.sprite_item_append_to = {
+  init() {
+    this.jsonInit({
+      message0: 'append item to %1',
+      args0: [
+        {type: 'field_dropdown',
+          name: 'LAYER',
+          options: [
+            ['fglayer', 'fglayer'],
+            ['bglayer', 'bglayer'],
+          ],
+        },
+      ],
+      colour: colour - 15,
+      previousStatement,
+      nextStatement,
+    });
+  },
+};
+
+Blockly.JavaScript.sprite_item_append_to = function (block) {
+  const layerName = block.getFieldValue('LAYER');
+  return `scene.layer('${layerName}').append(item);\n`;
+};
+
+Blockly.Blocks.sprite_item_get_index = {
+  init() {
+    this.jsonInit({
+      message0: 'index',
+      colour: colour - 15,
+      output: 'Number',
+    });
+  },
+};
+
+Blockly.JavaScript.sprite_item_get_index = function (block) {
+  return ['index', Blockly.JavaScript.ORDER_NONE];
 };

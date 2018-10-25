@@ -11,7 +11,6 @@ Blockly.Blocks.nil = {
           options: [
             ['null', 'null'],
             ['undefined', 'undefined'],
-            ['NaN', 'NaN'],
           ],
         },
       ],

@@ -163,6 +163,12 @@ Blockly.Blocks.field_attr_text = {
   },
 };
 
+Blockly.Blocks.field_attr_d = {
+  init() {
+    this.jsonInit(createKVConf('d', 'String', Blockly.Msg.ATTRS_PATH_HUE));
+  },
+};
+
 function gencode(block) {
   const key = block.getFieldValue('KEY');
   const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || 'null';
