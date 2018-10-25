@@ -96,7 +96,7 @@ Blockly.Blocks.sprite_create_attrs = {
       args1: [{
         type: 'field_input',
         name: 'NAME',
-        text: 'Named',
+        text: 'MyName',
         check: 'String',
       }],
       message2: '%1',
@@ -114,5 +114,43 @@ Blockly.JavaScript.sprite_create_attrs = function (block) {
   const type = block.getFieldValue('TYPE');
   const name = block.getFieldValue('NAME');
   const attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
-  return `spritejs.createElement('${type}', utils.parse_attr({name: '${name}'}, {${attrs}\n}));\n`;
+  return `utils.ElementList.add(spritejs.createElement('${type}', utils.parse_attr({name: '${name}'}, {${attrs}\n})));\n`;
+};
+
+Blockly.Blocks.sprite_each_elements_named = {
+  init() {
+    this.jsonInit({
+      message0: 'each elements named %1',
+      args0: [
+        {
+          type: 'field_dropdown',
+          name: 'NAME',
+          options: () => {
+            const spriteNames = Dropdown.get('SpriteNames');
+            if(spriteNames.length > 0) {
+              return spriteNames.map(s => [s, s]);
+            }
+            return [
+              ['', ''],
+            ];
+          },
+        },
+      ],
+      message1: 'do %1',
+      args1: [{
+        type: 'input_statement',
+        name: 'DO',
+        check: ['Statement', 'LoopStatement'],
+      }],
+      colour,
+      previousStatement,
+      nextStatement,
+    });
+  },
+};
+
+Blockly.JavaScript.sprite_each_elements_named = function (block) {
+  const name = block.getFieldValue('NAME');
+  const code = Blockly.JavaScript.statementToCode(block, 'DO');
+  return `utils.ElementList.getElementsByName('${name}').forEach((item, index) => {\n${code}\n});\n`;
 };

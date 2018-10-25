@@ -11,6 +11,7 @@ const ElementList = {
     }
     Signal.listen('ELEMENT_CREATED', el);
     Signal.send('ELEMENT_CREATED', {receiver: el});
+    return el;
   },
   remove(el) {
     if(el.id) {

@@ -123,7 +123,7 @@ Blockly.Blocks.signal_send = {
         ],
       }, {
         type: 'field_input',
-        name: 'CREATED_SIG_NAME',
+        name: 'NAME',
         text: 'MY_SIGNAL',
         check: 'String',
       }],
@@ -136,7 +136,7 @@ Blockly.Blocks.signal_send = {
 
 Blockly.JavaScript.signal_send = function (block) {
   const target = block.getFieldValue('TARGET');
-  const signal = block.getFieldValue('CREATED_SIG_NAME');
+  const signal = block.getFieldValue('NAME');
 
   return `utils.Signal.send('${signal}', {sender:${target}});\n`;
 };

@@ -69,6 +69,7 @@
         <block type="sprite_append_to"></block>
         <block type="sprite_attrs"></block>
         <block type="sprite_create_attrs"></block>
+        <block type="sprite_each_elements_named"></block>
       </category>
       <category name="Attributes">
         <category name="KeyValue" colour="%{BKY_ATTRS_KV_HUE}">
@@ -294,7 +295,7 @@
                 </block>                    
               </value>
             <next><block type="signal_send">
-              <field name="CREATED_SIG_NAME">MOVE_FINISHED</field>
+              <field name="NAME">MOVE_FINISHED</field>
             </block></next>
             </block></next>
             </block></next>
@@ -349,9 +350,14 @@
       Dropdown.set('Signals', 'ELEMENT_CREATED');
       const allCode = [];
 
-      const signal_lists = xml.querySelectorAll('field[name="CREATED_SIG_NAME"]');
+      const signal_lists = xml.querySelectorAll('block[type="signal_send"] > field[name="NAME"]');
       signal_lists.forEach((sig) => {
         Dropdown.set('Signals', sig.textContent);
+      });
+
+      const sprite_name_lists = xml.querySelectorAll('block[type="sprite_create_attrs"] > field[name="NAME"]');
+      sprite_name_lists.forEach((name) => {
+        Dropdown.set('SpriteNames', name.textContent);
       });
 
       // Find and remove all top blocks.
