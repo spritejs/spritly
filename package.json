@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --watch-poll",
     "lint": "eslint src",
-    "build": "rm -rf dist/* && node ./build/build.js && rm -rf docs/* && cp -R ./examples/* ./docs && cp -R ./dist/* ./docs/js",
+    "build": "rm -rf dist/* && node ./build/build.js && rm -rf docs/* && cp -R ./examples/* ./docs && cp -R ./dist/* ./docs/js && echo 'spritly.spritejs.org' > docs/CNAME",
     "prepublishOnly": "npm run build"
   },
   "author": "akira-cn",
