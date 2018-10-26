@@ -515,6 +515,7 @@ ${code}
         const link = evt.target;
         window.location.href = link.href;
         const block = await loadStartBlocks();
+        workspace.clear();
         Blockly.Xml.domToWorkspace(block.documentElement,
           workspace);
       }
