@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("blockly"));
+		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define(["blockly"], factory);
+		define([], factory);
 	else if(typeof exports === 'object')
-		exports["spritly"] = factory(require("blockly"));
+		exports["utils"] = factory();
 	else
-		root["spritly"] = factory(root["blockly"]);
-})(window, function(__WEBPACK_EXTERNAL_MODULE__114__) {
+		root["utils"] = factory();
+})(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,12 +91,123 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 111);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
-/* 0 */,
-/* 1 */,
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ElementList = exports.wait = exports.parse_attr = exports.Signal = undefined;
+
+var _signal = __webpack_require__(1);
+
+var _signal2 = _interopRequireDefault(_signal);
+
+var _element_list = __webpack_require__(89);
+
+var _element_list2 = _interopRequireDefault(_element_list);
+
+var _misc = __webpack_require__(90);
+
+var _parse_attr = __webpack_require__(104);
+
+var _parse_attr2 = _interopRequireDefault(_parse_attr);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.Signal = _signal2.default;
+exports.parse_attr = _parse_attr2.default;
+exports.wait = _misc.wait;
+exports.ElementList = _element_list2.default;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _toConsumableArray2 = __webpack_require__(2);
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _set = __webpack_require__(56);
+
+var _set2 = _interopRequireDefault(_set);
+
+var _map = __webpack_require__(83);
+
+var _map2 = _interopRequireDefault(_map);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var signals = new _map2.default();
+
+var Signal = {
+  on: function on(signal, handler) {
+    var _ref = signals.get(signal) || { receivers: new _set2.default(), handlers: [] },
+        receivers = _ref.receivers,
+        handlers = _ref.handlers;
+
+    handlers.push(handler);
+    signals.set(signal, { receivers: receivers, handlers: handlers });
+  },
+  listen: function listen(signal, receiver) {
+    var _ref2 = signals.get(signal) || { receivers: new _set2.default(), handlers: [] },
+        receivers = _ref2.receivers,
+        handlers = _ref2.handlers;
+
+    receivers.add(receiver);
+    signals.set(signal, { receivers: receivers, handlers: handlers });
+  },
+  unlisten: function unlisten(signal, receiver) {
+    var _ref3 = signals.get(signal) || { receivers: new _set2.default(), handlers: [] },
+        receivers = _ref3.receivers,
+        handlers = _ref3.handlers;
+
+    receivers.delete(receiver);
+    signals.set(signal, { receivers: receivers, handlers: handlers });
+  },
+  send: function send(signal) {
+    var _ref4 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
+        sender = _ref4.sender,
+        _ref4$data = _ref4.data,
+        data = _ref4$data === undefined ? {} : _ref4$data,
+        receiver = _ref4.receiver;
+
+    // console.log('send signal', signal);
+    var _ref5 = signals.get(signal) || { receivers: new _set2.default(), handlers: [] },
+        receivers = _ref5.receivers,
+        handlers = _ref5.handlers;
+
+    [].concat((0, _toConsumableArray3.default)(receivers), [{ id: '$$default$signal$receiver' }]).forEach(function (_receiver) {
+      if (receiver == null || receiver === _receiver) {
+        handlers.forEach(function (handler) {
+          handler({ signal: signal, sender: sender, receiver: _receiver, data: data, target: receiver });
+        });
+      }
+    });
+  },
+
+  get signals() {
+    return [].concat((0, _toConsumableArray3.default)(signals.keys()));
+  }
+};
+
+exports.default = Signal;
+
+/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1831,29 +1942,7 @@ __webpack_require__(82)('Map');
 
 
 /***/ }),
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
-/* 102 */,
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1862,759 +1951,6 @@ __webpack_require__(82)('Map');
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Dropdown = exports.initWorkspace = exports.Blockly = undefined;
-
-__webpack_require__(112);
-
-__webpack_require__(115);
-
-var _dropdown = __webpack_require__(125);
-
-var Blockly = __webpack_require__(114);
-Blockly.BlockSvg.START_HAT = true;
-
-Blockly.Field.prototype.maxDisplayLength = 20;
-
-function initWorkspace(el, options) {
-  var workspace = Blockly.inject(el, options);
-
-  // workspace.createVariable('sprite', '');
-
-  return workspace;
-}
-
-exports.Blockly = Blockly;
-exports.initWorkspace = initWorkspace;
-exports.Dropdown = _dropdown.Dropdown;
-
-/***/ }),
-/* 112 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(113);
-
-/***/ }),
-/* 113 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Blockly = __webpack_require__(114);
-
-var Msg = Blockly.Msg;
-
-
-Msg.SPRITE_HUE = 330;
-Msg.ATTRS_HUE = 230;
-Msg.ATTRS_SPRITE_HUE = 245;
-Msg.ATTRS_LABEL_HUE = 260;
-Msg.ATTRS_PATH_HUE = 275;
-Msg.FLOW_HUE = 195;
-Msg.SIGNALS_HUE = 55;
-Msg.LOG_HUE = 350;
-Msg.LITERAL_HUE = 160;
-Msg.FLOWS_HUE = 120;
-
-/***/ }),
-/* 114 */
-/***/ (function(module, exports) {
-
-module.exports = __WEBPACK_EXTERNAL_MODULE__114__;
-
-/***/ }),
-/* 115 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(116);
-
-__webpack_require__(121);
-
-__webpack_require__(122);
-
-__webpack_require__(123);
-
-__webpack_require__(124);
-
-__webpack_require__(126);
-
-__webpack_require__(127);
-
-/***/ }),
-/* 116 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _keys = __webpack_require__(117);
-
-var _keys2 = _interopRequireDefault(_keys);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Blockly = __webpack_require__(114);
-
-Blockly.Blocks.field_attr_inc = {
-  init: function init() {
-    this.jsonInit({
-      message0: '%1 %2',
-      args0: [{ type: 'field_dropdown',
-        name: 'OP',
-        options: [['+', '+'], ['-', '-'], ['*', '*'], ['/', '/'], ['^', '**']] }, { type: 'input_value', name: 'VALUE', check: 'Number' }],
-      colour: Blockly.Msg.ATTRS_HUE
-    });
-    this.setOutput(true, 'Number');
-  }
-};
-
-Blockly.JavaScript.field_attr_inc = function (block) {
-  var op = block.getFieldValue('OP');
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ADDITION) || 0;
-  return ['v => v ' + op + ' ' + value, Blockly.JavaScript.ORDER_MEMBER];
-};
-
-function createKVConf() {
-  var keys = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'key';
-  var valueType = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-  var colour = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Blockly.Msg.ATTRS_HUE;
-  var statementType = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'KeyValue';
-
-  var arg0 = { name: 'KEY', type: 'field_input' };
-  var arg1 = { type: 'input_value', name: 'VALUE', check: valueType };
-
-  if (typeof keys !== 'string' && keys.prop && keys.options) {
-    arg0.text = keys.prop;
-    arg1.type = 'field_dropdown';
-    arg1.options = keys.options.map(function (s) {
-      return [s, s];
-    });
-  } else if (Array.isArray(keys)) {
-    arg0.type = 'field_dropdown';
-    arg0.options = keys.map(function (key) {
-      return [key, key];
-    });
-  } else {
-    arg0.text = keys;
-  }
-  return {
-    message0: '%1: %2,',
-    args0: [arg0, arg1],
-    colour: colour,
-    previousStatement: statementType,
-    nextStatement: statementType
-  };
-}
-
-Blockly.Blocks.field_attr = {
-  init: function init() {
-    this.jsonInit(createKVConf('key', '', Blockly.Msg.ATTRS_KV_HUE));
-    this.setTooltip(function () {
-      return 'Pair key values';
-    });
-  }
-};
-
-Blockly.Blocks.field_attr_anchor = {
-  init: function init() {
-    this.jsonInit(createKVConf(['anchorX', 'anchorY'], 'Number'));
-  }
-};
-
-Blockly.Blocks.field_attr_xy = {
-  init: function init() {
-    this.jsonInit(createKVConf(['x', 'y'], 'Number'));
-  }
-};
-
-Blockly.Blocks.field_attr_size = {
-  init: function init() {
-    this.jsonInit(createKVConf(['width', 'height'], 'Number'));
-  }
-};
-
-Blockly.Blocks.field_attr_bgcolor = {
-  init: function init() {
-    this.jsonInit(createKVConf('bgcolor', 'Colour'));
-  }
-};
-
-Blockly.Blocks.field_attr_opacity = {
-  init: function init() {
-    this.jsonInit(createKVConf('opacity', 'Number'));
-  }
-};
-
-Blockly.Blocks.field_attr_rotate = {
-  init: function init() {
-    this.jsonInit(createKVConf('rotate', 'Number'));
-  }
-};
-
-Blockly.Blocks.field_attr_scale = {
-  init: function init() {
-    this.jsonInit(createKVConf(['scaleX', 'scaleY'], 'Number'));
-  }
-};
-
-Blockly.Blocks.field_attr_translate = {
-  init: function init() {
-    this.jsonInit(createKVConf(['translateX', 'translateY'], 'Number'));
-  }
-};
-
-Blockly.Blocks.field_attr_skew = {
-  init: function init() {
-    this.jsonInit(createKVConf(['skewX', 'skewY'], 'Number'));
-  }
-};
-
-Blockly.Blocks.field_attr_border_radius = {
-  init: function init() {
-    this.jsonInit(createKVConf('borderRadius', 'Number'));
-  }
-};
-
-Blockly.Blocks.field_attr_borderWidth = {
-  init: function init() {
-    this.jsonInit(createKVConf('borderWidth', 'Number'));
-  }
-};
-
-Blockly.Blocks.field_attr_borderStyle = {
-  init: function init() {
-    this.jsonInit(createKVConf({ prop: 'borderStyle', options: ['solid', 'dashed'] }, 'String'));
-  }
-};
-
-Blockly.Blocks.field_attr_borderColour = {
-  init: function init() {
-    this.jsonInit(createKVConf('borderColor', 'Colour'));
-  }
-};
-
-Blockly.Blocks.field_attr_dashOffset = {
-  init: function init() {
-    this.jsonInit(createKVConf('dashOffset', 'Number'));
-  }
-};
-
-Blockly.Blocks.field_attr_texture = {
-  init: function init() {
-    this.jsonInit(createKVConf('texture', 'String', Blockly.Msg.ATTRS_SPRITE_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_text = {
-  init: function init() {
-    this.jsonInit(createKVConf('text', 'String', Blockly.Msg.ATTRS_LABEL_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_fontSize = {
-  init: function init() {
-    this.jsonInit(createKVConf('fontSize', 'Number', Blockly.Msg.ATTRS_LABEL_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_fontFamily = {
-  init: function init() {
-    this.jsonInit(createKVConf('fontFamily', 'String', Blockly.Msg.ATTRS_LABEL_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_fontStyle = {
-  init: function init() {
-    this.jsonInit(createKVConf({ prop: 'fontStyle', options: ['normal', 'italic', 'oblique'] }, 'String', Blockly.Msg.ATTRS_LABEL_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_fontVariant = {
-  init: function init() {
-    this.jsonInit(createKVConf({ prop: 'fontVariant', options: ['normal', 'small-caps'] }, 'String', Blockly.Msg.ATTRS_LABEL_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_fontWeight = {
-  init: function init() {
-    this.jsonInit(createKVConf({
-      prop: 'fontWeight',
-      options: ['normal', 'bold', 'bolder', 'lighter', '100', '200', '300', '400', '500', '600', '700', '800', '900']
-    }, 'String', Blockly.Msg.ATTRS_LABEL_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_textAlign = {
-  init: function init() {
-    this.jsonInit(createKVConf({ prop: 'textAlign', options: ['left', 'right', 'center'] }, 'String', Blockly.Msg.ATTRS_LABEL_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_lineHeight = {
-  init: function init() {
-    this.jsonInit(createKVConf('lineHeight', 'Number', Blockly.Msg.ATTRS_LABEL_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_d = {
-  init: function init() {
-    this.jsonInit(createKVConf('d', 'String', Blockly.Msg.ATTRS_PATH_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_lineWidth = {
-  init: function init() {
-    this.jsonInit(createKVConf('lineWidth', 'Number', Blockly.Msg.ATTRS_LABEL_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_lineDash = {
-  init: function init() {
-    this.jsonInit(createKVConf('lineDash', 'String', Blockly.Msg.ATTRS_LABEL_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_lineCap = {
-  init: function init() {
-    this.jsonInit(createKVConf({ prop: 'lineCap', options: ['butt', 'round', 'square'] }, 'String', Blockly.Msg.ATTRS_PATH_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_lineJoin = {
-  init: function init() {
-    this.jsonInit(createKVConf({ prop: 'lineJoin', options: ['miter', 'round', 'bevel'] }, 'String', Blockly.Msg.ATTRS_PATH_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_bounding = {
-  init: function init() {
-    this.jsonInit(createKVConf({ prop: 'bounding', options: ['box', 'path'] }, 'String', Blockly.Msg.ATTRS_PATH_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_strokeColour = {
-  init: function init() {
-    this.jsonInit(createKVConf('strokeColor', 'Colour', Blockly.Msg.ATTRS_PATH_HUE));
-  }
-};
-
-Blockly.Blocks.field_attr_fillColour = {
-  init: function init() {
-    this.jsonInit(createKVConf('fillColor', 'Colour', Blockly.Msg.ATTRS_PATH_HUE));
-  }
-};
-
-function gencode(block) {
-  var key = block.getFieldValue('KEY');
-  var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || '\'' + block.getFieldValue('VALUE') + '\'' || 'null';
-  return '\n\'' + key + '\': ' + value + ',';
-}
-
-(0, _keys2.default)(Blockly.Blocks).forEach(function (key) {
-  if (key.indexOf('field_attr') === 0 && key !== 'field_attr_inc') {
-    Blockly.JavaScript[key] = gencode;
-  }
-});
-
-/***/ }),
-/* 117 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(118), __esModule: true };
-
-/***/ }),
-/* 118 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(119);
-module.exports = __webpack_require__(13).Object.keys;
-
-
-/***/ }),
-/* 119 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 19.1.2.14 Object.keys(O)
-var toObject = __webpack_require__(48);
-var $keys = __webpack_require__(32);
-
-__webpack_require__(120)('keys', function () {
-  return function keys(it) {
-    return $keys(toObject(it));
-  };
-});
-
-
-/***/ }),
-/* 120 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// most Object methods by ES6 should accept primitives
-var $export = __webpack_require__(11);
-var core = __webpack_require__(13);
-var fails = __webpack_require__(22);
-module.exports = function (KEY, exec) {
-  var fn = (core.Object || {})[KEY] || Object[KEY];
-  var exp = {};
-  exp[KEY] = exec(fn);
-  $export($export.S + $export.F * fails(function () { fn(1); }), 'Object', exp);
-};
-
-
-/***/ }),
-/* 121 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Blockly = __webpack_require__(114);
-
-var colour = Blockly.Msg.FLOW_HUE;
-var previousStatement = 'Statement';
-var nextStatement = 'Statement';
-
-Blockly.Blocks.flow_wait = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'wait %1 millsec 🕙',
-      args0: [{ type: 'field_input', name: 'SEC', check: 'Number', text: '16' }],
-      colour: colour,
-      previousStatement: 'Statement',
-      nextStatement: null
-    });
-  }
-};
-
-Blockly.JavaScript.flow_wait = function (block) {
-  var ms = parseInt(block.getFieldValue('SEC'), 10);
-
-  return 'await utils.wait(' + ms + ');\n';
-};
-
-Blockly.Blocks.flow_frame = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'next frame of %1 ⌛',
-      args0: [{ type: 'field_dropdown',
-        name: 'LAYER',
-        options: [['fglayer', 'fglayer'], ['bglayer', 'bglayer']]
-      }],
-      colour: colour,
-      previousStatement: previousStatement,
-      nextStatement: nextStatement
-    });
-  }
-};
-
-Blockly.JavaScript.flow_frame = function (block) {
-  var layerName = block.getFieldValue('LAYER');
-  return 'await scene.layer(\'' + layerName + '\').prepareRender();\n';
-};
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Blockly = __webpack_require__(114);
-
-var controls_if_init = Blockly.Blocks.controls_if.init;
-
-Blockly.Blocks.controls_if.init = function () {
-  controls_if_init.call(this);
-  for (var i = 0; i < 20; i++) {
-    var input = this.getInput('DO' + i);
-    if (input) {
-      input.setCheck('Statement');
-    } else {
-      break;
-    }
-  }
-  this.setNextStatement(true, 'Statement');
-  this.setPreviousStatement(true, 'Statement');
-  this.setColour(Blockly.Msg.FLOWS_HUE);
-};
-
-Blockly.Constants.Logic.CONTROLS_IF_MUTATOR_MIXIN.saveConnections = function (containerBlock) {
-  var clauseBlock = containerBlock.nextConnection.targetBlock();
-  var i = 1;
-  var inputIf = void 0,
-      inputDo = void 0;
-  while (clauseBlock) {
-    switch (clauseBlock.type) {
-      case 'controls_if_elseif':
-        inputIf = this.getInput('IF' + i);
-        inputDo = this.getInput('DO' + i);
-        inputDo.setCheck('Statement');
-        clauseBlock.valueConnection_ = inputIf && inputIf.connection.targetConnection;
-        clauseBlock.statementConnection_ = inputDo && inputDo.connection.targetConnection;
-        i++;
-        break;
-      case 'controls_if_else':
-        inputDo = this.getInput('ELSE');
-        inputDo.setCheck('Statement');
-        clauseBlock.statementConnection_ = inputDo && inputDo.connection.targetConnection;
-        break;
-      default:
-        throw TypeError('Unknown block type: ' + clauseBlock.type);
-    }
-    clauseBlock = clauseBlock.nextConnection && clauseBlock.nextConnection.targetBlock();
-  }
-};
-
-var controls_repeat_ext_init = Blockly.Blocks.controls_repeat_ext.init;
-Blockly.Blocks.controls_repeat_ext.init = function () {
-  controls_repeat_ext_init.call(this);
-  this.getInput('DO').setCheck('Statement');
-  this.setNextStatement(true, 'Statement');
-  this.setPreviousStatement(true, 'Statement');
-  this.setColour(Blockly.Msg.FLOWS_HUE);
-};
-
-var controls_whileUntil_init = Blockly.Blocks.controls_whileUntil.init;
-Blockly.Blocks.controls_whileUntil.init = function () {
-  controls_whileUntil_init.call(this);
-  this.getInput('DO').setCheck('Statement');
-  this.setNextStatement(true, 'Statement');
-  this.setPreviousStatement(true, 'Statement');
-  this.setColour(Blockly.Msg.FLOWS_HUE);
-};
-
-/***/ }),
-/* 123 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Blockly = __webpack_require__(114);
-
-Blockly.Blocks.nil = {
-  init: function init() {
-    this.jsonInit({
-      message0: '%1',
-      args0: [{
-        type: 'field_dropdown',
-        name: 'VALUE',
-        options: [['null', 'null'], ['undefined', 'undefined']]
-      }],
-      colour: Blockly.Msg.LITERAL_HUE
-    });
-    this.setOutput(true);
-  }
-};
-
-Blockly.JavaScript.nil = function (block) {
-  var value = block.getFieldValue('VALUE');
-  return [value, Blockly.JavaScript.ORDER_NONE];
-};
-
-Blockly.Blocks.boolean = {
-  init: function init() {
-    Blockly.Blocks.logic_boolean.init.call(this);
-    this.setColour(Blockly.Msg.LITERAL_HUE);
-  }
-};
-Blockly.JavaScript.boolean = Blockly.JavaScript.logic_boolean;
-
-Blockly.Blocks.number = {
-  init: function init() {
-    Blockly.Blocks.math_number.init.call(this);
-    this.setColour(Blockly.Msg.LITERAL_HUE);
-  }
-};
-Blockly.JavaScript.number = Blockly.JavaScript.math_number;
-
-Blockly.Blocks.string = {
-  init: function init() {
-    Blockly.Blocks.text.init.call(this);
-    this.setColour(Blockly.Msg.LITERAL_HUE);
-  }
-};
-Blockly.JavaScript.string = Blockly.JavaScript.text;
-
-var lists_create_with_init = Blockly.Blocks.lists_create_with.init;
-Blockly.Blocks.lists_create_with.init = function () {
-  lists_create_with_init.call(this);
-  this.setColour(Blockly.Msg.LITERAL_HUE);
-};
-
-Blockly.Blocks.object_create = {
-  init: function init() {
-    this.appendDummyInput().appendField('new Object');
-    this.appendStatementInput('FIELDS').setCheck(['KeyValue']);
-    this.setOutput(true);
-    this.setColour(Blockly.Msg.LITERAL_HUE);
-    this.setTooltip(function () {
-      return 'Create object';
-    });
-  }
-};
-Blockly.JavaScript.object_create = function (block) {
-  var fields = Blockly.JavaScript.statementToCode(block, 'FIELDS');
-  return ['{' + fields + '\n}', Blockly.JavaScript.ORDER_MEMBER];
-};
-
-/***/ }),
-/* 124 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _dropdown = __webpack_require__(125);
-
-var Blockly = __webpack_require__(114);
-
-var colour = Blockly.Msg.SIGNALS_HUE;
-var previousStatement = 'Statement';
-var nextStatement = 'Statement';
-
-function listSignal() {
-  var signals = _dropdown.Dropdown.get('Signals');
-  if (signals.length > 0) {
-    return signals.map(function (s) {
-      return [s, s];
-    });
-  }
-  return [['START', 'START']];
-}
-
-function listSprite() {
-  var sprites = _dropdown.Dropdown.get('Sprites');
-  if (sprites.length > 0) {
-    return sprites.map(function (s) {
-      return [s, s];
-    });
-  }
-  return [['no sprites'], ['no sprites']];
-}
-
-Blockly.Blocks.signal_do = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'On signal %1 🚩 do',
-      args0: [{
-        type: 'field_dropdown',
-        name: 'SIG',
-        options: listSignal
-      }],
-      // message1: '(sender, receiver, data)',
-      colour: colour,
-      nextStatement: nextStatement
-    });
-  }
-};
-
-Blockly.JavaScript.signal_do = function (block) {
-  return '';
-};
-
-Blockly.Blocks.signal_new_sprite_as_receiver = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'On signal %1 🚩',
-      args0: [{
-        type: 'field_dropdown',
-        name: 'SIG',
-        options: listSignal
-      }],
-      message1: 'new %1 as receiver',
-      args1: [{
-        type: 'field_dropdown',
-        name: 'RECEIVER',
-        options: [['Sprite', 'Sprite'], ['Label', 'Label'], ['Path', 'Path']]
-      }],
-      message2: 'ID is %1',
-      args2: [{
-        type: 'field_input',
-        name: 'ID',
-        check: 'String',
-        text: 'Sprite_' + Math.random().toString().slice(2, 7)
-      }],
-      colour: colour,
-      nextStatement: nextStatement
-    });
-  }
-};
-
-Blockly.JavaScript.signal_new_sprite_as_receiver = function (block) {
-  return '';
-};
-
-Blockly.Blocks.signal_when_receiver_is = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'On signals %1 🚩',
-      args0: [{
-        type: 'field_dropdown',
-        name: 'SIG',
-        options: listSignal
-      }],
-      message1: 'when receiver is %1',
-      args1: [{
-        type: 'field_dropdown',
-        name: 'ID',
-        options: listSprite
-      }],
-      colour: colour,
-      nextStatement: nextStatement
-    });
-  }
-};
-
-Blockly.JavaScript.signal_when_receiver_is = function () {
-  return '';
-};
-
-Blockly.Blocks.signal_send = {
-  init: function init() {
-    this.jsonInit({
-      message0: '%1 send signal %2 🚩',
-      args0: [{
-        type: 'field_dropdown',
-        name: 'TARGET',
-        options: [['receiver', 'receiver'], ['sender', 'sender']]
-      }, {
-        type: 'field_input',
-        name: 'NAME',
-        text: 'MY_SIGNAL',
-        check: 'String'
-      }],
-      colour: colour,
-      previousStatement: previousStatement,
-      nextStatement: nextStatement
-    });
-  }
-};
-
-Blockly.JavaScript.signal_send = function (block) {
-  var target = block.getFieldValue('TARGET');
-  var signal = block.getFieldValue('NAME');
-
-  return 'utils.Signal.send(\'' + signal + '\', {sender:' + target + '});\n';
-};
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Dropdown = undefined;
 
 var _toConsumableArray2 = __webpack_require__(2);
 
@@ -2624,306 +1960,849 @@ var _set = __webpack_require__(56);
 
 var _set2 = _interopRequireDefault(_set);
 
-var _map = __webpack_require__(83);
+var _signal = __webpack_require__(1);
 
-var _map2 = _interopRequireDefault(_map);
+var _signal2 = _interopRequireDefault(_signal);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var dropdowns = new _map2.default();
+var elements = new _set2.default();
+var elements_index = {};
 
-var Dropdown = exports.Dropdown = {
-  set: function set(key, value) {
-    var dropdown = dropdowns.get(key) || new _set2.default();
-    dropdown.add(value);
-    dropdowns.set(key, dropdown);
-    return dropdown;
+var ElementList = {
+  add: function add(el) {
+    elements.add(el);
+    if (el.id) {
+      elements_index[el.id] = el;
+    }
+    _signal2.default.listen('ELEMENT_CREATED', el);
+    _signal2.default.send('ELEMENT_CREATED', { receiver: el });
+    return el;
   },
-  get: function get(key) {
-    return [].concat((0, _toConsumableArray3.default)(dropdowns.get(key) || []));
+  remove: function remove(el) {
+    if (el.id) {
+      delete elements_index[el.id];
+    }
+    elements.delete(el);
+    _signal2.default.signals.forEach(function (signal) {
+      _signal2.default.unlisten(signal, el);
+    });
   },
-  clear: function clear() {
-    dropdowns.clear();
+  all: function all() {
+    return [].concat((0, _toConsumableArray3.default)(elements));
+  },
+  getElementById: function getElementById(id) {
+    return elements_index[id] || null;
+  },
+  getElementsByName: function getElementsByName(name) {
+    return [].concat((0, _toConsumableArray3.default)(elements)).filter(function (el) {
+      return el.name === name;
+    });
   }
 };
 
+exports.default = ElementList;
+
 /***/ }),
-/* 126 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dropdown = __webpack_require__(125);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-var Blockly = __webpack_require__(114);
+var _promise = __webpack_require__(91);
 
-var colour = Blockly.Msg.SPRITE_HUE;
-var previousStatement = 'Statement';
-var nextStatement = 'Statement';
+var _promise2 = _interopRequireDefault(_promise);
 
-var sender_receiver_dropdown = {
-  type: 'field_dropdown',
-  name: 'SPRITE',
-  options: function options() {
-    var sprites = _dropdown.Dropdown.get('Sprites');
-    return [['receiver', 'receiver'], ['sender', 'sender']].concat(sprites.map(function (s) {
-      return [s, s];
-    }));
-  }
+exports.wait = wait;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function wait(ms) {
+  return new _promise2.default(function (resolve) {
+    setTimeout(resolve, ms);
+  });
+}
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(92), __esModule: true };
+
+/***/ }),
+/* 92 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(58);
+__webpack_require__(5);
+__webpack_require__(59);
+__webpack_require__(93);
+__webpack_require__(102);
+__webpack_require__(103);
+module.exports = __webpack_require__(13).Promise;
+
+
+/***/ }),
+/* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var LIBRARY = __webpack_require__(10);
+var global = __webpack_require__(12);
+var ctx = __webpack_require__(14);
+var classof = __webpack_require__(54);
+var $export = __webpack_require__(11);
+var isObject = __webpack_require__(19);
+var aFunction = __webpack_require__(15);
+var anInstance = __webpack_require__(66);
+var forOf = __webpack_require__(67);
+var speciesConstructor = __webpack_require__(94);
+var task = __webpack_require__(95).set;
+var microtask = __webpack_require__(97)();
+var newPromiseCapabilityModule = __webpack_require__(98);
+var perform = __webpack_require__(99);
+var userAgent = __webpack_require__(100);
+var promiseResolve = __webpack_require__(101);
+var PROMISE = 'Promise';
+var TypeError = global.TypeError;
+var process = global.process;
+var versions = process && process.versions;
+var v8 = versions && versions.v8 || '';
+var $Promise = global[PROMISE];
+var isNode = classof(process) == 'process';
+var empty = function () { /* empty */ };
+var Internal, newGenericPromiseCapability, OwnPromiseCapability, Wrapper;
+var newPromiseCapability = newGenericPromiseCapability = newPromiseCapabilityModule.f;
+
+var USE_NATIVE = !!function () {
+  try {
+    // correct subclassing with @@species support
+    var promise = $Promise.resolve(1);
+    var FakePromise = (promise.constructor = {})[__webpack_require__(46)('species')] = function (exec) {
+      exec(empty, empty);
+    };
+    // unhandled rejections tracking support, NodeJS Promise without it fails @@species test
+    return (isNode || typeof PromiseRejectionEvent == 'function')
+      && promise.then(empty) instanceof FakePromise
+      // v8 6.6 (Node 10 and Chrome 66) have a bug with resolving custom thenables
+      // https://bugs.chromium.org/p/chromium/issues/detail?id=830565
+      // we can't detect it synchronously, so just check versions
+      && v8.indexOf('6.6') !== 0
+      && userAgent.indexOf('Chrome/66') === -1;
+  } catch (e) { /* empty */ }
+}();
+
+// helpers
+var isThenable = function (it) {
+  var then;
+  return isObject(it) && typeof (then = it.then) == 'function' ? then : false;
 };
-
-Blockly.Blocks.sprite_append_to = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'append %1 to %2',
-      args0: [sender_receiver_dropdown, { type: 'field_dropdown',
-        name: 'LAYER',
-        options: [['fglayer', 'fglayer'], ['bglayer', 'bglayer']]
-      }],
-      colour: colour,
-      previousStatement: previousStatement,
-      nextStatement: nextStatement
-    });
-  }
-};
-
-Blockly.JavaScript.sprite_append_to = function (block) {
-  var sprite = block.getFieldValue('SPRITE');
-  var layerName = block.getFieldValue('LAYER');
-
-  if (sprite !== 'sender' && sprite !== 'receiver') {
-    sprite = 'utils.ElementList.getElementById(\'' + sprite + '\')';
-  }
-
-  return 'scene.layer(\'' + layerName + '\').append(' + sprite + ');\n';
-};
-
-Blockly.Blocks.sprite_attrs = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'set %1 attrs',
-      args0: [sender_receiver_dropdown],
-      message1: '%1',
-      args1: [{ type: 'input_statement', name: 'ATTRS', check: 'KeyValue' }],
-      colour: colour,
-      previousStatement: previousStatement,
-      nextStatement: nextStatement
-    });
-  }
-};
-
-Blockly.JavaScript.sprite_attrs = function (block) {
-  var sprite = block.getFieldValue('SPRITE');
-  var attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
-
-  if (sprite !== 'sender' && sprite !== 'receiver') {
-    sprite = 'utils.ElementList.getElementById(\'' + sprite + '\')';
-  }
-
-  return sprite + '.attr(utils.parse_attr({' + attrs + '\n}));\n';
-};
-
-Blockly.Blocks.sprite_create_attrs = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'create %1',
-      args0: [{
-        type: 'field_dropdown',
-        name: 'TYPE',
-        options: [['Sprite', 'Sprite'], ['Label', 'Label'], ['Path', 'Path']]
-      }],
-      message1: 'named %1 attrs',
-      args1: [{
-        type: 'field_input',
-        name: 'NAME',
-        text: 'MyName',
-        check: 'String'
-      }],
-      message2: '%1',
-      args2: [{ type: 'input_statement', name: 'ATTRS', check: 'KeyValue' }],
-      colour: colour,
-      previousStatement: previousStatement,
-      nextStatement: nextStatement
-    });
-  }
-};
-
-Blockly.JavaScript.sprite_create_attrs = function (block) {
-  var type = block.getFieldValue('TYPE');
-  var name = block.getFieldValue('NAME');
-  var attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
-  return 'utils.ElementList.add(spritejs.createElement(\'' + type + '\', utils.parse_attr({name: \'' + name + '\'}, {' + attrs + '\n})));\n';
-};
-
-Blockly.Blocks.sprite_each_elements_named = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'each elements named %1',
-      args0: [{
-        type: 'field_dropdown',
-        name: 'NAME',
-        options: function options() {
-          var spriteNames = _dropdown.Dropdown.get('SpriteNames');
-          if (spriteNames.length > 0) {
-            return spriteNames.map(function (s) {
-              return [s, s];
-            });
+var notify = function (promise, isReject) {
+  if (promise._n) return;
+  promise._n = true;
+  var chain = promise._c;
+  microtask(function () {
+    var value = promise._v;
+    var ok = promise._s == 1;
+    var i = 0;
+    var run = function (reaction) {
+      var handler = ok ? reaction.ok : reaction.fail;
+      var resolve = reaction.resolve;
+      var reject = reaction.reject;
+      var domain = reaction.domain;
+      var result, then, exited;
+      try {
+        if (handler) {
+          if (!ok) {
+            if (promise._h == 2) onHandleUnhandled(promise);
+            promise._h = 1;
           }
-          return [['', '']];
+          if (handler === true) result = value;
+          else {
+            if (domain) domain.enter();
+            result = handler(value); // may throw
+            if (domain) {
+              domain.exit();
+              exited = true;
+            }
+          }
+          if (result === reaction.promise) {
+            reject(TypeError('Promise-chain cycle'));
+          } else if (then = isThenable(result)) {
+            then.call(result, resolve, reject);
+          } else resolve(result);
+        } else reject(value);
+      } catch (e) {
+        if (domain && !exited) domain.exit();
+        reject(e);
+      }
+    };
+    while (chain.length > i) run(chain[i++]); // variable length - can't use forEach
+    promise._c = [];
+    promise._n = false;
+    if (isReject && !promise._h) onUnhandled(promise);
+  });
+};
+var onUnhandled = function (promise) {
+  task.call(global, function () {
+    var value = promise._v;
+    var unhandled = isUnhandled(promise);
+    var result, handler, console;
+    if (unhandled) {
+      result = perform(function () {
+        if (isNode) {
+          process.emit('unhandledRejection', value, promise);
+        } else if (handler = global.onunhandledrejection) {
+          handler({ promise: promise, reason: value });
+        } else if ((console = global.console) && console.error) {
+          console.error('Unhandled promise rejection', value);
         }
-      }],
-      message1: 'do %1',
-      args1: [{
-        type: 'input_statement',
-        name: 'DO',
-        check: 'Statement'
-      }],
-      colour: colour,
-      previousStatement: previousStatement,
-      nextStatement: nextStatement
-    });
-  }
+      });
+      // Browsers should not trigger `rejectionHandled` event if it was handled here, NodeJS - should
+      promise._h = isNode || isUnhandled(promise) ? 2 : 1;
+    } promise._a = undefined;
+    if (unhandled && result.e) throw result.v;
+  });
 };
-
-Blockly.JavaScript.sprite_each_elements_named = function (block) {
-  var name = block.getFieldValue('NAME');
-  var code = Blockly.JavaScript.statementToCode(block, 'DO');
-  return 'await Promise.all(utils.ElementList.getElementsByName(\'' + name + '\').map(async (item, index) => {\n' + code + '\n}));\n';
+var isUnhandled = function (promise) {
+  return promise._h !== 1 && (promise._a || promise._c).length === 0;
 };
-
-function plugEachItemInForEachScope() {
-  var parent = this.getParent();
-  var top = parent;
-  var isInScope = false;
-  while (top) {
-    if (top.type === 'sprite_each_elements_named') {
-      isInScope = true;
-      break;
+var onHandleUnhandled = function (promise) {
+  task.call(global, function () {
+    var handler;
+    if (isNode) {
+      process.emit('rejectionHandled', promise);
+    } else if (handler = global.onrejectionhandled) {
+      handler({ promise: promise, reason: promise._v });
     }
-    top = top.getParent();
+  });
+};
+var $reject = function (value) {
+  var promise = this;
+  if (promise._d) return;
+  promise._d = true;
+  promise = promise._w || promise; // unwrap
+  promise._v = value;
+  promise._s = 2;
+  if (!promise._a) promise._a = promise._c.slice();
+  notify(promise, true);
+};
+var $resolve = function (value) {
+  var promise = this;
+  var then;
+  if (promise._d) return;
+  promise._d = true;
+  promise = promise._w || promise; // unwrap
+  try {
+    if (promise === value) throw TypeError("Promise can't be resolved itself");
+    if (then = isThenable(value)) {
+      microtask(function () {
+        var wrapper = { _w: promise, _d: false }; // wrap
+        try {
+          then.call(value, ctx($resolve, wrapper, 1), ctx($reject, wrapper, 1));
+        } catch (e) {
+          $reject.call(wrapper, e);
+        }
+      });
+    } else {
+      promise._v = value;
+      promise._s = 1;
+      notify(promise, false);
+    }
+  } catch (e) {
+    $reject.call({ _w: promise, _d: false }, e); // wrap
   }
-  if (parent && !isInScope) {
-    console.error('Block \'' + this.type + '\' must be placed inside the Block \'sprite_each_elements_named\'.');
-    this.unplug(true);
+};
+
+// constructor polyfill
+if (!USE_NATIVE) {
+  // 25.4.3.1 Promise(executor)
+  $Promise = function Promise(executor) {
+    anInstance(this, $Promise, PROMISE, '_h');
+    aFunction(executor);
+    Internal.call(this);
+    try {
+      executor(ctx($resolve, this, 1), ctx($reject, this, 1));
+    } catch (err) {
+      $reject.call(this, err);
+    }
+  };
+  // eslint-disable-next-line no-unused-vars
+  Internal = function Promise(executor) {
+    this._c = [];             // <- awaiting reactions
+    this._a = undefined;      // <- checked in isUnhandled reactions
+    this._s = 0;              // <- state
+    this._d = false;          // <- done
+    this._v = undefined;      // <- value
+    this._h = 0;              // <- rejection state, 0 - default, 1 - handled, 2 - unhandled
+    this._n = false;          // <- notify
+  };
+  Internal.prototype = __webpack_require__(65)($Promise.prototype, {
+    // 25.4.5.3 Promise.prototype.then(onFulfilled, onRejected)
+    then: function then(onFulfilled, onRejected) {
+      var reaction = newPromiseCapability(speciesConstructor(this, $Promise));
+      reaction.ok = typeof onFulfilled == 'function' ? onFulfilled : true;
+      reaction.fail = typeof onRejected == 'function' && onRejected;
+      reaction.domain = isNode ? process.domain : undefined;
+      this._c.push(reaction);
+      if (this._a) this._a.push(reaction);
+      if (this._s) notify(this, false);
+      return reaction.promise;
+    },
+    // 25.4.5.1 Promise.prototype.catch(onRejected)
+    'catch': function (onRejected) {
+      return this.then(undefined, onRejected);
+    }
+  });
+  OwnPromiseCapability = function () {
+    var promise = new Internal();
+    this.promise = promise;
+    this.resolve = ctx($resolve, promise, 1);
+    this.reject = ctx($reject, promise, 1);
+  };
+  newPromiseCapabilityModule.f = newPromiseCapability = function (C) {
+    return C === $Promise || C === Wrapper
+      ? new OwnPromiseCapability(C)
+      : newGenericPromiseCapability(C);
+  };
+}
+
+$export($export.G + $export.W + $export.F * !USE_NATIVE, { Promise: $Promise });
+__webpack_require__(45)($Promise, PROMISE);
+__webpack_require__(68)(PROMISE);
+Wrapper = __webpack_require__(13)[PROMISE];
+
+// statics
+$export($export.S + $export.F * !USE_NATIVE, PROMISE, {
+  // 25.4.4.5 Promise.reject(r)
+  reject: function reject(r) {
+    var capability = newPromiseCapability(this);
+    var $$reject = capability.reject;
+    $$reject(r);
+    return capability.promise;
+  }
+});
+$export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
+  // 25.4.4.6 Promise.resolve(x)
+  resolve: function resolve(x) {
+    return promiseResolve(LIBRARY && this === Wrapper ? $Promise : this, x);
+  }
+});
+$export($export.S + $export.F * !(USE_NATIVE && __webpack_require__(55)(function (iter) {
+  $Promise.all(iter)['catch'](empty);
+})), PROMISE, {
+  // 25.4.4.1 Promise.all(iterable)
+  all: function all(iterable) {
+    var C = this;
+    var capability = newPromiseCapability(C);
+    var resolve = capability.resolve;
+    var reject = capability.reject;
+    var result = perform(function () {
+      var values = [];
+      var index = 0;
+      var remaining = 1;
+      forOf(iterable, false, function (promise) {
+        var $index = index++;
+        var alreadyCalled = false;
+        values.push(undefined);
+        remaining++;
+        C.resolve(promise).then(function (value) {
+          if (alreadyCalled) return;
+          alreadyCalled = true;
+          values[$index] = value;
+          --remaining || resolve(values);
+        }, reject);
+      });
+      --remaining || resolve(values);
+    });
+    if (result.e) reject(result.v);
+    return capability.promise;
+  },
+  // 25.4.4.4 Promise.race(iterable)
+  race: function race(iterable) {
+    var C = this;
+    var capability = newPromiseCapability(C);
+    var reject = capability.reject;
+    var result = perform(function () {
+      forOf(iterable, false, function (promise) {
+        C.resolve(promise).then(capability.resolve, reject);
+      });
+    });
+    if (result.e) reject(result.v);
+    return capability.promise;
+  }
+});
+
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 7.3.20 SpeciesConstructor(O, defaultConstructor)
+var anObject = __webpack_require__(18);
+var aFunction = __webpack_require__(15);
+var SPECIES = __webpack_require__(46)('species');
+module.exports = function (O, D) {
+  var C = anObject(O).constructor;
+  var S;
+  return C === undefined || (S = anObject(C)[SPECIES]) == undefined ? D : aFunction(S);
+};
+
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var ctx = __webpack_require__(14);
+var invoke = __webpack_require__(96);
+var html = __webpack_require__(44);
+var cel = __webpack_require__(23);
+var global = __webpack_require__(12);
+var process = global.process;
+var setTask = global.setImmediate;
+var clearTask = global.clearImmediate;
+var MessageChannel = global.MessageChannel;
+var Dispatch = global.Dispatch;
+var counter = 0;
+var queue = {};
+var ONREADYSTATECHANGE = 'onreadystatechange';
+var defer, channel, port;
+var run = function () {
+  var id = +this;
+  // eslint-disable-next-line no-prototype-builtins
+  if (queue.hasOwnProperty(id)) {
+    var fn = queue[id];
+    delete queue[id];
+    fn();
+  }
+};
+var listener = function (event) {
+  run.call(event.data);
+};
+// Node.js 0.9+ & IE10+ has setImmediate, otherwise:
+if (!setTask || !clearTask) {
+  setTask = function setImmediate(fn) {
+    var args = [];
+    var i = 1;
+    while (arguments.length > i) args.push(arguments[i++]);
+    queue[++counter] = function () {
+      // eslint-disable-next-line no-new-func
+      invoke(typeof fn == 'function' ? fn : Function(fn), args);
+    };
+    defer(counter);
+    return counter;
+  };
+  clearTask = function clearImmediate(id) {
+    delete queue[id];
+  };
+  // Node.js 0.8-
+  if (__webpack_require__(36)(process) == 'process') {
+    defer = function (id) {
+      process.nextTick(ctx(run, id, 1));
+    };
+  // Sphere (JS game engine) Dispatch API
+  } else if (Dispatch && Dispatch.now) {
+    defer = function (id) {
+      Dispatch.now(ctx(run, id, 1));
+    };
+  // Browsers with MessageChannel, includes WebWorkers
+  } else if (MessageChannel) {
+    channel = new MessageChannel();
+    port = channel.port2;
+    channel.port1.onmessage = listener;
+    defer = ctx(port.postMessage, port, 1);
+  // Browsers with postMessage, skip WebWorkers
+  // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
+  } else if (global.addEventListener && typeof postMessage == 'function' && !global.importScripts) {
+    defer = function (id) {
+      global.postMessage(id + '', '*');
+    };
+    global.addEventListener('message', listener, false);
+  // IE8-
+  } else if (ONREADYSTATECHANGE in cel('script')) {
+    defer = function (id) {
+      html.appendChild(cel('script'))[ONREADYSTATECHANGE] = function () {
+        html.removeChild(this);
+        run.call(id);
+      };
+    };
+  // Rest old browsers
+  } else {
+    defer = function (id) {
+      setTimeout(ctx(run, id, 1), 0);
+    };
+  }
+}
+module.exports = {
+  set: setTask,
+  clear: clearTask
+};
+
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports) {
+
+// fast apply, http://jsperf.lnkit.com/fast-apply/5
+module.exports = function (fn, args, that) {
+  var un = that === undefined;
+  switch (args.length) {
+    case 0: return un ? fn()
+                      : fn.call(that);
+    case 1: return un ? fn(args[0])
+                      : fn.call(that, args[0]);
+    case 2: return un ? fn(args[0], args[1])
+                      : fn.call(that, args[0], args[1]);
+    case 3: return un ? fn(args[0], args[1], args[2])
+                      : fn.call(that, args[0], args[1], args[2]);
+    case 4: return un ? fn(args[0], args[1], args[2], args[3])
+                      : fn.call(that, args[0], args[1], args[2], args[3]);
+  } return fn.apply(that, args);
+};
+
+
+/***/ }),
+/* 97 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(12);
+var macrotask = __webpack_require__(95).set;
+var Observer = global.MutationObserver || global.WebKitMutationObserver;
+var process = global.process;
+var Promise = global.Promise;
+var isNode = __webpack_require__(36)(process) == 'process';
+
+module.exports = function () {
+  var head, last, notify;
+
+  var flush = function () {
+    var parent, fn;
+    if (isNode && (parent = process.domain)) parent.exit();
+    while (head) {
+      fn = head.fn;
+      head = head.next;
+      try {
+        fn();
+      } catch (e) {
+        if (head) notify();
+        else last = undefined;
+        throw e;
+      }
+    } last = undefined;
+    if (parent) parent.enter();
+  };
+
+  // Node.js
+  if (isNode) {
+    notify = function () {
+      process.nextTick(flush);
+    };
+  // browsers with MutationObserver, except iOS Safari - https://github.com/zloirock/core-js/issues/339
+  } else if (Observer && !(global.navigator && global.navigator.standalone)) {
+    var toggle = true;
+    var node = document.createTextNode('');
+    new Observer(flush).observe(node, { characterData: true }); // eslint-disable-line no-new
+    notify = function () {
+      node.data = toggle = !toggle;
+    };
+  // environments with maybe non-completely correct, but existent Promise
+  } else if (Promise && Promise.resolve) {
+    // Promise.resolve without an argument throws an error in LG WebOS 2
+    var promise = Promise.resolve(undefined);
+    notify = function () {
+      promise.then(flush);
+    };
+  // for other environments - macrotask based on:
+  // - setImmediate
+  // - MessageChannel
+  // - window.postMessag
+  // - onreadystatechange
+  // - setTimeout
+  } else {
+    notify = function () {
+      // strange IE + webpack dev server bug - use .call(global)
+      macrotask.call(global, flush);
+    };
+  }
+
+  return function (fn) {
+    var task = { fn: fn, next: undefined };
+    if (last) last.next = task;
+    if (!head) {
+      head = task;
+      notify();
+    } last = task;
+  };
+};
+
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// 25.4.1.5 NewPromiseCapability(C)
+var aFunction = __webpack_require__(15);
+
+function PromiseCapability(C) {
+  var resolve, reject;
+  this.promise = new C(function ($$resolve, $$reject) {
+    if (resolve !== undefined || reject !== undefined) throw TypeError('Bad Promise constructor');
+    resolve = $$resolve;
+    reject = $$reject;
+  });
+  this.resolve = aFunction(resolve);
+  this.reject = aFunction(reject);
+}
+
+module.exports.f = function (C) {
+  return new PromiseCapability(C);
+};
+
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports) {
+
+module.exports = function (exec) {
+  try {
+    return { e: false, v: exec() };
+  } catch (e) {
+    return { e: true, v: e };
+  }
+};
+
+
+/***/ }),
+/* 100 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var global = __webpack_require__(12);
+var navigator = global.navigator;
+
+module.exports = navigator && navigator.userAgent || '';
+
+
+/***/ }),
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var anObject = __webpack_require__(18);
+var isObject = __webpack_require__(19);
+var newPromiseCapability = __webpack_require__(98);
+
+module.exports = function (C, x) {
+  anObject(C);
+  if (isObject(x) && x.constructor === C) return x;
+  var promiseCapability = newPromiseCapability.f(C);
+  var resolve = promiseCapability.resolve;
+  resolve(x);
+  return promiseCapability.promise;
+};
+
+
+/***/ }),
+/* 102 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+// https://github.com/tc39/proposal-promise-finally
+
+var $export = __webpack_require__(11);
+var core = __webpack_require__(13);
+var global = __webpack_require__(12);
+var speciesConstructor = __webpack_require__(94);
+var promiseResolve = __webpack_require__(101);
+
+$export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
+  var C = speciesConstructor(this, core.Promise || global.Promise);
+  var isFunction = typeof onFinally == 'function';
+  return this.then(
+    isFunction ? function (x) {
+      return promiseResolve(C, onFinally()).then(function () { return x; });
+    } : onFinally,
+    isFunction ? function (e) {
+      return promiseResolve(C, onFinally()).then(function () { throw e; });
+    } : onFinally
+  );
+} });
+
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// https://github.com/tc39/proposal-promise-try
+var $export = __webpack_require__(11);
+var newPromiseCapability = __webpack_require__(98);
+var perform = __webpack_require__(99);
+
+$export($export.S, 'Promise', { 'try': function (callbackfn) {
+  var promiseCapability = newPromiseCapability.f(this);
+  var result = perform(callbackfn);
+  (result.e ? promiseCapability.reject : promiseCapability.resolve)(result.v);
+  return promiseCapability.promise;
+} });
+
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _assign = __webpack_require__(105);
+
+var _assign2 = _interopRequireDefault(_assign);
+
+exports.default = parse_attr;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function projectionXY(attrs, attrName) {
+  var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+  var attrX = attrName + 'X';
+  var attrY = attrName + 'Y';
+  if (attrX in attrs || attrY in attrs) {
+    attrs[attrName] = [attrs[attrX] != null ? attrs[attrX] : defaultValue, attrs[attrY] != null ? attrs[attrY] : defaultValue];
+    delete attrs[attrX];
+    delete attrs[attrY];
   }
 }
 
-Blockly.Blocks.sprite_each_item_attrs = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'set item attrs',
-      message1: '%1',
-      args1: [{ type: 'input_statement', name: 'ATTRS', check: 'KeyValue' }],
-      colour: colour - 15,
-      previousStatement: previousStatement,
-      nextStatement: nextStatement
-    });
-  },
+function projectionBorder(attrs) {
+  if ('borderWidth' in attrs || 'borderStyle' in attrs || 'borderColor' in attrs) {
+    var borderWidth = attrs.borderWidth,
+        borderStyle = attrs.borderStyle,
+        borderColor = attrs.borderColor;
 
-  onchange: plugEachItemInForEachScope
-};
-
-Blockly.JavaScript.sprite_each_item_attrs = function (block) {
-  var code = Blockly.JavaScript.statementToCode(block, 'ATTRS');
-  return 'item.attr(utils.parse_attr({' + code + '\n}));\n';
-};
-
-Blockly.Blocks.sprite_item_append_to = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'append item to %1',
-      args0: [{ type: 'field_dropdown',
-        name: 'LAYER',
-        options: [['fglayer', 'fglayer'], ['bglayer', 'bglayer']]
-      }],
-      colour: colour - 15,
-      previousStatement: previousStatement,
-      nextStatement: nextStatement
-    });
-  },
-
-  onchange: plugEachItemInForEachScope
-};
-
-Blockly.JavaScript.sprite_item_append_to = function (block) {
-  var layerName = block.getFieldValue('LAYER');
-  return 'scene.layer(\'' + layerName + '\').append(item);\n';
-};
-
-Blockly.Blocks.sprite_item_get_index = {
-  init: function init() {
-    this.jsonInit({
-      message0: 'index',
-      colour: colour - 15,
-      output: 'Number'
-    });
+    attrs.border = {
+      width: borderWidth != null ? borderWidth : 1,
+      style: borderStyle != null ? borderStyle : 'solid',
+      color: borderColor != null ? borderColor : '#000000'
+    };
+    delete attrs.borderWidth;
+    delete attrs.borderStyle;
+    delete attrs.borderColor;
   }
-};
+}
 
-Blockly.JavaScript.sprite_item_get_index = function (block) {
-  return ['index', Blockly.JavaScript.ORDER_NONE];
-};
+function parse_attr() {
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  var attrs = args.reduce(function (a, b) {
+    return (0, _assign2.default)(a, b);
+  }, {});
+  if ('texture' in attrs) {
+    attrs.textures = [attrs.texture];
+    delete attrs.texture;
+  }
+  if ('fontFamily' in attrs) {
+    attrs.fontFamily = '"' + attrs.fontFamily + '"';
+  }
+  projectionXY(attrs, 'anchor', 0);
+  projectionXY(attrs, 'scale', 1);
+  projectionXY(attrs, 'translate', 0);
+  projectionXY(attrs, 'skew', 0);
+  projectionBorder(attrs);
+  return attrs;
+}
 
 /***/ }),
-/* 127 */
+/* 105 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(106), __esModule: true };
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(107);
+module.exports = __webpack_require__(13).Object.assign;
+
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// 19.1.3.1 Object.assign(target, source)
+var $export = __webpack_require__(11);
+
+$export($export.S + $export.F, 'Object', { assign: __webpack_require__(108) });
+
+
+/***/ }),
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+// 19.1.2.1 Object.assign(target, source, ...)
+var getKeys = __webpack_require__(32);
+var gOPS = __webpack_require__(109);
+var pIE = __webpack_require__(110);
+var toObject = __webpack_require__(48);
+var IObject = __webpack_require__(35);
+var $assign = Object.assign;
 
-var Blockly = __webpack_require__(114);
+// should work with symbols and should have deterministic property order (V8 bug)
+module.exports = !$assign || __webpack_require__(22)(function () {
+  var A = {};
+  var B = {};
+  // eslint-disable-next-line no-undef
+  var S = Symbol();
+  var K = 'abcdefghijklmnopqrst';
+  A[S] = 7;
+  K.split('').forEach(function (k) { B[k] = k; });
+  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+}) ? function assign(target, source) { // eslint-disable-line no-unused-vars
+  var T = toObject(target);
+  var aLen = arguments.length;
+  var index = 1;
+  var getSymbols = gOPS.f;
+  var isEnum = pIE.f;
+  while (aLen > index) {
+    var S = IObject(arguments[index++]);
+    var keys = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S);
+    var length = keys.length;
+    var j = 0;
+    var key;
+    while (length > j) if (isEnum.call(S, key = keys[j++])) T[key] = S[key];
+  } return T;
+} : $assign;
 
-var colour = Blockly.Msg.LOG_HUE;
-var previousStatement = 'Statement';
-var nextStatement = 'Statement';
 
-Blockly.Blocks.log_log = {
-  init: function init() {
-    this.jsonInit({
-      message0: '📋 %1 %2',
-      args0: [{
-        type: 'field_dropdown',
-        name: 'LOG',
-        options: [['log', 'log'], ['warn', 'warn'], ['error', 'error']]
-      }, {
-        type: 'input_value',
-        name: 'MSG'
-      }],
-      // message1: '(sender, receiver, data)',
-      colour: colour,
-      previousStatement: previousStatement,
-      nextStatement: nextStatement
-    });
-  }
-};
+/***/ }),
+/* 109 */
+/***/ (function(module, exports) {
 
-Blockly.JavaScript.log_log = function (block) {
-  var msg = Blockly.JavaScript.valueToCode(block, 'MSG', Blockly.JavaScript.ORDER_NONE);
-  var level = block.getFieldValue('LOG');
-  return 'console.' + level + '(' + msg + ');\n';
-};
+exports.f = Object.getOwnPropertySymbols;
 
-Blockly.Blocks.log_alert = {
-  init: function init() {
-    this.jsonInit({
-      message0: '🔔 alert %1',
-      args0: [{
-        type: 'input_value',
-        name: 'MSG'
-      }],
-      // message1: '(sender, receiver, data)',
-      colour: colour,
-      previousStatement: previousStatement,
-      nextStatement: nextStatement
-    });
-  }
-};
 
-Blockly.JavaScript.log_alert = function (block) {
-  var msg = Blockly.JavaScript.valueToCode(block, 'MSG', Blockly.JavaScript.ORDER_NONE);
-  return 'alert(' + msg + ');\n';
-};
+/***/ }),
+/* 110 */
+/***/ (function(module, exports) {
+
+exports.f = {}.propertyIsEnumerable;
+
 
 /***/ })
 /******/ ]);

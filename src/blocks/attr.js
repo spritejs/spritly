@@ -30,7 +30,13 @@ Blockly.JavaScript.field_attr_inc = function (block) {
 
 function createKVConf(keys = 'key', valueType = '', colour = Blockly.Msg.ATTRS_HUE, statementType = 'KeyValue') {
   const arg0 = {name: 'KEY', type: 'field_input'};
-  if(Array.isArray(keys)) {
+  const arg1 = {type: 'input_value', name: 'VALUE', check: valueType};
+
+  if(typeof keys !== 'string' && keys.prop && keys.options) {
+    arg0.text = keys.prop;
+    arg1.type = 'field_dropdown';
+    arg1.options = keys.options.map(s => [s, s]);
+  } else if(Array.isArray(keys)) {
     arg0.type = 'field_dropdown';
     arg0.options = keys.map(key => [key, key]);
   } else {
@@ -40,7 +46,7 @@ function createKVConf(keys = 'key', valueType = '', colour = Blockly.Msg.ATTRS_H
     message0: '%1: %2,',
     args0: [
       arg0,
-      {type: 'input_value', name: 'VALUE', check: valueType},
+      arg1,
     ],
     colour,
     previousStatement: statementType,
@@ -117,44 +123,28 @@ Blockly.Blocks.field_attr_border_radius = {
   },
 };
 
-Blockly.Blocks.field_attr_border = {
+Blockly.Blocks.field_attr_borderWidth = {
   init() {
-    this.jsonInit({
-      message0: 'set border with',
-      message1: 'style: %1',
-      args1: [{
-        type: 'input_value',
-        name: 'STYLE',
-        check: 'String',
-      }],
-      message2: 'width: %1',
-      args2: [{
-        type: 'input_value',
-        name: 'WIDTH',
-        check: 'Number',
-      }],
-      message3: 'color: %1',
-      args3: [{
-        type: 'input_value',
-        name: 'COLOUR',
-        check: 'Colour',
-      }],
-      colour: Blockly.Msg.ATTRS_HUE,
-      previousStatement: 'KeyValue',
-      nextStatement: 'KeyValue',
-    });
+    this.jsonInit(createKVConf('borderWidth', 'Number'));
   },
 };
 
-Blockly.JavaScript.field_attr_border = function (block) {
-  const style = Blockly.JavaScript.valueToCode(block, 'STYLE', Blockly.JavaScript.ORDER_NONE) || 'solid';
-  const width = Blockly.JavaScript.valueToCode(block, 'WIDTH', Blockly.JavaScript.ORDER_NONE) || 1;
-  const color = Blockly.JavaScript.valueToCode(block, 'COLOUR', Blockly.JavaScript.ORDER_NONE) || '#ff0000';
-  return `\n'border': {
-    width: ${width},
-    style: ${style},
-    color: ${color},
-  },`;
+Blockly.Blocks.field_attr_borderStyle = {
+  init() {
+    this.jsonInit(createKVConf({prop: 'borderStyle', options: ['solid', 'dashed']}, 'String'));
+  },
+};
+
+Blockly.Blocks.field_attr_borderColour = {
+  init() {
+    this.jsonInit(createKVConf('borderColor', 'Colour'));
+  },
+};
+
+Blockly.Blocks.field_attr_dashOffset = {
+  init() {
+    this.jsonInit(createKVConf('dashOffset', 'Number'));
+  },
 };
 
 Blockly.Blocks.field_attr_texture = {
@@ -169,9 +159,89 @@ Blockly.Blocks.field_attr_text = {
   },
 };
 
+Blockly.Blocks.field_attr_fontSize = {
+  init() {
+    this.jsonInit(createKVConf('fontSize', 'Number', Blockly.Msg.ATTRS_LABEL_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_fontFamily = {
+  init() {
+    this.jsonInit(createKVConf('fontFamily', 'String', Blockly.Msg.ATTRS_LABEL_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_fontStyle = {
+  init() {
+    this.jsonInit(createKVConf({prop: 'fontStyle', options: ['normal', 'italic', 'oblique']},
+      'String', Blockly.Msg.ATTRS_LABEL_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_fontVariant = {
+  init() {
+    this.jsonInit(createKVConf({prop: 'fontVariant', options: ['normal', 'small-caps']},
+      'String', Blockly.Msg.ATTRS_LABEL_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_fontWeight = {
+  init() {
+    this.jsonInit(createKVConf({
+      prop: 'fontWeight',
+      options: ['normal', 'bold', 'bolder', 'lighter', '100', '200', '300', '400', '500', '600', '700', '800', '900'],
+    }, 'String', Blockly.Msg.ATTRS_LABEL_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_textAlign = {
+  init() {
+    this.jsonInit(createKVConf({prop: 'textAlign', options: ['left', 'right', 'center']},
+      'String', Blockly.Msg.ATTRS_LABEL_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_lineHeight = {
+  init() {
+    this.jsonInit(createKVConf('lineHeight', 'Number', Blockly.Msg.ATTRS_LABEL_HUE));
+  },
+};
+
 Blockly.Blocks.field_attr_d = {
   init() {
     this.jsonInit(createKVConf('d', 'String', Blockly.Msg.ATTRS_PATH_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_lineWidth = {
+  init() {
+    this.jsonInit(createKVConf('lineWidth', 'Number', Blockly.Msg.ATTRS_LABEL_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_lineDash = {
+  init() {
+    this.jsonInit(createKVConf('lineDash', 'String', Blockly.Msg.ATTRS_LABEL_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_lineCap = {
+  init() {
+    this.jsonInit(createKVConf({prop: 'lineCap', options: ['butt', 'round', 'square']},
+      'String', Blockly.Msg.ATTRS_PATH_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_lineJoin = {
+  init() {
+    this.jsonInit(createKVConf({prop: 'lineJoin', options: ['miter', 'round', 'bevel']},
+      'String', Blockly.Msg.ATTRS_PATH_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_bounding = {
+  init() {
+    this.jsonInit(createKVConf({prop: 'bounding', options: ['box', 'path']}, 'String', Blockly.Msg.ATTRS_PATH_HUE));
   },
 };
 
@@ -189,12 +259,13 @@ Blockly.Blocks.field_attr_fillColour = {
 
 function gencode(block) {
   const key = block.getFieldValue('KEY');
-  const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || 'null';
+  const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE)
+    || `'${block.getFieldValue('VALUE')}'` || 'null';
   return `\n'${key}': ${value},`;
 }
 
 Object.keys(Blockly.Blocks).forEach((key) => {
-  if(key.indexOf('field_attr') === 0 && key !== 'field_attr_inc' && key !== 'field_attr_border') {
+  if(key.indexOf('field_attr') === 0 && key !== 'field_attr_inc') {
     Blockly.JavaScript[key] = gencode;
   }
 });

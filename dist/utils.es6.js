@@ -1,0 +1,261 @@
+module.exports =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/js/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _signal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Signal", function() { return _signal__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
+/* harmony import */ var _element_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElementList", function() { return _element_list__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+
+/* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "wait", function() { return _misc__WEBPACK_IMPORTED_MODULE_2__["wait"]; });
+
+/* harmony import */ var _parse_attr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parse_attr", function() { return _parse_attr__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+
+
+
+
+
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const signals = new Map();
+
+const Signal = {
+  on(signal, handler) {
+    const { receivers, handlers } = signals.get(signal) || { receivers: new Set(), handlers: [] };
+    handlers.push(handler);
+    signals.set(signal, { receivers, handlers });
+  },
+  listen(signal, receiver) {
+    const { receivers, handlers } = signals.get(signal) || { receivers: new Set(), handlers: [] };
+    receivers.add(receiver);
+    signals.set(signal, { receivers, handlers });
+  },
+  unlisten(signal, receiver) {
+    const { receivers, handlers } = signals.get(signal) || { receivers: new Set(), handlers: [] };
+    receivers.delete(receiver);
+    signals.set(signal, { receivers, handlers });
+  },
+  send(signal, { sender, data = {}, receiver } = {}) {
+    // console.log('send signal', signal);
+    const { receivers, handlers } = signals.get(signal) || { receivers: new Set(), handlers: [] };
+    [...receivers, { id: '$$default$signal$receiver' }].forEach(_receiver => {
+      if (receiver == null || receiver === _receiver) {
+        handlers.forEach(handler => {
+          handler({ signal, sender, receiver: _receiver, data, target: receiver });
+        });
+      }
+    });
+  },
+  get signals() {
+    return [...signals.keys()];
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Signal);
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _signal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+
+
+const elements = new Set();
+const elements_index = {};
+
+const ElementList = {
+  add(el) {
+    elements.add(el);
+    if (el.id) {
+      elements_index[el.id] = el;
+    }
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].listen('ELEMENT_CREATED', el);
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('ELEMENT_CREATED', { receiver: el });
+    return el;
+  },
+  remove(el) {
+    if (el.id) {
+      delete elements_index[el.id];
+    }
+    elements.delete(el);
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].signals.forEach(signal => {
+      _signal__WEBPACK_IMPORTED_MODULE_0__["default"].unlisten(signal, el);
+    });
+  },
+  all() {
+    return [...elements];
+  },
+  getElementById(id) {
+    return elements_index[id] || null;
+  },
+  getElementsByName(name) {
+    return [...elements].filter(el => el.name === name);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (ElementList);
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wait", function() { return wait; });
+function wait(ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return parse_attr; });
+function projectionXY(attrs, attrName, defaultValue = 0) {
+  const attrX = `${attrName}X`;
+  const attrY = `${attrName}Y`;
+  if (attrX in attrs || attrY in attrs) {
+    attrs[attrName] = [attrs[attrX] != null ? attrs[attrX] : defaultValue, attrs[attrY] != null ? attrs[attrY] : defaultValue];
+    delete attrs[attrX];
+    delete attrs[attrY];
+  }
+}
+
+function projectionBorder(attrs) {
+  if ('borderWidth' in attrs || 'borderStyle' in attrs || 'borderColor' in attrs) {
+    const { borderWidth, borderStyle, borderColor } = attrs;
+    attrs.border = {
+      width: borderWidth != null ? borderWidth : 1,
+      style: borderStyle != null ? borderStyle : 'solid',
+      color: borderColor != null ? borderColor : '#000000'
+    };
+    delete attrs.borderWidth;
+    delete attrs.borderStyle;
+    delete attrs.borderColor;
+  }
+}
+
+function parse_attr(...args) {
+  const attrs = args.reduce((a, b) => Object.assign(a, b), {});
+  if ('texture' in attrs) {
+    attrs.textures = [attrs.texture];
+    delete attrs.texture;
+  }
+  if ('fontFamily' in attrs) {
+    attrs.fontFamily = `"${attrs.fontFamily}"`;
+  }
+  projectionXY(attrs, 'anchor', 0);
+  projectionXY(attrs, 'scale', 1);
+  projectionXY(attrs, 'translate', 0);
+  projectionXY(attrs, 'skew', 0);
+  projectionBorder(attrs);
+  return attrs;
+}
+
+/***/ })
+/******/ ]);

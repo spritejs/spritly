@@ -15,7 +15,9 @@ module.exports = function (env = {}) {
     babelConf.babelrc = false;
   }
 
-  const externals = {}
+  const externals = {
+    blockly: 'Blockly',
+  };
   const output = {
     path: path.resolve(__dirname, 'dist'),
     filename: env.esnext ? '[name].es6' : '[name]',
@@ -40,7 +42,7 @@ module.exports = function (env = {}) {
     output,
     resolve: {
       aliasFields: ['browser', 'esnext'],
-      alias: require('./build/alias'),
+      // alias: require('./build/alias'),
     },
 
     module: {
@@ -69,7 +71,7 @@ module.exports = function (env = {}) {
     // lets you precisely control what bundle information gets displayed
 
     devServer: {
-      contentBase: path.join(__dirname, 'example'),
+      contentBase: path.join(__dirname, 'examples'),
       compress: true,
       port: 9090,
       // ...

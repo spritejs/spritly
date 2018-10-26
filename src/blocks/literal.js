@@ -71,3 +71,10 @@ Blockly.JavaScript.object_create = function (block) {
   const fields = Blockly.JavaScript.statementToCode(block, 'FIELDS');
   return [`{${fields}\n}`, Blockly.JavaScript.ORDER_MEMBER];
 };
+
+const colour_picker_init = Blockly.Blocks.colour_picker.init;
+
+Blockly.Blocks.colour_picker.init = function () {
+  colour_picker_init.call(this);
+  this.setColour(Blockly.Msg.LITERAL_HUE);
+};

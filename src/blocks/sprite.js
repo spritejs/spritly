@@ -232,3 +232,133 @@ Blockly.Blocks.sprite_item_get_index = {
 Blockly.JavaScript.sprite_item_get_index = function (block) {
   return ['index', Blockly.JavaScript.ORDER_NONE];
 };
+
+Blockly.Blocks.sprite_animate = {
+  init() {
+    this.jsonInit({
+      message0: '%1 %2 animate %3 ms',
+      args0: [
+        {
+          type: 'field_dropdown',
+          name: 'ASYNC?',
+          options: [
+            ['⚡️', '-'],
+            ['⌛️', 'await'],
+          ],
+        },
+        sender_receiver_dropdown,
+        {
+          type: 'input_value',
+          name: 'DURATION',
+          check: 'Number',
+        },
+      ],
+      message1: 'from %1',
+      args1: [
+        {
+          type: 'input_statement',
+          name: 'FROM_ATTRS',
+          check: 'KeyValue',
+        },
+      ],
+      message2: 'to %1',
+      args2: [
+        {
+          type: 'input_statement',
+          name: 'TO_ATTRS',
+          check: 'KeyValue',
+        },
+      ],
+      message3: 'easing %1',
+      args3: [
+        {
+          type: 'input_value',
+          name: 'EASING',
+          check: 'String',
+        },
+      ],
+      colour,
+      previousStatement,
+      nextStatement,
+    });
+  },
+};
+
+Blockly.JavaScript.sprite_animate = function (block) {
+  const isAsync = block.getFieldValue('ASYNC?') === 'await';
+  const sprite = block.getFieldValue('SPRITE');
+  const duration = Blockly.JavaScript.valueToCode(block, 'DURATION', Blockly.JavaScript.ORDER_NONE) || 600;
+  const easing = Blockly.JavaScript.valueToCode(block, 'EASING', Blockly.JavaScript.ORDER_NONE) || '"ease"';
+  const from = Blockly.JavaScript.statementToCode(block, 'FROM_ATTRS');
+  const to = Blockly.JavaScript.statementToCode(block, 'TO_ATTRS');
+
+  let code = `${sprite}.animate([{${from}}, {${to}}], {duration: ${duration}, fill: 'forwards', easing: ${easing}})`;
+  if(isAsync) code = `if(!${sprite}.layer){console.error('${sprite} must append to layer before animated!');} await ${code}.finished`;
+
+  return `${code};\n`;
+};
+
+Blockly.Blocks.sprite_item_animate = {
+  init() {
+    this.jsonInit({
+      message0: '%1 item animate %2 ms',
+      args0: [
+        {
+          type: 'field_dropdown',
+          name: 'ASYNC?',
+          options: [
+            ['⚡️', '-'],
+            ['⌛️', 'await'],
+          ],
+        },
+        {
+          type: 'input_value',
+          name: 'DURATION',
+          check: 'Number',
+        },
+      ],
+      message1: 'from %1',
+      args1: [
+        {
+          type: 'input_statement',
+          name: 'FROM_ATTRS',
+          check: 'KeyValue',
+        },
+      ],
+      message2: 'to %1',
+      args2: [
+        {
+          type: 'input_statement',
+          name: 'TO_ATTRS',
+          check: 'KeyValue',
+        },
+      ],
+      message3: 'easing %1',
+      args3: [
+        {
+          type: 'input_value',
+          name: 'EASING',
+          check: 'String',
+        },
+      ],
+      colour: colour - 15,
+      previousStatement,
+      nextStatement,
+    });
+  },
+  onchange: plugEachItemInForEachScope,
+};
+
+Blockly.JavaScript.sprite_item_animate = function (block) {
+  const isAsync = block.getFieldValue('ASYNC?') === 'await';
+  const sprite = 'item';
+  const duration = Blockly.JavaScript.valueToCode(block, 'DURATION', Blockly.JavaScript.ORDER_NONE) || 600;
+  const easing = Blockly.JavaScript.valueToCode(block, 'EASING', Blockly.JavaScript.ORDER_NONE) || '"ease"';
+  const from = Blockly.JavaScript.statementToCode(block, 'FROM_ATTRS');
+  const to = Blockly.JavaScript.statementToCode(block, 'TO_ATTRS');
+
+  let code = `${sprite}.animate([{${from}}, {${to}}], {duration: ${duration}, fill: 'forwards', easing: ${easing}})`;
+  if(isAsync) code = `if(!${sprite}.layer){console.error('${sprite} must append to layer before animated!');} await ${code}.finished`;
+
+  return `${code};\n`;
+};

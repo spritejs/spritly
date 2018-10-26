@@ -11,15 +11,33 @@ function projectionXY(attrs, attrName, defaultValue = 0) {
   }
 }
 
+function projectionBorder(attrs) {
+  if('borderWidth' in attrs || 'borderStyle' in attrs || 'borderColor' in attrs) {
+    const {borderWidth, borderStyle, borderColor} = attrs;
+    attrs.border = {
+      width: borderWidth != null ? borderWidth : 1,
+      style: borderStyle != null ? borderStyle : 'solid',
+      color: borderColor != null ? borderColor : '#000000',
+    };
+    delete attrs.borderWidth;
+    delete attrs.borderStyle;
+    delete attrs.borderColor;
+  }
+}
+
 export default function parse_attr(...args) {
   const attrs = args.reduce((a, b) => Object.assign(a, b), {});
   if('texture' in attrs) {
     attrs.textures = [attrs.texture];
     delete attrs.texture;
   }
+  if('fontFamily' in attrs) {
+    attrs.fontFamily = `"${attrs.fontFamily}"`;
+  }
   projectionXY(attrs, 'anchor', 0);
   projectionXY(attrs, 'scale', 1);
   projectionXY(attrs, 'translate', 0);
   projectionXY(attrs, 'skew', 0);
+  projectionBorder(attrs);
   return attrs;
 }

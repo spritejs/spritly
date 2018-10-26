@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <script src="/js/blockly_node_javascript_en.js"></script>
   <script src="https://unpkg.com/spritejs@2.17.8/dist/spritejs.min.js"></script>
   <script src="/js/spritly.js"></script>
   <style>
@@ -76,16 +77,41 @@
       <block type="signal_send"></block>
     </category>
     <category name="Sprites" colour="%{BKY_SPRITE_HUE}">
-      <block type="sprite_append_to"></block>
       <block type="sprite_attrs"></block>
+      <block type="sprite_append_to"></block>
       <block type="sprite_create_attrs"></block>
+      <block type="sprite_animate">
+        <value name="DURATION">
+          <block type="number">
+            <field name="NUM">600</field>
+          </block>
+        </value>
+        <value name="EASING">
+          <block type="string">
+            <field name="TEXT">ease-in</field>
+          </block>
+        </value>
+      </block>
       <block type="sprite_each_elements_named"></block>
+
       <block type="sprite_each_item_attrs"></block>
       <block type="sprite_item_append_to"></block>
       <block type="sprite_item_get_index"></block>
+      <block type="sprite_item_animate">
+        <value name="DURATION">
+          <block type="number">
+            <field name="NUM">600</field>
+          </block>
+        </value>
+        <value name="EASING">
+          <block type="string">
+            <field name="TEXT">ease-in</field>
+          </block>
+        </value>
+      </block>
     </category>
     <category name="Attributes">
-      <category name="Base" colour="%{BKY_ATTRS_HUE}">
+      <category name="Common" colour="%{BKY_ATTRS_HUE}">
           <block type="field_attr"></block>
           <block type="field_attr_inc">
             <value name="VALUE">
@@ -162,20 +188,27 @@
                 </block>
             </value>          
           </block>
-          <block type="field_attr_border">
-            <value name="STYLE">
-              <block type="string">
-                <field name="TEXT">solid</field>
-              </block>
-            </value>
-            <value name="WIDTH">
+          <block type="field_attr_borderStyle"></block>
+          <block type="field_attr_borderWidth">
+            <value name="VALUE">
               <block type="number">
                 <field name="NUM">1</field>
               </block>
-            </value> 
-            <value name="COLOUR">
-              <block type="colour_picker"></block>
-            </value>             
+            </value>            
+          </block>
+          <block type="field_attr_borderColour">
+            <value name="VALUE">
+              <block type="colour_picker">
+                <field name="COLOUR">#000000</field>
+              </block>
+            </value>            
+          </block>
+          <block type="field_attr_dashOffset">
+              <value name="VALUE">
+                  <block type="number">
+                    <field name="NUM">50</field>
+                  </block>
+              </value>             
           </block>
       </category>
       <category name="Sprite" colour="%{BKY_ATTRS_SPRITE_HUE}">
@@ -194,6 +227,31 @@
                 <field name="TEXT">Hello</field>
               </block>
           </value>
+        </block>
+        <block type="field_attr_fontFamily">
+            <value name="VALUE">
+                <block type="string">
+                  <field name="TEXT">宋体</field>
+                </block>
+            </value>          
+        </block>
+        <block type="field_attr_fontSize">
+            <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">32</field>
+                </block>
+            </value>          
+        </block>
+        <block type="field_attr_fontWeight"></block>
+        <block type="field_attr_fontStyle"></block>
+        <block type="field_attr_fontVariant"></block>
+        <block type="field_attr_textAlign"></block>
+        <block type="field_attr_lineHeight">
+            <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">40</field>
+                </block>
+            </value>          
         </block>
         <block type="field_attr_strokeColour">
           <value name="VALUE">
@@ -214,6 +272,23 @@
             </block>
           </value>
         </block>
+        <block type="field_attr_lineWidth">
+            <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">4</field>
+                </block>
+            </value>          
+        </block>
+        <block type="field_attr_lineDash">
+            <value name="VALUE">
+                <block type="string">
+                  <field name="TEXT">5,10</field>
+                </block>
+            </value>          
+        </block>
+        <block type="field_attr_lineCap"></block>
+        <block type="field_attr_lineJoin"></block>
+        <block type="field_attr_bounding"></block>
         <block type="field_attr_strokeColour">
           <value name="VALUE">
             <block type="colour_picker"></block>
@@ -239,6 +314,7 @@
             <block type="field_attr"></block>
         </value>
       </block>
+      <block type="colour_picker"></block>
     </category>
     <category name="Async" colour="%{BKY_FLOW_HUE}">
       <block type="flow_wait"></block>
@@ -263,9 +339,6 @@
     <category name="Math" colour="%{BKY_MATH_HUE}">
       <block type="math_arithmetic"></block>
       <block type="math_single"></block>
-    </category>
-    <category name="Color" colour="%{BKY_COLOUR_HUE}">
-      <block type="colour_picker"></block>
     </category>
     <category name="Log" colour="%{BKY_LOG_HUE}">
       <block type="log_log"></block>
@@ -317,10 +390,6 @@
       });
 
     window.workspace = workspace;
-
-    const block = await loadStartBlocks();
-    Blockly.Xml.domToWorkspace(block.documentElement,
-      workspace);
 
     function getCode() {
       const xml = Blockly.Xml.workspaceToDom(workspace);
@@ -424,6 +493,11 @@ ${code}
     }
 
     window.runCode = runCode;
+    window.showCode = showCode;
+
+    const block = await loadStartBlocks();
+    Blockly.Xml.domToWorkspace(block.documentElement,
+      workspace);
 
     workspace.addChangeListener((event) => {
       if(event.type === Blockly.Events.CHANGE
@@ -433,7 +507,6 @@ ${code}
         window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
       }
     });
-    // runCode();
 
     const links = document.getElementById('links');
     links.addEventListener('click', async (evt) => {

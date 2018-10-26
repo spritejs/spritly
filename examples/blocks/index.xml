@@ -42,31 +42,26 @@
           </block>     
         </value>
         <next><block type="sprite_append_to">
-        <next><block type="controls_repeat_ext">
-          <value name="TIMES">
+        <next><block type="sprite_animate">
+          <field name="ASYNC?">await</field>
+          <value name="DURATION">
             <block type="number">
-              <field name="NUM">200</field>
+              <field name="NUM">3000</field>
             </block>
           </value>
-          <value name="DO">
-            <block type="sprite_attrs">
-              <value name="ATTRS">
-                <block type="field_attr_xy">
-                  <value name="VALUE">
-                    <block type="field_attr_inc">
-                      <value name="VALUE">
-                        <block type="number">
-                          <field name="NUM">1</field>
-                        </block>
-                      </value>  
-                    </block>                 
-                  </value>
-                </block>
-              </value>
-              <next>
-                <block type="flow_wait"></block>
-              </next>
-            </block>                    
+          <value name="TO_ATTRS">
+            <block type="field_attr_xy">
+              <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">500</field>
+                </block>                  
+              </value>            
+            </block>
+          </value>
+          <value name="EASING">
+            <block type="string">
+              <field name="TEXT">ease-in-out</field>
+            </block>
           </value>
         <next><block type="signal_send">
           <field name="NAME">MOVE_FINISHED</field>
