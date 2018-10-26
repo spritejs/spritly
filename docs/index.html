@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="/js/blockly_node_javascript_en.js"></script>
+  <script src="https://unpkg.com/spritejs@2.17.8/dist/spritejs.min.js"></script>
+  <script src="/js/spritly.js"></script>
+  <style>
+    html, body {
+      width: 100%;
+      min-width: 1000px;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+    }
+    #main {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+    #controls {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      z-index: 9999;
+    }
+    #blocklyDiv {
+      height: 100%;
+      width: 38%;
+      min-width: 560px;
+      border: none;
+    }
+    #displayDiv {
+      width: 62%;
+      margin-left: 20px;      
+    }
+    #stage {
+      height: 70%;
+      background: url(res/img/grid.jpg) repeat;
+    }
+    #stage iframe {
+      width: 100%;
+      height: 100%;
+    }
+    #links {
+      padding: 30px;
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <button onclick="showCode()">Code</button>
+    <button onclick="window.frames[0].location.href = `sandbox.html?t=${Date.now()}`">Run</button>
+  </div>
+  <div id="main">
+    <div id="blocklyDiv"></div>
+    <div id="displayDiv">
+      <div id="stage">
+        <iframe frameborder="no"></iframe>
+      </div>
+      <div id="links">
+        <a href="#index">index</a>
+      </div>
+    </div>
+  </div>
+
+  <xml id="toolbox" style="display: none">
+    <category name="Signals" colour="%{BKY_SIGNALS_HUE}">
+      <block type="signal_do"></block>
+      <block type="signal_new_sprite_as_receiver"></block>
+      <block type="signal_when_receiver_is"></block>
+      <block type="signal_send"></block>
+    </category>
+    <category name="Sprites" colour="%{BKY_SPRITE_HUE}">
+      <block type="sprite_attrs"></block>
+      <block type="sprite_append_to"></block>
+      <block type="sprite_create_attrs"></block>
+      <block type="sprite_animate">
+        <value name="DURATION">
+          <block type="number">
+            <field name="NUM">600</field>
+          </block>
+        </value>
+        <value name="EASING">
+          <block type="string">
+            <field name="TEXT">ease-in</field>
+          </block>
+        </value>
+      </block>
+      <block type="sprite_each_elements_named"></block>
+
+      <block type="sprite_each_item_attrs"></block>
+      <block type="sprite_item_append_to"></block>
+      <block type="sprite_item_get_index"></block>
+      <block type="sprite_item_animate">
+        <value name="DURATION">
+          <block type="number">
+            <field name="NUM">600</field>
+          </block>
+        </value>
+        <value name="EASING">
+          <block type="string">
+            <field name="TEXT">ease-in</field>
+          </block>
+        </value>
+      </block>
+    </category>
+    <category name="Attributes">
+      <category name="Common" colour="%{BKY_ATTRS_HUE}">
+          <block type="field_attr"></block>
+          <block type="field_attr_inc">
+            <value name="VALUE">
+              <block type="number">
+                <field name="NUM">1</field>
+              </block>
+            </value>    
+          </block>
+          <block type="field_attr_anchor">
+              <value name="VALUE">
+                  <block type="number">
+                    <field name="NUM">0.5</field>
+                  </block>
+              </value>          
+          </block>
+          <block type="field_attr_xy">
+            <value name="VALUE">
+              <block type="number">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+          </block>
+          <block type="field_attr_size">
+            <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">100</field>
+                </block>
+            </value>
+          </block>
+          <block type="field_attr_bgcolor">
+            <value name="VALUE">
+                <block type="colour_picker"></block>
+            </value>
+          </block>
+          <block type="field_attr_opacity">
+            <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">0.5</field>
+                </block>
+            </value>
+          </block>
+          <block type="field_attr_scale">
+              <value name="VALUE">
+                  <block type="number">
+                    <field name="NUM">1</field>
+                  </block>
+              </value>          
+          </block>
+          <block type="field_attr_translate">
+              <value name="VALUE">
+                  <block type="number">
+                    <field name="NUM">10</field>
+                  </block>
+              </value>          
+          </block>
+          <block type="field_attr_skew">
+              <value name="VALUE">
+                  <block type="number">
+                    <field name="NUM">0</field>
+                  </block>
+              </value>          
+          </block>
+          <block type="field_attr_rotate">
+            <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">0</field>
+                </block>
+            </value>
+          </block>
+          <block type="field_attr_border_radius">
+            <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">0</field>
+                </block>
+            </value>          
+          </block>
+          <block type="field_attr_borderStyle"></block>
+          <block type="field_attr_borderWidth">
+            <value name="VALUE">
+              <block type="number">
+                <field name="NUM">1</field>
+              </block>
+            </value>            
+          </block>
+          <block type="field_attr_borderColour">
+            <value name="VALUE">
+              <block type="colour_picker">
+                <field name="COLOUR">#000000</field>
+              </block>
+            </value>            
+          </block>
+          <block type="field_attr_dashOffset">
+              <value name="VALUE">
+                  <block type="number">
+                    <field name="NUM">50</field>
+                  </block>
+              </value>             
+          </block>
+      </category>
+      <category name="Sprite" colour="%{BKY_ATTRS_SPRITE_HUE}">
+          <block type="field_attr_texture">
+            <value name="VALUE">
+                <block type="string">
+                  <field name="TEXT">https://p0.ssl.qhimg.com/t01a72262146b87165f.png</field>
+                </block>
+            </value>              
+          </block>
+      </category>
+      <category name="Label" colour="%{BKY_ATTRS_LABEL_HUE}">
+        <block type="field_attr_text">
+          <value name="VALUE">
+              <block type="string">
+                <field name="TEXT">Hello</field>
+              </block>
+          </value>
+        </block>
+        <block type="field_attr_fontFamily">
+            <value name="VALUE">
+                <block type="string">
+                  <field name="TEXT">宋体</field>
+                </block>
+            </value>          
+        </block>
+        <block type="field_attr_fontSize">
+            <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">32</field>
+                </block>
+            </value>          
+        </block>
+        <block type="field_attr_fontWeight"></block>
+        <block type="field_attr_fontStyle"></block>
+        <block type="field_attr_fontVariant"></block>
+        <block type="field_attr_textAlign"></block>
+        <block type="field_attr_lineHeight">
+            <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">40</field>
+                </block>
+            </value>          
+        </block>
+        <block type="field_attr_strokeColour">
+          <value name="VALUE">
+            <block type="colour_picker"></block>
+          </value>
+        </block>
+        <block type="field_attr_fillColour">
+          <value name="VALUE">
+            <block type="colour_picker"></block>
+          </value>
+        </block>
+      </category>
+      <category name="Path" colour="%{BKY_ATTRS_Path_HUE}">
+        <block type="field_attr_d">
+          <value name="VALUE">
+            <block type="string">
+              <field name="TEXT">M0,0L0,100L100,100z</field>
+            </block>
+          </value>
+        </block>
+        <block type="field_attr_lineWidth">
+            <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">4</field>
+                </block>
+            </value>          
+        </block>
+        <block type="field_attr_lineDash">
+            <value name="VALUE">
+                <block type="string">
+                  <field name="TEXT">5,10</field>
+                </block>
+            </value>          
+        </block>
+        <block type="field_attr_lineCap"></block>
+        <block type="field_attr_lineJoin"></block>
+        <block type="field_attr_bounding"></block>
+        <block type="field_attr_strokeColour">
+          <value name="VALUE">
+            <block type="colour_picker"></block>
+          </value>
+        </block>
+        <block type="field_attr_fillColour">
+          <value name="VALUE">
+            <block type="colour_picker"></block>
+          </value>
+        </block>
+      </category>
+    </category>
+    <category name="Literals" colour="%{BKY_LITERAL_HUE}">
+      <block type="nil"></block>
+      <block type="boolean"></block>
+      <block type="number">
+        <field name="NUM">123</field>
+      </block>
+      <block type="string"></block>
+      <block type="lists_create_with"></block>
+      <block type="object_create">
+        <value name="FIELDS">
+            <block type="field_attr"></block>
+        </value>
+      </block>
+      <block type="colour_picker"></block>
+    </category>
+    <category name="Async" colour="%{BKY_FLOW_HUE}">
+      <block type="flow_wait"></block>
+      <block type="flow_frame"></block>
+    </category>
+    <category name="Logic" colour="%{BKY_LOGIC_HUE}">
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+    </category>
+    <category name="Flows" colour="%{BKY_LOOPS_HUE}">
+      <block type="controls_if"></block>
+      <block type="controls_repeat_ext">
+        <value name="TIMES">
+          <block type="number">
+            <field name="NUM">10</field>
+          </block>
+        </value>
+      </block>
+      <block type="controls_whileUntil"></block>
+    </category>
+    <category name="Math" colour="%{BKY_MATH_HUE}">
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+    </category>
+    <category name="Log" colour="%{BKY_LOG_HUE}">
+      <block type="log_log"></block>
+      <block type="log_alert"></block>
+    </category>
+  </xml>
+
+  <script>
+  (async function () {
+    const {Blockly, initWorkspace, Dropdown} = spritly;
+    const {Scene, Layer, Sprite, Label, Path} = spritejs;
+  
+    function $$_(attrs) {
+      return attrs;
+    }
+
+    function $$wait(ms) {
+      return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+      });
+    }
+
+    const scene = new Scene('#stage', {
+      viewport: 'auto',
+      resolution: 'flex',
+    });
+
+    function loadStartBlocks() {
+      const hash = window.location.hash || '#';
+      const blockFile = hash.slice(1) || 'index';
+      return fetch(`blocks/${blockFile}.xml`)
+        .then(res => res.text())
+        .then(str => (new DOMParser()).parseFromString(str, 'text/xml'));
+    }
+
+    const workspace = initWorkspace('blocklyDiv',
+      {
+        media: 'res/media/',
+        toolbox: document.getElementById('toolbox'),
+        grid: {spacing: 25,
+          length: 3,
+          colour: '#ccc',
+          snap: true,
+        },
+        zoom: {
+          controls: true,
+          wheel: true,
+        },
+      });
+
+    window.workspace = workspace;
+
+    function getCode() {
+      const xml = Blockly.Xml.workspaceToDom(workspace);
+      // Add each top block one by one and generate code.
+      Dropdown.set('Signals', 'START');
+      Dropdown.set('Signals', 'ELEMENT_CREATED');
+      const allCode = [];
+
+      const signal_lists = xml.querySelectorAll('block[type="signal_send"] > field[name="NAME"]');
+      signal_lists.forEach((sig) => {
+        Dropdown.set('Signals', sig.textContent);
+      });
+
+      const sprite_name_lists = xml.querySelectorAll('block[type="sprite_create_attrs"] > field[name="NAME"]');
+      sprite_name_lists.forEach((name) => {
+        Dropdown.set('SpriteNames', name.textContent);
+      });
+
+      // Find and remove all top blocks.
+      const topBlocks = [];
+      for(let i = xml.childNodes.length - 1; i >= 0; i--) {
+        const block = xml.childNodes[i];
+        // console.log(block.lastChild);
+        if(block.tagName === 'BLOCK') {
+          const type = block.getAttribute('type');
+          xml.removeChild(block);
+          if(type === 'signal_do') {
+            const signal = block.querySelector('field').textContent || 'START';
+            topBlocks.unshift({block, type, signal});
+          } else if(type === 'signal_new_sprite_as_receiver') {
+            const signal = block.querySelector('field[name="SIG"]').textContent || 'START';
+            const nodeType = block.querySelector('field[name="RECEIVER"]').textContent || 'Sprite';
+            const id = block.querySelector('field[name="ID"]').textContent;
+            Dropdown.set('Sprites', id);
+            allCode.push(`utils.Signal.listen('${signal}', {id: '${id}', $$creator: '${nodeType}'});\n`);
+            topBlocks.unshift({block, type, signal, id});
+          } else if(type === 'signal_when_receiver_is') {
+            const signal = block.querySelector('field[name="SIG"]').textContent || 'START';
+            const id = block.querySelector('field[name="ID"]').textContent;
+            topBlocks.unshift({block, type, signal, id});
+          }
+        }
+      }
+      // Generate JavaScript code and run it.
+      window.LoopTrap = 100000;
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = 'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
+
+      for(let i = 0; i < topBlocks.length; i++) {
+        const {block, signal, id} = topBlocks[i];
+        const headless = new Blockly.Workspace();
+        xml.appendChild(block);
+        Blockly.Xml.domToWorkspace(xml, headless);
+        const code = Blockly.JavaScript.workspaceToCode(headless);
+        allCode.push(`utils.Signal.on('${signal}',
+async function({signal, sender, receiver, data, target}){
+if(receiver.id === '${id || '$$default$signal$receiver'}' || target === receiver){
+  if(receiver.$$creator) {
+    receiver.$$target = spritejs.createElement(receiver.$$creator, {id: '${id}'});
+    utils.ElementList.add(receiver.$$target);
+    delete receiver.$$creator;
+  }
+  if(receiver.$$target) {
+    receiver = receiver.$$target;
+  }
+${code}
+}
+});
+        `);
+        headless.dispose();
+        xml.removeChild(block);
+      }
+      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+      allCode.push("utils.Signal.send('START');\n");
+      return allCode;
+    }
+
+    function showCode() {
+      // Generate JavaScript code and display it.
+      alert(getCode().join('\n\n'));
+    }
+
+    function clearHandlers(node) {
+      const handlers = node.getEventHandlers();
+      if(handlers) {
+        Object.keys(handlers).forEach((type) => {
+          delete handlers[type];
+        });
+      }
+    }
+
+    function runCode() {
+      try {
+        Dropdown.clear();
+        const codes = getCode();
+        const code = codes.join('');
+        window.frames[0].exec(code);
+      } catch (e) {
+        console.error(e);
+        // alert(e);
+      }
+    }
+
+    window.runCode = runCode;
+    window.showCode = showCode;
+
+    const block = await loadStartBlocks();
+    Blockly.Xml.domToWorkspace(block.documentElement,
+      workspace);
+
+    workspace.addChangeListener((event) => {
+      if(event.type === Blockly.Events.CHANGE
+      || event.type === Blockly.Events.MOVE
+      || event.type === Blockly.Events.DELETE) {
+        // runCode();
+        window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
+      }
+    });
+
+    const links = document.getElementById('links');
+    links.addEventListener('click', async (evt) => {
+      evt.preventDefault();
+      if(evt.target.tagName === 'A') {
+        const link = evt.target;
+        window.location.href = link.href;
+        const block = await loadStartBlocks();
+        Blockly.Xml.domToWorkspace(block.documentElement,
+          workspace);
+      }
+    });
+  }());
+  </script>
+</body>
+</html>
