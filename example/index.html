@@ -75,17 +75,15 @@
         <block type="sprite_item_get_index"></block>
       </category>
       <category name="Attributes">
-        <category name="KeyValue" colour="%{BKY_ATTRS_KV_HUE}">
-          <block type="field_attr"></block>
-          <block type="field_attr_inc">
-            <value name="VALUE">
-              <block type="number">
-                <field name="NUM">1</field>
-              </block>
-            </value>    
-          </block>
-        </category>
         <category name="Base" colour="%{BKY_ATTRS_HUE}">
+            <block type="field_attr"></block>
+            <block type="field_attr_inc">
+              <value name="VALUE">
+                <block type="number">
+                  <field name="NUM">1</field>
+                </block>
+              </value>    
+            </block>
             <block type="field_attr_anchor">
                 <value name="VALUE">
                     <block type="number">
@@ -170,12 +168,31 @@
               </value>             
             </block>
         </category>
+        <category name="Sprite" colour="%{BKY_ATTRS_SPRITE_HUE}">
+            <block type="field_attr_texture">
+              <value name="VALUE">
+                  <block type="string">
+                    <field name="TEXT">https://p0.ssl.qhimg.com/t01a72262146b87165f.png</field>
+                  </block>
+              </value>              
+            </block>
+        </category>
         <category name="Label" colour="%{BKY_ATTRS_LABEL_HUE}">
           <block type="field_attr_text">
             <value name="VALUE">
                 <block type="string">
                   <field name="TEXT">Hello</field>
                 </block>
+            </value>
+          </block>
+          <block type="field_attr_strokeColour">
+            <value name="VALUE">
+              <block type="colour_picker"></block>
+            </value>
+          </block>
+          <block type="field_attr_fillColour">
+            <value name="VALUE">
+              <block type="colour_picker"></block>
             </value>
           </block>
         </category>
@@ -185,6 +202,16 @@
               <block type="string">
                 <field name="TEXT">M0,0L0,100L100,100z</field>
               </block>
+            </value>
+          </block>
+          <block type="field_attr_strokeColour">
+            <value name="VALUE">
+              <block type="colour_picker"></block>
+            </value>
+          </block>
+          <block type="field_attr_fillColour">
+            <value name="VALUE">
+              <block type="colour_picker"></block>
             </value>
           </block>
         </category>

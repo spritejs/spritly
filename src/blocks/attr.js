@@ -16,7 +16,7 @@ Blockly.Blocks.field_attr_inc = {
           ]},
         {type: 'input_value', name: 'VALUE', check: 'Number'},
       ],
-      colour: Blockly.Msg.ATTRS_KV_HUE,
+      colour: Blockly.Msg.ATTRS_HUE,
     });
     this.setOutput(true, 'Number');
   },
@@ -157,6 +157,12 @@ Blockly.JavaScript.field_attr_border = function (block) {
   },`;
 };
 
+Blockly.Blocks.field_attr_texture = {
+  init() {
+    this.jsonInit(createKVConf('texture', 'String', Blockly.Msg.ATTRS_SPRITE_HUE));
+  },
+};
+
 Blockly.Blocks.field_attr_text = {
   init() {
     this.jsonInit(createKVConf('text', 'String', Blockly.Msg.ATTRS_LABEL_HUE));
@@ -166,6 +172,18 @@ Blockly.Blocks.field_attr_text = {
 Blockly.Blocks.field_attr_d = {
   init() {
     this.jsonInit(createKVConf('d', 'String', Blockly.Msg.ATTRS_PATH_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_strokeColour = {
+  init() {
+    this.jsonInit(createKVConf('strokeColor', 'Colour', Blockly.Msg.ATTRS_PATH_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_fillColour = {
+  init() {
+    this.jsonInit(createKVConf('fillColor', 'Colour', Blockly.Msg.ATTRS_PATH_HUE));
   },
 };
 

@@ -155,6 +155,23 @@ Blockly.JavaScript.sprite_each_elements_named = function (block) {
   return `await Promise.all(utils.ElementList.getElementsByName('${name}').map(async (item, index) => {\n${code}\n}));\n`;
 };
 
+function plugEachItemInForEachScope() {
+  const parent = this.getParent();
+  let top = parent;
+  let isInScope = false;
+  while(top) {
+    if(top.type === 'sprite_each_elements_named') {
+      isInScope = true;
+      break;
+    }
+    top = top.getParent();
+  }
+  if(parent && !isInScope) {
+    console.error(`Block '${this.type}' must be placed inside the Block 'sprite_each_elements_named'.`);
+    this.unplug(true);
+  }
+}
+
 Blockly.Blocks.sprite_each_item_attrs = {
   init() {
     this.jsonInit({
@@ -168,6 +185,7 @@ Blockly.Blocks.sprite_each_item_attrs = {
       nextStatement,
     });
   },
+  onchange: plugEachItemInForEachScope,
 };
 
 Blockly.JavaScript.sprite_each_item_attrs = function (block) {
@@ -193,6 +211,7 @@ Blockly.Blocks.sprite_item_append_to = {
       nextStatement,
     });
   },
+  onchange: plugEachItemInForEachScope,
 };
 
 Blockly.JavaScript.sprite_item_append_to = function (block) {
