@@ -1,0 +1,79 @@
+<xml id="startBlocks" style="display: none">
+  <block type="signal_new_sprite_as_receiver">
+    <field name="SIG">START</field>
+    <next>
+      <block type="sprite_attrs">
+        <value name="ATTRS">
+          <block type="field_attr_xy">
+            <value name="VALUE">
+              <block type="number">
+                <field name="NUM">100</field>
+              </block>                  
+            </value>
+          <next><block type="field_attr_xy">
+            <field name="KEY">y</field>
+            <value name="VALUE">
+              <block type="number">
+                <field name="NUM">100</field>
+              </block>                  
+            </value>
+          <next><block type="field_attr_size">
+            <field name="KEY">width</field>
+            <value name="VALUE">
+              <block type="number">
+                <field name="NUM">100</field>
+              </block>                  
+            </value>
+          <next><block type="field_attr_size">
+            <field name="KEY">height</field>
+            <value name="VALUE">
+              <block type="number">
+                <field name="NUM">100</field>
+              </block>                  
+            </value>
+          <next><block type="field_attr_bgcolor">
+            <value name="VALUE">
+              <block type="colour_picker"></block>                  
+            </value>
+          </block></next>
+          </block></next>        
+          </block></next>
+          </block></next>
+          </block>     
+        </value>
+        <next><block type="sprite_append_to">
+        <next><block type="controls_repeat_ext">
+          <value name="TIMES">
+            <block type="number">
+              <field name="NUM">200</field>
+            </block>
+          </value>
+          <value name="DO">
+            <block type="sprite_attrs">
+              <value name="ATTRS">
+                <block type="field_attr_xy">
+                  <value name="VALUE">
+                    <block type="field_attr_inc">
+                      <value name="VALUE">
+                        <block type="number">
+                          <field name="NUM">1</field>
+                        </block>
+                      </value>  
+                    </block>                 
+                  </value>
+                </block>
+              </value>
+              <next>
+                <block type="flow_wait"></block>
+              </next>
+            </block>                    
+          </value>
+        <next><block type="signal_send">
+          <field name="NAME">MOVE_FINISHED</field>
+        </block></next>
+        </block></next>
+        </block></next>
+      </block>
+    </next>
+  </block>
+</xml>
