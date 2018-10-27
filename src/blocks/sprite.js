@@ -357,7 +357,7 @@ Blockly.JavaScript.sprite_item_animate = function (block) {
   const from = Blockly.JavaScript.statementToCode(block, 'FROM_ATTRS');
   const to = Blockly.JavaScript.statementToCode(block, 'TO_ATTRS');
 
-  let code = `${sprite}.animate([{${from}}, {${to}}], {duration: ${duration}, fill: 'forwards', easing: ${easing}})`;
+  let code = `${sprite}.animate([utils.parse_attr({${from}}), utils.parse_attr({${to}})], {duration: ${duration}, fill: 'forwards', easing: ${easing}})`;
   if(isAsync) code = `if(!${sprite}.layer){console.error('${sprite} must append to layer before animated!');} await ${code}.finished`;
 
   return `${code};\n`;

@@ -10,7 +10,7 @@ const ElementList = {
       elements_index[el.id] = el;
     }
     Signal.listen('ELEMENT_CREATED', el);
-    Signal.send('ELEMENT_CREATED', {receiver: el});
+    Signal.send('ELEMENT_CREATED', {sender: el, receiver: el});
     return el;
   },
   remove(el) {

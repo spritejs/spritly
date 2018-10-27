@@ -53,6 +53,19 @@
     
     const fglayer = scene.layer('fglayer');
     const bglayer = scene.layer('bglayer');
+    
+    // TODO: 添加 data 参数
+    fglayer.on('click', (evt) => {
+      utils.Signal.send('LAYER_CLICKED', {sender: scene, receiver: fglayer});
+    });
+
+    bglayer.on('click', (evt) => {
+      utils.Signal.send('LAYER_CLICKED', {sender: scene, receiver: bglayer});
+    });
+
+    // bglayer.on('click', (evt) => {
+    //   console.log(evt);
+    // });
 
     window.top.runCode();
     document.addEventListener('mouseup', (event) => {

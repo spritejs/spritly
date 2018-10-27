@@ -15,10 +15,7 @@ function listSignal() {
 
 function listSprite() {
   const sprites = Dropdown.get('Sprites');
-  if(sprites.length > 0) {
-    return sprites.map(s => [s, s]);
-  }
-  return [['no sprites'], ['no sprites']];
+  return [['fglayer', 'fglayer'], ['bglayer', 'bglayer'], ...sprites.map(s => [s, s])];
 }
 
 Blockly.Blocks.signal_do = {

@@ -349,22 +349,6 @@
   <script>
   (async function () {
     const {Blockly, initWorkspace, Dropdown} = spritly;
-    const {Scene, Layer, Sprite, Label, Path} = spritejs;
-  
-    function $$_(attrs) {
-      return attrs;
-    }
-
-    function $$wait(ms) {
-      return new Promise((resolve) => {
-        setTimeout(resolve, ms);
-      });
-    }
-
-    const scene = new Scene('#stage', {
-      viewport: 'auto',
-      resolution: 'flex',
-    });
 
     function loadStartBlocks() {
       const hash = window.location.hash || '#';
@@ -396,6 +380,7 @@
       // Add each top block one by one and generate code.
       Dropdown.set('Signals', 'START');
       Dropdown.set('Signals', 'ELEMENT_CREATED');
+      Dropdown.set('Signals', 'LAYER_CLICKED');
       const allCode = [];
 
       const signal_lists = xml.querySelectorAll('block[type="signal_send"] > field[name="NAME"]');
@@ -429,6 +414,8 @@
           } else if(type === 'signal_when_receiver_is') {
             const signal = block.querySelector('field[name="SIG"]').textContent || 'START';
             const id = block.querySelector('field[name="ID"]').textContent;
+            if(id === 'fglayer') allCode.push(`utils.Signal.listen('${signal}', scene.layer('fglayer'));\n`);
+            if(id === 'bglayer') allCode.push(`utils.Signal.listen('${signal}', scene.layer('bglayer'));\n`);
             topBlocks.unshift({block, type, signal, id});
           }
         }
