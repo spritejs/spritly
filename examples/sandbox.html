@@ -38,6 +38,7 @@
 
   <script>
     const {Scene, Layer, Sprite, Label, Path} = spritejs;
+    const {Signal} = utils;
 
     function exec(code) {
       const script = document.createElement('script');
@@ -50,18 +51,32 @@
       viewport: 'auto',
       resolution: 'flex',
     });
-    
-    const fglayer = scene.layer('fglayer');
-    const bglayer = scene.layer('bglayer');
-    
-    // TODO: 添加 data 参数
-    fglayer.on('click', (evt) => {
-      utils.Signal.send('LAYER_CLICKED', {sender: scene, receiver: fglayer});
-    });
 
-    bglayer.on('click', (evt) => {
-      utils.Signal.send('LAYER_CLICKED', {sender: scene, receiver: bglayer});
-    });
+    const bglayer = scene.layer('bglayer');
+    const fglayer = scene.layer('fglayer');
+
+    function getClickHandler(signal) {
+      return function (evt) {
+        const {altKey, button, buttons, ctrlKey, shiftKey} = evt.originalEvent;
+        Signal.send(signal, {sender: scene},
+          {
+            target: evt.target,
+            offsetX: evt.offsetX,
+            offsetY: evt.offsetY,
+            layerX: evt.layerX,
+            layerY: evt.layerY,
+            altKey,
+            button,
+            buttons,
+            ctrlKey,
+            shiftKey,
+          });
+      };
+    }
+    Signal.listen('FGLAYER_CLICKED', fglayer);
+    Signal.listen('BGLAYER_CLICKED', bglayer);
+    fglayer.on('click', getClickHandler('FGLAYER_CLICKED'));
+    bglayer.on('click', getClickHandler('BGLAYER_CLICKED'));
 
     // bglayer.on('click', (evt) => {
     //   console.log(evt);

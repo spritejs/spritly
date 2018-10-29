@@ -5,3 +5,4 @@ import './literal';
 import './signals';
 import './sprite';
 import './log';
+import './easing';

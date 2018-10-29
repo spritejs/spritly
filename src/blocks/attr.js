@@ -215,13 +215,19 @@ Blockly.Blocks.field_attr_d = {
 
 Blockly.Blocks.field_attr_lineWidth = {
   init() {
-    this.jsonInit(createKVConf('lineWidth', 'Number', Blockly.Msg.ATTRS_LABEL_HUE));
+    this.jsonInit(createKVConf('lineWidth', 'Number', Blockly.Msg.ATTRS_PATH_HUE));
   },
 };
 
 Blockly.Blocks.field_attr_lineDash = {
   init() {
-    this.jsonInit(createKVConf('lineDash', 'String', Blockly.Msg.ATTRS_LABEL_HUE));
+    this.jsonInit(createKVConf('lineDash', 'String', Blockly.Msg.ATTRS_PATH_HUE));
+  },
+};
+
+Blockly.Blocks.field_attr_lineDashOffset = {
+  init() {
+    this.jsonInit(createKVConf('lineDashOffset', 'Number', Blockly.Msg.ATTRS_PATH_HUE));
   },
 };
 

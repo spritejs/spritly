@@ -5,17 +5,19 @@ const colour = Blockly.Msg.SIGNALS_HUE;
 const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
-function listSignal() {
-  const signals = Dropdown.get('Signals');
-  if(signals.length > 0) {
-    return signals.map(s => [s, s]);
-  }
-  return [['START', 'START']];
+function listSignal(...extras) {
+  const signals = ['START', 'ELEMENT_CREATED'];
+  return () => {
+    return [...signals, ...extras, ...Dropdown.get('Signals')].map(s => [s, s]);
+  };
 }
 
 function listSprite() {
   const sprites = Dropdown.get('Sprites');
-  return [['fglayer', 'fglayer'], ['bglayer', 'bglayer'], ...sprites.map(s => [s, s])];
+  if(sprites.length > 0) {
+    return sprites.map(s => [s, s]);
+  }
+  return [['', '']];
 }
 
 Blockly.Blocks.signal_do = {
@@ -26,7 +28,7 @@ Blockly.Blocks.signal_do = {
         {
           type: 'field_dropdown',
           name: 'SIG',
-          options: listSignal,
+          options: listSignal('FGLAYER_CLICKED', 'BGLAYER_CLICKED', 'ELEMENT_DESTROYED'),
         },
       ],
       // message1: '(sender, receiver, data)',
@@ -48,7 +50,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
         {
           type: 'field_dropdown',
           name: 'SIG',
-          options: listSignal,
+          options: listSignal(),
         },
       ],
       message1: 'new %1 as receiver',
@@ -86,7 +88,7 @@ Blockly.Blocks.signal_when_receiver_is = {
         {
           type: 'field_dropdown',
           name: 'SIG',
-          options: listSignal,
+          options: listSignal(),
         },
       ],
       message1: 'when receiver is %1',

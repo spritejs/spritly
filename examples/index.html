@@ -83,7 +83,7 @@
       <block type="sprite_animate">
         <value name="DURATION">
           <block type="number">
-            <field name="NUM">600</field>
+            <field name="NUM">0.6</field>
           </block>
         </value>
         <value name="EASING">
@@ -93,6 +93,8 @@
         </value>
       </block>
       <block type="sprite_each_elements_named"></block>
+      <block type="sprite_get_attr"></block>
+      <block type="sprite_destroy"></block>
 
       <block type="sprite_each_item_attrs"></block>
       <block type="sprite_item_append_to"></block>
@@ -100,7 +102,7 @@
       <block type="sprite_item_animate">
         <value name="DURATION">
           <block type="number">
-            <field name="NUM">600</field>
+            <field name="NUM">0.6</field>
           </block>
         </value>
         <value name="EASING">
@@ -109,6 +111,7 @@
           </block>
         </value>
       </block>
+      <block type="sprite_item_destroy"></block>
     </category>
     <category name="Attributes">
       <category name="Common" colour="%{BKY_ATTRS_HUE}">
@@ -286,6 +289,13 @@
                 </block>
             </value>          
         </block>
+        <block type="field_attr_lineDashOffset">
+          <value name="VALUE">
+              <block type="number">
+                <field name="NUM">50</field>
+              </block>
+          </value>          
+      </block>
         <block type="field_attr_lineCap"></block>
         <block type="field_attr_lineJoin"></block>
         <block type="field_attr_bounding"></block>
@@ -301,20 +311,26 @@
         </block>
       </category>
     </category>
+    <category name="Easing" colour="%{BKY_EASING_HUE}">
+      <block type="easing"></block>
+      <block type="bezier_easing"></block>
+    </category>
     <category name="Literals" colour="%{BKY_LITERAL_HUE}">
       <block type="nil"></block>
       <block type="boolean"></block>
       <block type="number">
         <field name="NUM">123</field>
       </block>
-      <block type="string"></block>
+      <block type="string">
+        <field name="TEXT">Hello</field>
+      </block>
+      <block type="colour_picker"></block>
       <block type="lists_create_with"></block>
       <block type="object_create">
         <value name="FIELDS">
             <block type="field_attr"></block>
         </value>
       </block>
-      <block type="colour_picker"></block>
     </category>
     <category name="Async" colour="%{BKY_FLOW_HUE}">
       <block type="flow_wait"></block>
@@ -378,9 +394,6 @@
     function getCode() {
       const xml = Blockly.Xml.workspaceToDom(workspace);
       // Add each top block one by one and generate code.
-      Dropdown.set('Signals', 'START');
-      Dropdown.set('Signals', 'ELEMENT_CREATED');
-      Dropdown.set('Signals', 'LAYER_CLICKED');
       const allCode = [];
 
       const signal_lists = xml.querySelectorAll('block[type="signal_send"] > field[name="NAME"]');
@@ -414,14 +427,12 @@
           } else if(type === 'signal_when_receiver_is') {
             const signal = block.querySelector('field[name="SIG"]').textContent || 'START';
             const id = block.querySelector('field[name="ID"]').textContent;
-            if(id === 'fglayer') allCode.push(`utils.Signal.listen('${signal}', scene.layer('fglayer'));\n`);
-            if(id === 'bglayer') allCode.push(`utils.Signal.listen('${signal}', scene.layer('bglayer'));\n`);
             topBlocks.unshift({block, type, signal, id});
           }
         }
       }
       // Generate JavaScript code and run it.
-      window.LoopTrap = 100000;
+      window.LoopTrap = 1e7;
       Blockly.JavaScript.INFINITE_LOOP_TRAP = 'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
 
       for(let i = 0; i < topBlocks.length; i++) {
@@ -432,6 +443,7 @@
         const code = Blockly.JavaScript.workspaceToCode(headless);
         allCode.push(`utils.Signal.on('${signal}',
 async function({signal, sender, receiver, data, target}){
+// console.log(signal, '${id}', receiver.id);
 if(receiver.id === '${id || '$$default$signal$receiver'}' || target === receiver){
   if(receiver.$$creator) {
     receiver.$$target = spritejs.createElement(receiver.$$creator, {id: '${id}'});
@@ -440,6 +452,12 @@ if(receiver.id === '${id || '$$default$signal$receiver'}' || target === receiver
   }
   if(receiver.$$target) {
     receiver = receiver.$$target;
+  }
+  if(data.target != null) {
+    target = data.target;
+  }
+  if(target == null) {
+    target = receiver;
   }
 ${code}
 }
@@ -486,14 +504,27 @@ ${code}
     Blockly.Xml.domToWorkspace(block.documentElement,
       workspace);
 
+    function debounce(action, delay = 300) {
+      let timer = null;
+      return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          action.apply(this, args);
+        }, delay);
+      };
+    }
+
+    const update = debounce(() => {
+      window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
+    });
+
     workspace.addChangeListener((event) => {
       if(event.type === Blockly.Events.CHANGE
-      || event.type === Blockly.Events.MOVE
-      || event.type === Blockly.Events.DELETE) {
-        // runCode();
-        window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
+      || event.type === Blockly.Events.MOVE && event.oldParentId !== event.newParentId) {
+        update();
       }
     });
+    update();
 
     const links = document.getElementById('links');
     links.addEventListener('click', async (evt) => {

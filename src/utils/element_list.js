@@ -14,6 +14,9 @@ const ElementList = {
     return el;
   },
   remove(el) {
+    if(el.layer) {
+      el.remove();
+    }
     if(el.id) {
       delete elements_index[el.id];
     }
@@ -21,6 +24,7 @@ const ElementList = {
     Signal.signals.forEach((signal) => {
       Signal.unlisten(signal, el);
     });
+    Signal.send('ELEMENT_DESTROYED', {sender: el});
   },
   all() {
     return [...elements];

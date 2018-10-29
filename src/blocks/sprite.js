@@ -155,6 +155,62 @@ Blockly.JavaScript.sprite_each_elements_named = function (block) {
   return `await Promise.all(utils.ElementList.getElementsByName('${name}').map(async (item, index) => {\n${code}\n}));\n`;
 };
 
+Blockly.Blocks.sprite_destroy = {
+  init() {
+    this.jsonInit({
+      message0: '💣 destroy %1',
+      args0: [
+        sender_receiver_dropdown,
+      ],
+      colour,
+      previousStatement,
+      nextStatement,
+    });
+  },
+};
+
+Blockly.JavaScript.sprite_destroy = function (block) {
+  const sprite = block.getFieldValue('SPRITE');
+  return `utils.ElementList.remove(${sprite});\n`;
+};
+
+function attrs_dropdown() {
+  const attrs = [
+    'id', 'name', 'anchorX', 'anchorY', 'x', 'y',
+    'width', 'height', 'bgcolor', 'opacity',
+    'rotate', 'scaleX', 'scaleY', 'translateX', 'translateY', 'skewX', 'skewY',
+    'borderRadius', 'borderWidth', 'borderStyle', 'borderColor',
+    'dashOffset', 'texture',
+    'text', 'fontSize', 'fontFamily', 'fontStyle', 'fontVariant', 'fontWeight', 'textAlign', 'lineHeight',
+    'd', 'lineWidth', 'lineDash', 'lineDashOffset', 'lineCap', 'lineJoin', 'bounding', 'strokeColor', 'fillColor',
+  ];
+  return attrs.sort().map(s => [s, s]);
+}
+
+Blockly.Blocks.sprite_get_attr = {
+  init() {
+    this.jsonInit({
+      message0: '%1 get %2',
+      args0: [
+        sender_receiver_dropdown,
+        {
+          type: 'field_dropdown',
+          name: 'ATTR',
+          options: attrs_dropdown,
+        },
+      ],
+      colour,
+      output: true,
+    });
+  },
+};
+
+Blockly.JavaScript.sprite_get_attr = function (block) {
+  const sprite = block.getFieldValue('SPRITE');
+  const attr = block.getFieldValue('ATTR');
+  return [`utils.get_attr(${sprite}, '${attr}')`, Blockly.JavaScript.ORDER_MEMBER];
+};
+
 function plugEachItemInForEachScope() {
   const parent = this.getParent();
   let top = parent;
@@ -236,7 +292,7 @@ Blockly.JavaScript.sprite_item_get_index = function (block) {
 Blockly.Blocks.sprite_animate = {
   init() {
     this.jsonInit({
-      message0: '%1 %2 animate %3 ms',
+      message0: '%1 %2 animate %3 s',
       args0: [
         {
           type: 'field_dropdown',
@@ -292,7 +348,7 @@ Blockly.JavaScript.sprite_animate = function (block) {
   const from = Blockly.JavaScript.statementToCode(block, 'FROM_ATTRS');
   const to = Blockly.JavaScript.statementToCode(block, 'TO_ATTRS');
 
-  let code = `${sprite}.animate([{${from}}, {${to}}], {duration: ${duration}, fill: 'forwards', easing: ${easing}})`;
+  let code = `${sprite}.animate([{${from}}, {${to}}], {duration: ${duration * 1000}, fill: 'forwards', easing: ${easing}})`;
   if(isAsync) code = `if(!${sprite}.layer){console.error('${sprite} must append to layer before animated!');} await ${code}.finished`;
 
   return `${code};\n`;
@@ -301,7 +357,7 @@ Blockly.JavaScript.sprite_animate = function (block) {
 Blockly.Blocks.sprite_item_animate = {
   init() {
     this.jsonInit({
-      message0: '%1 item animate %2 ms',
+      message0: '%1 item animate %2 s',
       args0: [
         {
           type: 'field_dropdown',
@@ -357,8 +413,25 @@ Blockly.JavaScript.sprite_item_animate = function (block) {
   const from = Blockly.JavaScript.statementToCode(block, 'FROM_ATTRS');
   const to = Blockly.JavaScript.statementToCode(block, 'TO_ATTRS');
 
-  let code = `${sprite}.animate([utils.parse_attr({${from}}), utils.parse_attr({${to}})], {duration: ${duration}, fill: 'forwards', easing: ${easing}})`;
+  let code = `${sprite}.animate([utils.parse_attr({${from}}), utils.parse_attr({${to}})], {duration: ${duration * 1000}, fill: 'forwards', easing: ${easing}})`;
   if(isAsync) code = `if(!${sprite}.layer){console.error('${sprite} must append to layer before animated!');} await ${code}.finished`;
 
   return `${code};\n`;
+};
+
+Blockly.Blocks.sprite_item_destroy = {
+  init() {
+    this.jsonInit({
+      message0: '💣 destroy item',
+      colour: colour - 15,
+      previousStatement,
+      nextStatement,
+    });
+  },
+  onchange: plugEachItemInForEachScope,
+};
+
+Blockly.JavaScript.sprite_item_destroy = function (block) {
+  const sprite = block.getFieldValue('SPRITE');
+  return 'utils.ElementList.remove(item);\n';
 };
