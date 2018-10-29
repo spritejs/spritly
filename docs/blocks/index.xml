@@ -4,7 +4,21 @@
     <next>
       <block type="sprite_attrs">
         <value name="ATTRS">
-          <block type="field_attr_xy">
+          <block type="field_attr_anchor">
+            <field name="KEY">anchorX</field>
+            <value name="VALUE">
+              <block type="number">
+                <field name="NUM">0.5</field>
+              </block>                  
+            </value>
+          <next><block type="field_attr_anchor">
+            <field name="KEY">anchorY</field>
+            <value name="VALUE">
+              <block type="number">
+                <field name="NUM">0.5</field>
+              </block>                  
+            </value>
+          <next><block type="field_attr_xy">
             <value name="VALUE">
               <block type="number">
                 <field name="NUM">100</field>
@@ -35,6 +49,15 @@
             <value name="VALUE">
               <block type="random_colour_hue"></block>                  
             </value>
+          <next><block type="field_attr_rotate">
+            <value name="VALUE">
+              <block type="number">
+                <field name="NUM">0</field>
+              </block>                  
+            </value>
+          </block></next>
+          </block></next>
+          </block></next>
           </block></next>
           </block></next>        
           </block></next>
@@ -55,7 +78,14 @@
                 <block type="number">
                   <field name="NUM">500</field>
                 </block>                  
-              </value>            
+              </value>
+              <next><block type="field_attr_rotate">
+                <value name="VALUE">
+                  <block type="number">
+                    <field name="NUM">720</field>
+                  </block>                  
+                </value>
+              </block></next>
             </block>
           </value>
           <value name="EASING">
