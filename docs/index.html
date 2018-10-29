@@ -54,6 +54,7 @@
 </head>
 <body>
   <div id="controls">
+    <button onclick="showXml()">Blocks</button>
     <button onclick="showCode()">Code</button>
     <button onclick="window.frames[0].location.href = `sandbox.html?t=${Date.now()}`">Run</button>
   </div>
@@ -392,6 +393,30 @@
 
     window.workspace = workspace;
 
+    function showXml() {
+      const xml = Blockly.Xml.workspaceToDom(workspace);
+      const code = xml.outerHTML;
+      let indent = 0;
+      let code2 = code.replace(/></g, '>\n<');
+      code2 = code2.split(/\n/g).map((line) => {
+        let ret = '';
+        if(indent > 0) {
+          ret = `${(new Array(indent + 1)).join(' ')}${line}`;
+        }
+        if(/^<\//.test(line)) {
+          indent -= 2;
+        } else if(!(/<\/\w+>$/.test(line))) {
+          indent += 2;
+        }
+        return ret;
+      }).join('\n');
+      const wnd = window.open('', '__blank', '');
+      wnd.document.write(`<pre class="prettyprint" lang-xml>${code2.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
+      wnd.document.write('<script>const sel = document.createElement("script"); sel.src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"; window.onload = function(){document.body.appendChild(sel)};<\/script>'); // eslint-disable-line
+      wnd.document.close();
+    }
+    window.showXml = showXml;
+
     function getCode() {
       const xml = Blockly.Xml.workspaceToDom(workspace);
       // Add each top block one by one and generate code.
@@ -474,7 +499,10 @@ ${code}
 
     function showCode() {
       // Generate JavaScript code and display it.
-      alert(getCode().join('\n\n'));
+      const code = getCode().join('\n\n');
+      const wnd = window.open('', '__blank', '');
+      wnd.document.write(`<pre>${code}</pre>`);
+      wnd.document.close();
     }
 
     function runCode() {

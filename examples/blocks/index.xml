@@ -1,4 +1,4 @@
-<xml id="startBlocks" style="display: none">
+<xml>
   <block type="signal_new_sprite_as_receiver">
     <field name="SIG">START</field>
     <next>
