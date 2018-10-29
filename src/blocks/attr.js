@@ -54,15 +54,6 @@ function createKVConf(keys = 'key', valueType = '', colour = Blockly.Msg.ATTRS_H
   };
 }
 
-Blockly.Blocks.field_attr = {
-  init() {
-    this.jsonInit(createKVConf('key', '', Blockly.Msg.ATTRS_KV_HUE));
-    this.setTooltip(() => {
-      return 'Pair key values';
-    });
-  },
-};
-
 Blockly.Blocks.field_attr_anchor = {
   init() {
     this.jsonInit(createKVConf(['anchorX', 'anchorY'], 'Number'));

@@ -104,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ElementList = exports.wait = exports.parse_attr = exports.Signal = undefined;
+exports.ElementList = exports.random_color = exports.random = exports.wait = exports.get_attr = exports.parse_attr = exports.Signal = undefined;
 
 var _signal = __webpack_require__(1);
 
@@ -120,11 +120,18 @@ var _parse_attr = __webpack_require__(104);
 
 var _parse_attr2 = _interopRequireDefault(_parse_attr);
 
+var _get_attr = __webpack_require__(111);
+
+var _get_attr2 = _interopRequireDefault(_get_attr);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Signal = _signal2.default;
 exports.parse_attr = _parse_attr2.default;
+exports.get_attr = _get_attr2.default;
 exports.wait = _misc.wait;
+exports.random = _misc.random;
+exports.random_color = _misc.random_color;
 exports.ElementList = _element_list2.default;
 
 /***/ }),
@@ -1976,10 +1983,44 @@ var ElementList = {
       elements_index[el.id] = el;
     }
     _signal2.default.listen('ELEMENT_CREATED', el);
-    _signal2.default.send('ELEMENT_CREATED', { receiver: el });
+    _signal2.default.send('ELEMENT_CREATED', { sender: el, receiver: el });
+    var events = ['click', 'dblclick', 'mouseup', 'mousemove', 'mousedown', 'mouseenter', 'mouseleave'];
+    events.forEach(function (event) {
+      var type = 'ELEMENT_' + event.toUpperCase();
+      _signal2.default.listen(type, el);
+      el.on(event, function (evt) {
+        var _evt$originalEvent = evt.originalEvent,
+            altKey = _evt$originalEvent.altKey,
+            button = _evt$originalEvent.button,
+            buttons = _evt$originalEvent.buttons,
+            ctrlKey = _evt$originalEvent.ctrlKey,
+            shiftKey = _evt$originalEvent.shiftKey;
+
+        _signal2.default.send(type, { sender: el,
+          receiver: el,
+          data: {
+            target: evt.target,
+            offsetX: evt.offsetX,
+            offsetY: evt.offsetY,
+            layerX: evt.layerX,
+            layerY: evt.layerY,
+            altKey: altKey,
+            button: button,
+            buttons: buttons,
+            ctrlKey: ctrlKey,
+            shiftKey: shiftKey
+          }
+        });
+        evt.stopDispatch();
+      });
+    });
+
     return el;
   },
   remove: function remove(el) {
+    if (el.layer) {
+      el.remove();
+    }
     if (el.id) {
       delete elements_index[el.id];
     }
@@ -1987,6 +2028,7 @@ var ElementList = {
     _signal2.default.signals.forEach(function (signal) {
       _signal2.default.unlisten(signal, el);
     });
+    _signal2.default.send('ELEMENT_DESTROYED', { sender: el });
   },
   all: function all() {
     return [].concat((0, _toConsumableArray3.default)(elements));
@@ -2019,6 +2061,8 @@ var _promise = __webpack_require__(91);
 var _promise2 = _interopRequireDefault(_promise);
 
 exports.wait = wait;
+exports.random = random;
+exports.random_color = random_color;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2026,6 +2070,23 @@ function wait(ms) {
   return new _promise2.default(function (resolve) {
     setTimeout(resolve, ms);
   });
+}
+
+function random(from, to) {
+  if (from < to) {
+    ;
+    var _ref = [to, from];
+    from = _ref[0];
+    to = _ref[1];
+  }return Math.floor(Math.random() * (to - from)) + from;
+}
+
+function random_color() {
+  var r = Math.floor(Math.random() * 255);
+  var g = Math.floor(Math.random() * 255);
+  var b = Math.floor(Math.random() * 255);
+
+  return "rgb(" + r + "," + g + "," + b + ")";
 }
 
 /***/ }),
@@ -2803,6 +2864,44 @@ exports.f = Object.getOwnPropertySymbols;
 
 exports.f = {}.propertyIsEnumerable;
 
+
+/***/ }),
+/* 111 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = get_attr;
+
+function getProjectionXY(el, attr) {
+  var t = attr.slice(-1);
+  var v = el.attr(attr.slice(0, -1));
+  if (t === 'X') {
+    return v[0];
+  }
+  return v[1];
+}
+
+function get_attr(el, attr) {
+  if (el.nodeType !== 'sprite' && el.nodeType !== 'path' && el.nodeType !== 'label') {
+    return;
+  }
+  if (/^.*[XY]$/.test(attr)) return getProjectionXY(el, attr);
+  if (attr === 'borderWidth') {
+    return el.attr('border').width;
+  }
+  if (attr === 'bordeStyle') {
+    return el.attr('border').style;
+  }
+  if (attr === 'borderColor') {
+    return el.attr('border').color;
+  }
+  return el.attr(attr);
+}
 
 /***/ })
 /******/ ]);

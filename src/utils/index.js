@@ -1,6 +1,6 @@
 import Signal from './signal';
 import ElementList from './element_list';
-import {wait} from './misc';
+import {wait, random, random_color} from './misc';
 import parse_attr from './parse_attr';
 import get_attr from './get_attr';
 
@@ -9,5 +9,7 @@ export {
   parse_attr,
   get_attr,
   wait,
+  random,
+  random_color,
   ElementList,
 };

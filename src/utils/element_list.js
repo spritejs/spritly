@@ -11,6 +11,39 @@ const ElementList = {
     }
     Signal.listen('ELEMENT_CREATED', el);
     Signal.send('ELEMENT_CREATED', {sender: el, receiver: el});
+    const events = [
+      'click',
+      'dblclick',
+      'mouseup',
+      'mousemove',
+      'mousedown',
+      'mouseenter',
+      'mouseleave',
+    ];
+    events.forEach((event) => {
+      const type = `ELEMENT_${event.toUpperCase()}`;
+      Signal.listen(type, el);
+      el.on(event, (evt) => {
+        const {altKey, button, buttons, ctrlKey, shiftKey} = evt.originalEvent;
+        Signal.send(type, {sender: el,
+          receiver: el,
+          data: {
+            target: evt.target,
+            offsetX: evt.offsetX,
+            offsetY: evt.offsetY,
+            layerX: evt.layerX,
+            layerY: evt.layerY,
+            altKey,
+            button,
+            buttons,
+            ctrlKey,
+            shiftKey,
+          },
+        });
+        evt.stopDispatch();
+      });
+    });
+
     return el;
   },
   remove(el) {

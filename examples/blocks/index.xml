@@ -33,7 +33,7 @@
             </value>
           <next><block type="field_attr_bgcolor">
             <value name="VALUE">
-              <block type="colour_picker"></block>                  
+              <block type="random_colour_hue"></block>                  
             </value>
           </block></next>
           </block></next>        

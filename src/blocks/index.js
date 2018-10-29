@@ -1,8 +1,8 @@
 import './attr';
-import './async';
+import './animate';
 import './flow';
 import './literal';
 import './signals';
 import './sprite';
 import './log';
-import './easing';
+import './math';

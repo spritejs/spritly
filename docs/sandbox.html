@@ -38,6 +38,7 @@
 
   <script>
     const {Scene, Layer, Sprite, Label, Path} = spritejs;
+    const {Signal} = utils;
 
     function exec(code) {
       const script = document.createElement('script');
@@ -50,9 +51,35 @@
       viewport: 'auto',
       resolution: 'flex',
     });
-    
+
+    const bglayer = scene.layer('bglayer', {handleEvent: false});
     const fglayer = scene.layer('fglayer');
-    const bglayer = scene.layer('bglayer');
+
+    function getClickHandler(signal) {
+      return function (evt) {
+        const {altKey, button, buttons, ctrlKey, shiftKey} = evt.originalEvent;
+        Signal.send(signal, {sender: scene},
+          {
+            target: evt.target,
+            offsetX: evt.offsetX,
+            offsetY: evt.offsetY,
+            layerX: evt.layerX,
+            layerY: evt.layerY,
+            altKey,
+            button,
+            buttons,
+            ctrlKey,
+            shiftKey,
+          });
+      };
+    }
+
+    Signal.listen('LAYER_CLICKED', fglayer);
+    fglayer.on('click', getClickHandler('LAYER_CLICKED'));
+
+    // bglayer.on('click', (evt) => {
+    //   console.log(evt);
+    // });
 
     window.top.runCode();
     document.addEventListener('mouseup', (event) => {

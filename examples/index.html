@@ -75,47 +75,19 @@
       <block type="signal_new_sprite_as_receiver"></block>
       <block type="signal_when_receiver_is"></block>
       <block type="signal_send"></block>
+      <block type="get_data_prop"></block>
+      <block type="get_data_prop_custom"></block>
     </category>
     <category name="Sprites" colour="%{BKY_SPRITE_HUE}">
       <block type="sprite_attrs"></block>
       <block type="sprite_append_to"></block>
       <block type="sprite_create_attrs"></block>
-      <block type="sprite_animate">
-        <value name="DURATION">
-          <block type="number">
-            <field name="NUM">0.6</field>
-          </block>
-        </value>
-        <value name="EASING">
-          <block type="string">
-            <field name="TEXT">ease-in</field>
-          </block>
-        </value>
-      </block>
       <block type="sprite_each_elements_named"></block>
       <block type="sprite_get_attr"></block>
       <block type="sprite_destroy"></block>
-
-      <block type="sprite_each_item_attrs"></block>
-      <block type="sprite_item_append_to"></block>
-      <block type="sprite_item_get_index"></block>
-      <block type="sprite_item_animate">
-        <value name="DURATION">
-          <block type="number">
-            <field name="NUM">0.6</field>
-          </block>
-        </value>
-        <value name="EASING">
-          <block type="string">
-            <field name="TEXT">ease-in</field>
-          </block>
-        </value>
-      </block>
-      <block type="sprite_item_destroy"></block>
     </category>
     <category name="Attributes">
       <category name="Common" colour="%{BKY_ATTRS_HUE}">
-          <block type="field_attr"></block>
           <block type="field_attr_inc">
             <value name="VALUE">
               <block type="number">
@@ -311,11 +283,32 @@
         </block>
       </category>
     </category>
-    <category name="Easing" colour="%{BKY_EASING_HUE}">
+    <category name="Animation" colour="%{BKY_ANIMATE_HUE}">
+      <block type="sprite_animate">
+        <value name="DURATION">
+          <block type="number">
+            <field name="NUM">0.6</field>
+          </block>
+        </value>
+        <value name="EASING">
+          <block type="string">
+            <field name="TEXT">ease-in</field>
+          </block>
+        </value>
+      </block>
+      <block type="await"></block>
+      <block type="await_frame"></block>
       <block type="easing"></block>
       <block type="bezier_easing"></block>
     </category>
     <category name="Literals" colour="%{BKY_LITERAL_HUE}">
+      <block type="key_value">
+        <value name="VALUE">
+            <block type="string">
+              <field name="TEXT">value</field>
+            </block>
+        </value>
+      </block>
       <block type="nil"></block>
       <block type="boolean"></block>
       <block type="number">
@@ -328,20 +321,23 @@
       <block type="lists_create_with"></block>
       <block type="object_create">
         <value name="FIELDS">
-            <block type="field_attr"></block>
+            <block type="key_value">
+              <value name="VALUE">
+                <block type="string">
+                  <field name="TEXT">value</field>
+                </block>
+              </value>
+            </block>
         </value>
       </block>
-    </category>
-    <category name="Async" colour="%{BKY_FLOW_HUE}">
-      <block type="flow_wait"></block>
-      <block type="flow_frame"></block>
+      <block type="loop_get_index"></block>
     </category>
     <category name="Logic" colour="%{BKY_LOGIC_HUE}">
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
       <block type="logic_negate"></block>
     </category>
-    <category name="Flows" colour="%{BKY_LOOPS_HUE}">
+    <category name="Flows" colour="%{BKY_FLOWS_HUE}">
       <block type="controls_if"></block>
       <block type="controls_repeat_ext">
         <value name="TIMES">
@@ -355,6 +351,11 @@
     <category name="Math" colour="%{BKY_MATH_HUE}">
       <block type="math_arithmetic"></block>
       <block type="math_single"></block>
+      <block type="random_number"></block>
+      <block type="random_string"></block>
+      <block type="random_integer_from_to"></block>
+      <block type="random_colour_rgb"></block>
+      <block type="random_colour_hue"></block>
     </category>
     <category name="Log" colour="%{BKY_LOG_HUE}">
       <block type="log_log"></block>
@@ -474,15 +475,6 @@ ${code}
     function showCode() {
       // Generate JavaScript code and display it.
       alert(getCode().join('\n\n'));
-    }
-
-    function clearHandlers(node) {
-      const handlers = node.getEventHandlers();
-      if(handlers) {
-        Object.keys(handlers).forEach((type) => {
-          delete handlers[type];
-        });
-      }
     }
 
     function runCode() {

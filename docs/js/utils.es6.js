@@ -100,8 +100,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "wait", function() { return _misc__WEBPACK_IMPORTED_MODULE_2__["wait"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "random", function() { return _misc__WEBPACK_IMPORTED_MODULE_2__["random"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "random_color", function() { return _misc__WEBPACK_IMPORTED_MODULE_2__["random_color"]; });
+
 /* harmony import */ var _parse_attr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parse_attr", function() { return _parse_attr__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
+/* harmony import */ var _get_attr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_attr", function() { return _get_attr__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+
 
 
 
@@ -171,10 +179,38 @@ const ElementList = {
       elements_index[el.id] = el;
     }
     _signal__WEBPACK_IMPORTED_MODULE_0__["default"].listen('ELEMENT_CREATED', el);
-    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('ELEMENT_CREATED', { receiver: el });
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('ELEMENT_CREATED', { sender: el, receiver: el });
+    const events = ['click', 'dblclick', 'mouseup', 'mousemove', 'mousedown', 'mouseenter', 'mouseleave'];
+    events.forEach(event => {
+      const type = `ELEMENT_${event.toUpperCase()}`;
+      _signal__WEBPACK_IMPORTED_MODULE_0__["default"].listen(type, el);
+      el.on(event, evt => {
+        const { altKey, button, buttons, ctrlKey, shiftKey } = evt.originalEvent;
+        _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send(type, { sender: el,
+          receiver: el,
+          data: {
+            target: evt.target,
+            offsetX: evt.offsetX,
+            offsetY: evt.offsetY,
+            layerX: evt.layerX,
+            layerY: evt.layerY,
+            altKey,
+            button,
+            buttons,
+            ctrlKey,
+            shiftKey
+          }
+        });
+        evt.stopDispatch();
+      });
+    });
+
     return el;
   },
   remove(el) {
+    if (el.layer) {
+      el.remove();
+    }
     if (el.id) {
       delete elements_index[el.id];
     }
@@ -182,6 +218,7 @@ const ElementList = {
     _signal__WEBPACK_IMPORTED_MODULE_0__["default"].signals.forEach(signal => {
       _signal__WEBPACK_IMPORTED_MODULE_0__["default"].unlisten(signal, el);
     });
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('ELEMENT_DESTROYED', { sender: el });
   },
   all() {
     return [...elements];
@@ -203,10 +240,25 @@ const ElementList = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wait", function() { return wait; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random", function() { return random; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random_color", function() { return random_color; });
 function wait(ms) {
   return new Promise(resolve => {
     setTimeout(resolve, ms);
   });
+}
+
+function random(from, to) {
+  if (from < to) [from, to] = [to, from];
+  return Math.floor(Math.random() * (to - from)) + from;
+}
+
+function random_color() {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
+
+  return `rgb(${r},${g},${b})`;
 }
 
 /***/ }),
@@ -255,6 +307,40 @@ function parse_attr(...args) {
   projectionXY(attrs, 'skew', 0);
   projectionBorder(attrs);
   return attrs;
+}
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return get_attr; });
+
+function getProjectionXY(el, attr) {
+  const t = attr.slice(-1);
+  const v = el.attr(attr.slice(0, -1));
+  if (t === 'X') {
+    return v[0];
+  }
+  return v[1];
+}
+
+function get_attr(el, attr) {
+  if (el.nodeType !== 'sprite' && el.nodeType !== 'path' && el.nodeType !== 'label') {
+    return;
+  }
+  if (/^.*[XY]$/.test(attr)) return getProjectionXY(el, attr);
+  if (attr === 'borderWidth') {
+    return el.attr('border').width;
+  }
+  if (attr === 'bordeStyle') {
+    return el.attr('border').style;
+  }
+  if (attr === 'borderColor') {
+    return el.attr('border').color;
+  }
+  return el.attr(attr);
 }
 
 /***/ })

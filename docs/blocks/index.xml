@@ -33,7 +33,7 @@
             </value>
           <next><block type="field_attr_bgcolor">
             <value name="VALUE">
-              <block type="colour_picker"></block>                  
+              <block type="random_colour_hue"></block>                  
             </value>
           </block></next>
           </block></next>        
@@ -46,7 +46,7 @@
           <field name="ASYNC?">await</field>
           <value name="DURATION">
             <block type="number">
-              <field name="NUM">3000</field>
+              <field name="NUM">3</field>
             </block>
           </value>
           <value name="TO_ATTRS">
@@ -59,9 +59,7 @@
             </block>
           </value>
           <value name="EASING">
-            <block type="string">
-              <field name="TEXT">ease-in-out</field>
-            </block>
+            <block type="easing"></block>
           </value>
         <next><block type="signal_send">
           <field name="NAME">MOVE_FINISHED</field>

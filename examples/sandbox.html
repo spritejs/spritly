@@ -52,7 +52,7 @@
       resolution: 'flex',
     });
 
-    const bglayer = scene.layer('bglayer');
+    const bglayer = scene.layer('bglayer', {handleEvent: false});
     const fglayer = scene.layer('fglayer');
 
     function getClickHandler(signal) {
@@ -73,10 +73,9 @@
           });
       };
     }
-    Signal.listen('FGLAYER_CLICKED', fglayer);
-    Signal.listen('BGLAYER_CLICKED', bglayer);
-    fglayer.on('click', getClickHandler('FGLAYER_CLICKED'));
-    bglayer.on('click', getClickHandler('BGLAYER_CLICKED'));
+
+    Signal.listen('LAYER_CLICKED', fglayer);
+    fglayer.on('click', getClickHandler('LAYER_CLICKED'));
 
     // bglayer.on('click', (evt) => {
     //   console.log(evt);

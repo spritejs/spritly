@@ -1,5 +1,33 @@
 const Blockly = require('blockly');
 
+Blockly.Blocks.key_value = {
+  init() {
+    this.jsonInit({
+      message0: '%1: %2,',
+      args0: [
+        {
+          type: 'field_input',
+          name: 'KEY',
+          text: 'key',
+        },
+        {
+          type: 'input_value',
+          name: 'VALUE',
+        },
+      ],
+      colour: Blockly.Msg.LITERAL_HUE,
+      previousStatement: 'KeyValue',
+      nextStatement: 'KeyValue',
+    });
+  },
+};
+
+Blockly.JavaScript.key_value = function (block) {
+  const key = block.getFieldValue('KEY');
+  const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || 'null';
+  return `\n'${key}': ${value},`;
+};
+
 Blockly.Blocks.nil = {
   init() {
     this.jsonInit({
@@ -77,4 +105,18 @@ const colour_picker_init = Blockly.Blocks.colour_picker.init;
 Blockly.Blocks.colour_picker.init = function () {
   colour_picker_init.call(this);
   this.setColour(Blockly.Msg.LITERAL_HUE);
+};
+
+Blockly.Blocks.loop_get_index = {
+  init() {
+    this.jsonInit({
+      message0: 'index',
+      colour: Blockly.Msg.LITERAL_HUE,
+      output: 'Number',
+    });
+  },
+};
+
+Blockly.JavaScript.loop_get_index = function (block) {
+  return ['index', Blockly.JavaScript.ORDER_NONE];
 };
