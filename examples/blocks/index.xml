@@ -49,13 +49,6 @@
             <value name="VALUE">
               <block type="random_colour_hue"></block>                  
             </value>
-          <next><block type="field_attr_rotate">
-            <value name="VALUE">
-              <block type="number">
-                <field name="NUM">0</field>
-              </block>                  
-            </value>
-          </block></next>
           </block></next>
           </block></next>
           </block></next>
