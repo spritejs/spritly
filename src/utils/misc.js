@@ -16,3 +16,9 @@ export function random_color() {
 
   return `rgb(${r},${g},${b})`;
 }
+
+export function random_color_hue(s, l, a) {
+  const h = Math.floor(Math.random() * 360);
+
+  return `hsla(${h},${s}%,${l}%,${a})`;
+}

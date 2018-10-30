@@ -32,6 +32,8 @@ module.exports = function (env = {}) {
     output.filename += '.js';
   }
 
+  const lang = env.lang || 'zh-cn';
+
   return {
     mode: env.production ? 'production' : 'none',
     // entry: './src/web/entry-runtime-with-compiler.js',
@@ -41,7 +43,7 @@ module.exports = function (env = {}) {
     },
     output,
     resolve: {
-      aliasFields: ['browser', 'esnext'],
+      aliasFields: ['browser', 'esnext', lang],
       // alias: require('./build/alias'),
     },
 

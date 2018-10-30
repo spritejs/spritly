@@ -1,5 +1,6 @@
 const Blockly = require('blockly');
 
+const Msg = Blockly.Msg;
 const colour = Blockly.Msg.LOG_HUE;
 const previousStatement = 'Statement';
 const nextStatement = 'Statement';
@@ -13,9 +14,9 @@ Blockly.Blocks.log_log = {
           type: 'field_dropdown',
           name: 'LOG',
           options: [
-            ['log', 'log'],
-            ['warn', 'warn'],
-            ['error', 'error'],
+            [Msg.LOG_OPTION_LOG_LOG, 'log'],
+            [Msg.LOG_OPTION_LOG_WARN, 'warn'],
+            [Msg.LOG_OPTION_LOG_ERROR, 'error'],
           ],
         }, {
           type: 'input_value',
@@ -26,6 +27,7 @@ Blockly.Blocks.log_log = {
       colour,
       previousStatement,
       nextStatement,
+      tooltip: Msg.LOG_TOOLTIP,
     });
   },
 };
@@ -39,7 +41,7 @@ Blockly.JavaScript.log_log = function (block) {
 Blockly.Blocks.log_alert = {
   init() {
     this.jsonInit({
-      message0: '🔔 alert %1',
+      message0: Msg.LOG_ALERT_MSG0,
       args0: [
         {
           type: 'input_value',
@@ -50,6 +52,7 @@ Blockly.Blocks.log_alert = {
       colour,
       previousStatement,
       nextStatement,
+      tooltip: Msg.LOG_ALERT_TOOLTIP,
     });
   },
 };

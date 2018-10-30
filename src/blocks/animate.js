@@ -1,27 +1,29 @@
 import {Dropdown} from '../dropdown';
 import {plugEachItemInForEachScope} from './utils';
 const Blockly = require('blockly');
+const Msg = Blockly.Msg;
 
-const colour = Blockly.Msg.ANIMATE_HUE;
+const colour = Msg.ANIMATE_HUE;
 const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
 Blockly.Blocks.await = {
   init() {
     this.jsonInit({
-      message0: 'wait %1 millsec 🕙',
+      message0: Msg.AWAIT_MSG0,
       args0: [
-        {type: 'field_number', name: 'SEC', value: 16},
+        {type: 'field_number', name: 'MILLISEC', value: 16},
       ],
       colour,
       previousStatement: 'Statement',
       nextStatement: null,
+      tooltip: () => Msg.AWAIT_TOOLTIP.replace('%1', this.getFieldValue('MILLISEC')),
     });
   },
 };
 
 Blockly.JavaScript.await = function (block) {
-  const ms = parseInt(block.getFieldValue('SEC'), 10);
+  const ms = parseInt(block.getFieldValue('MILLISEC'), 10);
 
   return `await utils.wait(${ms});\n`;
 };
@@ -29,19 +31,20 @@ Blockly.JavaScript.await = function (block) {
 Blockly.Blocks.await_frame = {
   init() {
     this.jsonInit({
-      message0: 'next frame of %1 ⌛',
+      message0: Msg.AWAIT_FRAME_MSG0,
       args0: [
         {type: 'field_dropdown',
           name: 'LAYER',
           options: [
-            ['fglayer', 'fglayer'],
-            ['bglayer', 'bglayer'],
+            [Msg.COMMON_FGLAYER, 'fglayer'],
+            [Msg.COMMON_BGLAYER, 'bglayer'],
           ],
         },
       ],
       colour,
       previousStatement,
       nextStatement,
+      tooltip: Msg.AWAIT_FRAME_TOOLTIP,
     });
   },
 };
@@ -54,14 +57,14 @@ Blockly.JavaScript.await_frame = function (block) {
 Blockly.Blocks.sprite_animate = {
   init() {
     this.jsonInit({
-      message0: '%1 %2 animate %3 s',
+      message0: Msg.SPRITE_ANIMATE_MSG0,
       args0: [
         {
           type: 'field_dropdown',
           name: 'ASYNC?',
           options: [
-            ['⚡️', '-'],
-            ['⌛️', 'await'],
+            [Msg.SPRITE_ANIMATE_OPTION_ASYNC_DEFAULT, '-'],
+            [Msg.SPRITE_ANIMATE_OPTION_ASYNC_AWAIT, 'await'],
           ],
         }, {
           type: 'field_dropdown',
@@ -69,10 +72,10 @@ Blockly.Blocks.sprite_animate = {
           options: () => {
             const sprites = Dropdown.get('Sprites');
             return [
-              ['target', 'target'],
-              ['sender', 'sender'],
-              ['receiver', 'receiver'],
-              ['item', 'item'],
+              [Msg.COMMON_TARGET, 'target'],
+              [Msg.COMMON_SENDER, 'sender'],
+              [Msg.COMMON_RECEIVER, 'receiver'],
+              [Msg.COMMON_ITEM, 'item'],
             ].concat(sprites.map(s => [s, s]));
           },
         }, {
@@ -81,7 +84,7 @@ Blockly.Blocks.sprite_animate = {
           check: 'Number',
         },
       ],
-      message1: 'from %1',
+      message1: Msg.SPRITE_ANIMATE_MSG1,
       args1: [
         {
           type: 'input_statement',
@@ -89,7 +92,7 @@ Blockly.Blocks.sprite_animate = {
           check: 'KeyValue',
         },
       ],
-      message2: 'to %1',
+      message2: Msg.SPRITE_ANIMATE_MSG2,
       args2: [
         {
           type: 'input_statement',
@@ -97,7 +100,7 @@ Blockly.Blocks.sprite_animate = {
           check: 'KeyValue',
         },
       ],
-      message3: 'easing %1',
+      message3: Msg.SPRITE_ANIMATE_MSG3,
       args3: [
         {
           type: 'input_value',
@@ -108,6 +111,7 @@ Blockly.Blocks.sprite_animate = {
       colour,
       previousStatement,
       nextStatement,
+      tooltip: Msg.SPRITE_ANIMATE_TOOLTIP,
     });
   },
   onchange: plugEachItemInForEachScope(),
@@ -136,15 +140,16 @@ Blockly.Blocks.easing = {
           type: 'field_dropdown',
           name: 'EASING',
           options: [
-            ['ease', 'ease'],
-            ['ease-in', 'ease-in'],
-            ['ease-out', 'ease-out'],
-            ['ease-in-out', 'ease-in-out'],
+            [Msg.EASING_OPTION_EASING_EASE, 'ease'],
+            [Msg.EASING_OPTION_EASING_EASEIN, 'ease-in'],
+            [Msg.EASING_OPTION_EASING_EASEOUT, 'ease-out'],
+            [Msg.EASING_OPTION_EASING_EASEINOUT, 'ease-in-out'],
           ],
         },
       ],
       colour,
       output: 'String',
+      tooltip: Msg.EASING_OPTION_TOOLTIP,
     });
   },
 };
@@ -157,7 +162,7 @@ Blockly.JavaScript.easing = function (block) {
 Blockly.Blocks.bezier_easing = {
   init() {
     this.jsonInit({
-      message0: 'cubic-bezier %1 %2 %3 %4',
+      message0: Msg.BEZIER_EASING_MSG0,
       args0: [
         {
           type: 'field_number',
@@ -182,6 +187,7 @@ Blockly.Blocks.bezier_easing = {
       ],
       colour,
       output: 'String',
+      tooltip: Msg.BEZIER_EASING_TOOLTIP,
     });
   },
 };

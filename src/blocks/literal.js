@@ -1,9 +1,11 @@
 const Blockly = require('blockly');
 
+const Msg = Blockly.Msg;
+
 Blockly.Blocks.key_value = {
   init() {
     this.jsonInit({
-      message0: '%1: %2,',
+      message0: Msg.KEYVALUE_MSG0,
       args0: [
         {
           type: 'field_input',
@@ -15,10 +17,11 @@ Blockly.Blocks.key_value = {
           name: 'VALUE',
         },
       ],
-      colour: Blockly.Msg.LITERAL_HUE,
+      colour: Msg.LITERAL_HUE,
       previousStatement: 'KeyValue',
       nextStatement: 'KeyValue',
     });
+    this.setTooltip(Msg.KEYVALUE_TOOLTIP);
   },
 };
 
@@ -37,14 +40,15 @@ Blockly.Blocks.nil = {
           type: 'field_dropdown',
           name: 'VALUE',
           options: [
-            ['null', 'null'],
-            ['undefined', 'undefined'],
+            [Msg.LITERAL_NULL, 'null'],
+            [Msg.LITERAL_UNDEFINED, 'undefined'],
           ],
         },
       ],
-      colour: Blockly.Msg.LITERAL_HUE,
+      colour: Msg.LITERAL_HUE,
     });
     this.setOutput(true);
+    this.setTooltip(() => Msg.NIL_TOOLTIP.replace('%1', this.getFieldValue('VALUE')));
   },
 };
 
@@ -89,10 +93,8 @@ Blockly.Blocks.object_create = {
     this.appendStatementInput('FIELDS')
       .setCheck(['KeyValue']);
     this.setOutput(true);
-    this.setColour(Blockly.Msg.LITERAL_HUE);
-    this.setTooltip(() => {
-      return 'Create object';
-    });
+    this.setColour(Msg.LITERAL_HUE);
+    this.setTooltip(Msg.OBJECT_CREATE_TOOLTIP);
   },
 };
 Blockly.JavaScript.object_create = function (block) {
@@ -110,9 +112,10 @@ Blockly.Blocks.colour_picker.init = function () {
 Blockly.Blocks.loop_get_index = {
   init() {
     this.jsonInit({
-      message0: 'index',
-      colour: Blockly.Msg.LITERAL_HUE,
+      message0: Msg.LOOP_GET_INDEX_MSG0,
+      colour: Msg.LITERAL_HUE,
       output: 'Number',
+      tooltip: Msg.LOOP_GET_INDEX_TOOLTIP,
     });
   },
 };

@@ -84,8 +84,8 @@
           <value name="EASING">
             <block type="easing"></block>
           </value>
-        <next><block type="signal_send">
-          <field name="NAME">MOVE_FINISHED</field>
+        <next><block type="signal_onevent_send">
+          <field name="SIGNAL">MOVE_FINISHED</field>
         </block></next>
         </block></next>
         </block></next>

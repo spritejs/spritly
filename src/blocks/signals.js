@@ -8,9 +8,7 @@ const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
 function listSignal(...extras) {
-  const signals = ['START', 'ELEMENT_CREATED', 'ELEMENT_CLICK', 'ELEMENT_DBLCLICK',
-    'ELEMENT_MOUSEDOWN', 'ELEMENT_MOUSEMOVE', 'ELEMENT_MOUSEUP',
-    'ELEMENT_MOUSEENTER', 'ELEMENT_MOUDELEAVE'];
+  const signals = ['START'];
   return () => {
     return [...signals, ...extras, ...Dropdown.get('Signals')].map(s => [s, s]);
   };
@@ -113,52 +111,6 @@ Blockly.JavaScript.signal_when_receiver_is = function () {
   return '';
 };
 
-Blockly.Blocks.signal_send = {
-  init() {
-    this.jsonInit({
-      message0: '%1 send signal %2 🚩',
-      args0: [{
-        type: 'field_dropdown',
-        name: 'TARGET',
-        options: () => {
-          const sprites = Dropdown.get('Sprites');
-          return [
-            ['target', 'target'],
-            ['sender', 'sender'],
-            ['receiver', 'receiver'],
-            ['item', 'item'],
-          ].concat(sprites.map(s => [s, s]));
-        },
-      }, {
-        type: 'field_input',
-        name: 'NAME',
-        text: 'MY_SIGNAL',
-        check: 'String',
-      }],
-      message1: 'data %1',
-      args1: [
-        {
-          type: 'input_statement',
-          name: 'DATA',
-          check: 'KeyValue',
-        },
-      ],
-      colour,
-      previousStatement,
-      nextStatement,
-    });
-  },
-  onchange: plugEachItemInForEachScope('TARGET'),
-};
-
-Blockly.JavaScript.signal_send = function (block) {
-  const target = block.getFieldValue('TARGET');
-  const signal = block.getFieldValue('NAME');
-  const data = Blockly.JavaScript.statementToCode(block, 'DATA');
-
-  return `utils.Signal.send('${signal}', {sender:${target}, data: Object.assign({target: ${target}}, {${data}})});\n`;
-};
-
 Blockly.Blocks.get_data_prop = {
   init() {
     this.jsonInit({
@@ -209,4 +161,83 @@ Blockly.Blocks.get_data_prop_custom = {
 Blockly.JavaScript.get_data_prop_custom = function (block) {
   const prop = block.getFieldValue('PROP');
   return [`data.${prop}`, Blockly.JavaScript.ORDER_MEMBER];
+};
+
+const events = ['immediately', 'onclick', 'ondblclick',
+  'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave'];
+
+Blockly.Blocks.signal_onevent_send = {
+  init() {
+    this.jsonInit({
+      message0: '%1 %2 send %3 🚩',
+      args0: [{
+        type: 'field_dropdown',
+        name: 'TARGET',
+        options: () => {
+          const sprites = Dropdown.get('Sprites');
+          return [
+            ['target', 'target'],
+            ['sender', 'sender'],
+            ['receiver', 'receiver'],
+            ['item', 'item'],
+          ].concat(sprites.map(s => [s, s]));
+        },
+      }, {
+        type: 'field_dropdown',
+        name: 'EVENT',
+        options: events.map(s => [s, s]),
+      }, {
+        type: 'field_input',
+        name: 'SIGNAL',
+        text: 'MY_SIGNAL',
+      }],
+      message1: 'with data %1',
+      args1: [
+        {
+          type: 'input_statement',
+          name: 'DATA',
+          check: 'KeyValue',
+        },
+      ],
+      colour,
+      previousStatement,
+      nextStatement,
+      tooltip: 'When event send signal.',
+    });
+  },
+};
+
+Blockly.JavaScript.signal_onevent_send = function (block) {
+  const target = block.getFieldValue('TARGET');
+  const event = block.getFieldValue('EVENT');
+  const signal = block.getFieldValue('SIGNAL');
+  const data = Blockly.JavaScript.statementToCode(block, 'DATA');
+
+  if(event !== 'immediately') {
+    const eventName = event.slice(2);
+    return `${target}.on('${eventName}', 
+      evt => {
+        const {altKey, button, buttons, ctrlKey, shiftKey} = evt.originalEvent;
+        utils.Signal.send('${signal}', 
+          {
+            sender:${target},
+            data: Object.assign(
+              {
+                target: evt.target,
+                offsetX: evt.offsetX,
+                offsetY: evt.offsetY,
+                layerX: evt.layerX,
+                layerY: evt.layerY,
+                altKey,
+                button,
+                buttons,
+                ctrlKey,
+                shiftKey,
+              },
+              {${data}},
+            ),
+          });
+      });`;
+  }
+  return `utils.Signal.send('${signal}', {sender:${target}, data: Object.assign({target: ${target}}, {${data}})});\n`;
 };

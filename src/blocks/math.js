@@ -1,14 +1,15 @@
 const Blockly = require('blockly');
 
+const Msg = Blockly.Msg;
 const colour = Blockly.Msg.MATH_HUE;
 
 Blockly.Blocks.random_number = {
   init() {
     this.jsonInit({
-      message0: '🎲 random number',
+      message0: Msg.RANDOM_NUMBER_MSG0,
       colour,
       output: 'Number',
-      tooltip: 'Get a random number ≥ 0 and < 1.',
+      tooltip: Msg.RANDOM_NUMBER_TOOLTIP,
     });
   },
 };
@@ -20,7 +21,7 @@ Blockly.JavaScript.random_number = function (block) {
 Blockly.Blocks.random_integer_from_to = {
   init() {
     this.jsonInit({
-      message0: '🎲 random int ≥ %1 < %2',
+      message0: Msg.RANDOM_INTEGER_FROM_TO_MSG0,
       args0: [
         {
           type: 'field_number',
@@ -35,12 +36,7 @@ Blockly.Blocks.random_integer_from_to = {
       ],
       colour,
       output: 'Number',
-    });
-
-    this.setTooltip(() => {
-      const from = this.getFieldValue('FROM'),
-        to = this.getFieldValue('TO');
-      return `Get a random integer ≥ ${from} and < ${to}.`;
+      tooltip: () => Msg.RANDOM_INTEGER_FROM_TO_TOOLTIP.replace('%1', this.getFieldValue('FROM')).replace('%2', this.getFieldValue('TO')),
     });
   },
   onchange(evt) {
@@ -62,10 +58,10 @@ Blockly.JavaScript.random_integer_from_to = function (block) {
 Blockly.Blocks.random_string = {
   init() {
     this.jsonInit({
-      message0: '🎲 random string',
+      message0: Msg.RANDOM_STRING_MSG0,
       colour,
       output: 'String',
-      tooltip: 'Get a 11 bytes length random string.',
+      tooltip: Msg.RANDOM_STRING_TOOLTIP,
     });
   },
 };
@@ -77,10 +73,10 @@ Blockly.JavaScript.random_string = function (block) {
 Blockly.Blocks.random_colour_rgb = {
   init() {
     this.jsonInit({
-      message0: '🎲 COLOUR',
+      message0: Msg.RANDOM_COLOUR_RGB_MSG0,
       colour,
       output: 'Colour',
-      tooltip: 'Get a random hsla color.',
+      tooltip: Msg.RANDOM_COLOUR_RGB_TOOLTIP,
     });
   },
 };
@@ -92,8 +88,8 @@ Blockly.JavaScript.random_colour_rgb = function (block) {
 Blockly.Blocks.random_colour_hue = {
   init() {
     this.jsonInit({
-      message0: '🎲 random COLOUR_HUE',
-      message1: 'S %1% L %2% A %3.',
+      message0: Msg.RANDOM_COLOUR_HUE_MSG0,
+      message1: Msg.RANDOM_COLOUR_HUE_MSG1,
       args1: [
         {
           type: 'field_number',
@@ -113,7 +109,7 @@ Blockly.Blocks.random_colour_hue = {
       ],
       colour,
       output: 'Colour',
-      tooltip: 'Get a random hsla color.',
+      tooltip: Msg.RANDOM_COLOUR_HUE_TOOLTIP,
     });
   },
 };
@@ -124,5 +120,5 @@ Blockly.JavaScript.random_colour_hue = function (block) {
   const l = block.getFieldValue('L');
   const a = block.getFieldValue('A');
 
-  return [`'hsla(${h},${s}%,${l}%,${a})'`, Blockly.JavaScript.ORDER_NONE];
+  return [`utils.random_color_hue(${s},${l},${a})`, Blockly.JavaScript.ORDER_NONE];
 };
