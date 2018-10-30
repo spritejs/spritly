@@ -1,8 +1,9 @@
 import {Dropdown} from '../dropdown';
-import {plugEachItemInForEachScope} from './utils';
+import {spriteOptions} from './utils';
 
 const Blockly = require('blockly');
 
+const Msg = Blockly.Msg;
 const colour = Blockly.Msg.SIGNALS_HUE;
 const previousStatement = 'Statement';
 const nextStatement = 'Statement';
@@ -10,7 +11,7 @@ const nextStatement = 'Statement';
 function listSignal(...extras) {
   const signals = ['START'];
   return () => {
-    return [...signals, ...extras, ...Dropdown.get('Signals')].map(s => [s, s]);
+    return [...signals, ...extras, ...Dropdown.get('Signals')].map(s => [Msg.$(s, 'SIGNAL_DO_OPTION_SIGNAL'), s]);
   };
 }
 
@@ -25,17 +26,18 @@ function listSprite() {
 Blockly.Blocks.signal_do = {
   init() {
     this.jsonInit({
-      message0: 'On signal %1 🚩 do',
+      message0: Msg.SIGNAL_DO_MSG0,
       args0: [
         {
           type: 'field_dropdown',
-          name: 'SIG',
-          options: listSignal('LAYER_CLICKED', 'ELEMENT_DESTROYED'),
+          name: 'SIGNAL',
+          options: listSignal('LAYER_CLICKED', 'ELEMENT_CREATED', 'ELEMENT_DESTROYED'),
         },
       ],
       // message1: '(sender, receiver, data)',
       colour,
       nextStatement,
+      tooltip: Msg.SIGNAL_DO_TOOLTIP,
     });
   },
 };
@@ -47,25 +49,25 @@ Blockly.JavaScript.signal_do = function (block) {
 Blockly.Blocks.signal_new_sprite_as_receiver = {
   init() {
     this.jsonInit({
-      message0: 'On signal %1 🚩',
+      message0: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG0,
       args0: [
         {
           type: 'field_dropdown',
-          name: 'SIG',
+          name: 'SIGNAL',
           options: listSignal(),
         },
       ],
-      message1: 'new %1 as receiver',
+      message1: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG1,
       args1: [{
         type: 'field_dropdown',
         name: 'RECEIVER',
         options: [
-          ['Sprite', 'Sprite'],
-          ['Label', 'Label'],
-          ['Path', 'Path'],
+          [Msg.COMMON_SPRITE, 'Sprite'],
+          [Msg.COMMON_LABEL, 'Label'],
+          [Msg.COMMON_PATH, 'Path'],
         ],
       }],
-      message2: 'ID is %1',
+      message2: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG2,
       args2: [{
         type: 'field_input',
         name: 'ID',
@@ -74,6 +76,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       }],
       colour,
       nextStatement,
+      tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP,
     });
   },
 };
@@ -85,15 +88,15 @@ Blockly.JavaScript.signal_new_sprite_as_receiver = function (block) {
 Blockly.Blocks.signal_when_receiver_is = {
   init() {
     this.jsonInit({
-      message0: 'On signals %1 🚩',
+      message0: Msg.SIGNAL_WHEN_RECEIVER_IS_MSG0,
       args0: [
         {
           type: 'field_dropdown',
-          name: 'SIG',
-          options: listSignal(),
+          name: 'SIGNAL',
+          options: listSignal('ELEMENT_CREATED'),
         },
       ],
-      message1: 'when receiver is %1',
+      message1: Msg.SIGNAL_WHEN_RECEIVER_IS_MSG1,
       args1: [
         {
           type: 'field_dropdown',
@@ -103,6 +106,7 @@ Blockly.Blocks.signal_when_receiver_is = {
       ],
       colour,
       nextStatement,
+      tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP,
     });
   },
 };
@@ -114,7 +118,7 @@ Blockly.JavaScript.signal_when_receiver_is = function () {
 Blockly.Blocks.get_data_prop = {
   init() {
     this.jsonInit({
-      message0: 'data get %1',
+      message0: Msg.GET_DATA_PROP_MSG0,
       args0: [{
         type: 'field_dropdown',
         name: 'PROP',
@@ -126,13 +130,12 @@ Blockly.Blocks.get_data_prop = {
           'altKey',
           'ctrlKey',
           'shiftKey',
-          'button',
           'buttons',
-        ].map(s => [s, s]),
+        ].map(s => [Msg.$(s, 'GET_DATA_PROP_OPTION_PROP'), s]),
       }],
       colour,
       output: true,
-      tooltip: 'get signal data property value.',
+      tooltip: Msg.GET_DATA_PROP_TOOLTIP,
     });
   },
 };
@@ -145,7 +148,7 @@ Blockly.JavaScript.get_data_prop = function (block) {
 Blockly.Blocks.get_data_prop_custom = {
   init() {
     this.jsonInit({
-      message0: 'data get %1',
+      message0: Msg.GET_DATA_PROP_CUSTOM_MSG0,
       args0: [{
         type: 'field_input',
         name: 'PROP',
@@ -153,7 +156,7 @@ Blockly.Blocks.get_data_prop_custom = {
       }],
       colour,
       output: true,
-      tooltip: 'get signal data property value.',
+      tooltip: Msg.GET_DATA_PROP_CUSTOM_TOOLTIP,
     });
   },
 };
@@ -169,29 +172,21 @@ const events = ['immediately', 'onclick', 'ondblclick',
 Blockly.Blocks.signal_onevent_send = {
   init() {
     this.jsonInit({
-      message0: '%1 %2 send %3 🚩',
+      message0: Msg.SIGNAL_ONEVENT_SEND_MSG0,
       args0: [{
         type: 'field_dropdown',
-        name: 'TARGET',
-        options: () => {
-          const sprites = Dropdown.get('Sprites');
-          return [
-            ['target', 'target'],
-            ['sender', 'sender'],
-            ['receiver', 'receiver'],
-            ['item', 'item'],
-          ].concat(sprites.map(s => [s, s]));
-        },
+        name: 'SPRITE',
+        options: spriteOptions,
       }, {
         type: 'field_dropdown',
         name: 'EVENT',
-        options: events.map(s => [s, s]),
+        options: events.map(s => [Msg.$(s, 'EVENT'), s]),
       }, {
         type: 'field_input',
         name: 'SIGNAL',
         text: 'MY_SIGNAL',
       }],
-      message1: 'with data %1',
+      message1: Msg.SIGNAL_ONEVENT_SEND_MSG1,
       args1: [
         {
           type: 'input_statement',
@@ -202,13 +197,13 @@ Blockly.Blocks.signal_onevent_send = {
       colour,
       previousStatement,
       nextStatement,
-      tooltip: 'When event send signal.',
+      tooltip: `${Msg.SIGNAL_ONEVENT_SEND_TOOLTIP}\n${Msg.SENDER_RECEIVER_TARGET_TOOLTIP}`,
     });
   },
 };
 
 Blockly.JavaScript.signal_onevent_send = function (block) {
-  const target = block.getFieldValue('TARGET');
+  const target = block.getFieldValue('SPRITE');
   const event = block.getFieldValue('EVENT');
   const signal = block.getFieldValue('SIGNAL');
   const data = Blockly.JavaScript.statementToCode(block, 'DATA');

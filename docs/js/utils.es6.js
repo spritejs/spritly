@@ -104,6 +104,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "random_color", function() { return _misc__WEBPACK_IMPORTED_MODULE_2__["random_color"]; });
 
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "random_color_hue", function() { return _misc__WEBPACK_IMPORTED_MODULE_2__["random_color_hue"]; });
+
 /* harmony import */ var _parse_attr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parse_attr", function() { return _parse_attr__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
@@ -127,6 +129,7 @@ __webpack_require__.r(__webpack_exports__);
 const signals = new Map();
 
 const Signal = {
+  DEFAULT_SIGNAL: { id: Symbol('default_signal') },
   on(signal, handler) {
     const { receivers, handlers } = signals.get(signal) || { receivers: new Set(), handlers: [] };
     handlers.push(handler);
@@ -145,7 +148,7 @@ const Signal = {
   send(signal, { sender, data = {}, receiver } = {}) {
     // console.log('send signal', signal);
     const { receivers, handlers } = signals.get(signal) || { receivers: new Set(), handlers: [] };
-    [...receivers, { id: '$$default$signal$receiver' }].forEach(_receiver => {
+    [...receivers, Signal.DEFAULT_SIGNAL].forEach(_receiver => {
       if (receiver == null || receiver === _receiver) {
         handlers.forEach(handler => {
           handler({ signal, sender, receiver: _receiver, data, target: receiver });
@@ -180,31 +183,6 @@ const ElementList = {
     }
     _signal__WEBPACK_IMPORTED_MODULE_0__["default"].listen('ELEMENT_CREATED', el);
     _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('ELEMENT_CREATED', { sender: el, receiver: el });
-    const events = ['click', 'dblclick', 'mouseup', 'mousemove', 'mousedown', 'mouseenter', 'mouseleave'];
-    events.forEach(event => {
-      const type = `ELEMENT_${event.toUpperCase()}`;
-      _signal__WEBPACK_IMPORTED_MODULE_0__["default"].listen(type, el);
-      el.on(event, evt => {
-        const { altKey, button, buttons, ctrlKey, shiftKey } = evt.originalEvent;
-        _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send(type, { sender: el,
-          receiver: el,
-          data: {
-            target: evt.target,
-            offsetX: evt.offsetX,
-            offsetY: evt.offsetY,
-            layerX: evt.layerX,
-            layerY: evt.layerY,
-            altKey,
-            button,
-            buttons,
-            ctrlKey,
-            shiftKey
-          }
-        });
-        evt.stopDispatch();
-      });
-    });
-
     return el;
   },
   remove(el) {
@@ -242,6 +220,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "wait", function() { return wait; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random", function() { return random; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random_color", function() { return random_color; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random_color_hue", function() { return random_color_hue; });
 function wait(ms) {
   return new Promise(resolve => {
     setTimeout(resolve, ms);
@@ -259,6 +238,12 @@ function random_color() {
   const b = Math.floor(Math.random() * 255);
 
   return `rgb(${r},${g},${b})`;
+}
+
+function random_color_hue(s, l, a) {
+  const h = Math.floor(Math.random() * 360);
+
+  return `hsla(${h},${s}%,${l}%,${a})`;
 }
 
 /***/ }),

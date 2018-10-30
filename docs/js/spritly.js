@@ -7,7 +7,7 @@
 		exports["spritly"] = factory(require("Blockly"));
 	else
 		root["spritly"] = factory(root["Blockly"]);
-})(window, function(__WEBPACK_EXTERNAL_MODULE__115__) {
+})(window, function(__WEBPACK_EXTERNAL_MODULE__126__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 112);
+/******/ 	return __webpack_require__(__webpack_require__.s = 123);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1759,27 +1759,40 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 83 */
+/* 83 */,
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */,
+/* 90 */,
+/* 91 */,
+/* 92 */,
+/* 93 */,
+/* 94 */,
+/* 95 */,
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(84), __esModule: true };
+module.exports = { "default": __webpack_require__(97), __esModule: true };
 
 /***/ }),
-/* 84 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(58);
 __webpack_require__(5);
 __webpack_require__(59);
-__webpack_require__(85);
-__webpack_require__(86);
-__webpack_require__(87);
-__webpack_require__(88);
+__webpack_require__(98);
+__webpack_require__(99);
+__webpack_require__(100);
+__webpack_require__(101);
 module.exports = __webpack_require__(13).Map;
 
 
 /***/ }),
-/* 85 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1805,7 +1818,7 @@ module.exports = __webpack_require__(71)(MAP, function (get) {
 
 
 /***/ }),
-/* 86 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
@@ -1815,7 +1828,7 @@ $export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(77)('Map') }
 
 
 /***/ }),
-/* 87 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-map.of
@@ -1823,7 +1836,7 @@ __webpack_require__(80)('Map');
 
 
 /***/ }),
-/* 88 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-map.from
@@ -1831,19 +1844,6 @@ __webpack_require__(82)('Map');
 
 
 /***/ }),
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */,
-/* 101 */,
 /* 102 */,
 /* 103 */,
 /* 104 */,
@@ -1854,7 +1854,18 @@ __webpack_require__(82)('Map');
 /* 109 */,
 /* 110 */,
 /* 111 */,
-/* 112 */
+/* 112 */,
+/* 113 */,
+/* 114 */,
+/* 115 */,
+/* 116 */,
+/* 117 */,
+/* 118 */,
+/* 119 */,
+/* 120 */,
+/* 121 */,
+/* 122 */,
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1865,13 +1876,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Dropdown = exports.initWorkspace = exports.Blockly = undefined;
 
-__webpack_require__(113);
+__webpack_require__(124);
 
-__webpack_require__(116);
+__webpack_require__(128);
 
-var _dropdown = __webpack_require__(123);
+var _dropdown = __webpack_require__(135);
 
-var Blockly = __webpack_require__(115);
+var Blockly = __webpack_require__(126);
 Blockly.BlockSvg.START_HAT = true;
 
 Blockly.Field.prototype.maxDisplayLength = 20;
@@ -1889,22 +1900,37 @@ exports.initWorkspace = initWorkspace;
 exports.Dropdown = _dropdown.Dropdown;
 
 /***/ }),
-/* 113 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(114);
+__webpack_require__(125);
+
+__webpack_require__(127);
+
+var Blockly = __webpack_require__(126);
+
+var Msg = Blockly.Msg;
+
+
+Msg.$ = function (key) {
+  var prefix = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'COMMON';
+
+  var k = prefix + '_' + key.toUpperCase();
+  if (k in Msg) return Msg[k];
+  return key;
+};
 
 /***/ }),
-/* 114 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Blockly = __webpack_require__(115);
+var Blockly = __webpack_require__(126);
 
 var Msg = Blockly.Msg;
 
@@ -1923,57 +1949,301 @@ Msg.FLOWS_HUE = 120;
 Msg.MATH_HUE = 230;
 
 /***/ }),
-/* 115 */
+/* 126 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE__115__;
+module.exports = __WEBPACK_EXTERNAL_MODULE__126__;
 
 /***/ }),
-/* 116 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(117);
+var Blockly = __webpack_require__(126);
 
-__webpack_require__(122);
+var Msg = Blockly.Msg;
 
-__webpack_require__(125);
 
-__webpack_require__(126);
+Msg.COMMON_FGLAYER = '前景图层';
+Msg.COMMON_BGLAYER = '背景图层';
+Msg.COMMON_TARGET = '目标元素';
+Msg.COMMON_SENDER = '发送者';
+Msg.COMMON_RECEIVER = '接收者';
+Msg.COMMON_ITEM = '迭代元素';
+Msg.COMMON_SPRITE = '精灵元素';
+Msg.COMMON_LABEL = '文本元素';
+Msg.COMMON_PATH = '矢量元素';
 
-__webpack_require__(127);
+Msg.SENDER_RECEIVER_TARGET_TOOLTIP = '\u53D1\u9001\u8005\uFF1A\u53D1\u9001\u4FE1\u53F7\u7684\u5143\u7D20\u3002\n\u63A5\u6536\u8005\uFF1A\u63A5\u6536\u4FE1\u53F7\u7684\u5143\u7D20\u3002\n\u76EE\u6807\u5143\u7D20\uFF1A\u5982\u679C\u4FE1\u53F7\u7531\u4E8B\u4EF6\u89E6\u53D1\uFF0C\u76EE\u6807\u5143\u7D20\u662F\u5B9E\u9645\u4E8B\u4EF6\u76EE\u6807\u3002';
 
-__webpack_require__(128);
+Msg.FGLAYER_BGLAYER_TOOTIP = '\u524D\u666F\u56FE\u5C42\u63A5\u6536DOM\u4E8B\u4EF6\uFF0C\n\u80CC\u666F\u56FE\u5C42\u4E0D\u63A5\u6536DOM\u4E8B\u4EF6\u3002';
+
+Msg.LITERAL_NULL = '空';
+Msg.LITERAL_UNDEFINED = '未定义';
+
+Msg.NIL_TOOLTIP = '%1值。';
+Msg.OBJECT_CREATE_TOOLTIP = '构造一个对象。';
+Msg.LOOP_GET_INDEX_MSG0 = '索引值';
+Msg.LOOP_GET_INDEX_TOOLTIP = '循环中的索引值。';
+
+Msg.ATTR_ID = 'ID';
+Msg.ATTR_NAME = '名字';
+Msg.ATTR_ANCHORX = 'X向锚';
+Msg.ATTR_ANCHORY = 'Y向锚';
+Msg.ATTR_X = 'X坐标';
+Msg.ATTR_Y = 'Y坐标';
+Msg.ATTR_WIDTH = '宽';
+Msg.ATTR_HEIGHT = '高';
+Msg.ATTR_BGCOLOR = '背景色';
+Msg.ATTR_OPACITY = '透明度';
+Msg.ATTR_SCALEX = 'X向拉伸';
+Msg.ATTR_SCALEY = 'Y向拉伸';
+Msg.ATTR_TRANSLATEX = 'X向平移';
+Msg.ATTR_TRANSLATEY = 'Y向平移';
+Msg.ATTR_SKEWX = 'X向扭曲';
+Msg.ATTR_SKEWY = 'Y向扭曲';
+Msg.ATTR_ROTATE = '逆时针旋转';
+Msg.ATTR_BORDERRADIUS = '圆角半径';
+Msg.ATTR_BORDERWIDTH = '边框线宽';
+Msg.ATTR_BORDERSTYLE = '边框样式';
+Msg.ATTR_BORDERCOLOR = '边框颜色';
+Msg.ATTR_DASHOFFSET = '虚线框偏移';
+Msg.ATTR_TEXTURE = '图片纹理';
+Msg.ATTR_TEXT = '文本';
+Msg.ATTR_FONTSIZE = '字号';
+Msg.ATTR_FONTFAMILY = '字体';
+Msg.ATTR_FONTSTYLE = '字体样式';
+Msg.ATTR_FONTVARIANT = '字体变体';
+Msg.ATTR_FONTWEIGHT = '字体粗细';
+Msg.ATTR_TEXTALIGN = '文本对齐';
+Msg.ATTR_LINEHEIGHT = '文本行高';
+Msg.ATTR_D = 'SVG路径';
+Msg.ATTR_LINEWIDTH = '路径线宽';
+Msg.ATTR_LINEDASH = '路径虚线样式';
+Msg.ATTR_LINEDASHOFFSET = '路径虚线偏移';
+Msg.ATTR_LINECAP = '线帽样式';
+Msg.ATTR_LINEJOIN = '连线样式';
+Msg.ATTR_BOUNDING = '碰撞边界';
+Msg.ATTR_STROKECOLOR = '描线颜色';
+Msg.ATTR_FILLCOLOR = '填充颜色';
+
+Msg.ATTR_VALUE_SOLID = '实线';
+Msg.ATTR_VALUE_DASHED = '虚线';
+Msg.ATTR_VALUE_NORMAL = '常规';
+Msg.ATTR_VALUE_BOLD = '粗体';
+Msg.ATTR_VALUE_LIGHTER = '细体';
+Msg.ATTR_VALUE_ITALIC = '斜体';
+Msg.ATTR_VALUE_OBLIQUE = '倾斜';
+Msg['ATTR_VALUE_SMALL-CAPS'] = '小型大写';
+Msg.ATTR_VALUE_LEFT = '靠左';
+Msg.ATTR_VALUE_RIGHT = '靠右';
+Msg.ATTR_VALUE_CENTER = '居中';
+Msg.ATTR_VALUE_BUTT = '平直';
+Msg.ATTR_VALUE_ROUND = '圆形';
+Msg.ATTR_VALUE_SQUARE = '方形';
+Msg.ATTR_VALUE_MITER = '尖角';
+Msg.ATTR_VALUE_BEVEL = '斜角';
+Msg.ATTR_VALUE_BOX = '基于盒子';
+Msg.ATTR_VALUE_PATH = '基于路径';
+
+Msg.AWAIT_MSG0 = '等待 %1 毫秒 🕙';
+Msg.AWAIT_TOOLTIP = '等待 %1 毫秒后继续执行后续操作。';
+Msg.AWAIT_FRAME_MSG0 = '等待 %1 更新到下一帧 ⌛';
+Msg.AWAIT_FRAME_TOOLTIP = '等待图层更新后继续执行后续操作。';
+
+Msg.SPRITE_ANIMATE_MSG0 = '%1 %2 动画持续 %3 秒';
+Msg.SPRITE_ANIMATE_MSG1 = '起始状态 %1';
+Msg.SPRITE_ANIMATE_MSG2 = '结束状态 %1';
+Msg.SPRITE_ANIMATE_MSG3 = '缓动策略 %1';
+Msg.SPRITE_ANIMATE_TOOLTIP = '在指定元素上执行动画操作。';
+Msg.SPRITE_ANIMATE_OPTION_ASYNC_DEFAULT = '⚡️ 立即执行';
+Msg.SPRITE_ANIMATE_OPTION_ASYNC_AWAIT = '⌛️ 执行并等待';
+
+Msg.EASING_MSG0 = '%1';
+Msg.EASING_OPTION_EASING_EASE = '匀速';
+Msg.EASING_OPTION_EASING_EASEIN = '匀加速';
+Msg.EASING_OPTION_EASING_EASEOUT = '匀减速';
+Msg.EASING_OPTION_EASING_EASEINOUT = '先加速后减速';
+Msg.EASING_OPTION_TOOLTIP = '为动画设置缓动策略。';
+
+Msg.BEZIER_EASING_MSG0 = '贝塞尔曲线 %1 %2 %3 %4';
+Msg.BEZIER_EASING_TOOLTIP = '将动画缓动策略设置为贝塞尔曲线。';
+
+Msg.FIELD_ATTR_INC_MSG0 = '%1 %2';
+Msg.FIELD_ATTR_INC_TOOLTIP = '在原值基础上改变属性值。';
+
+Msg.KEYVALUE_MSG0 = '%1: %2,';
+Msg.KEYVALUE_TOOLTIP = '设置“属性-值”对。';
+
+Msg.FIELD_ATTR_ANCHOR_TOOLTIP = '设置元素的%1。';
+Msg.FIELD_ATTR_XY_TOOLTIP = '设置元素的%1。';
+Msg.FIELD_ATTR_SIZE_TOOLTIP = '设置元素的%1。';
+Msg.FIELD_ATTR_BGCOLOR_TOOLTIP = '设置元素的背景色。';
+Msg.FIELD_ATTR_OPACITY_TOOLTIP = '设置元素的透明度。';
+Msg.FIELD_ATTR_ROTATE_TOOLTIP = '设置元素的逆时针旋转角度。';
+Msg.FIELD_ATTR_SCALE_TOOLTIP = '设置元素的%1。';
+Msg.FIELD_ATTR_TRANSLATE_TOOLTIP = '设置元素的%1。';
+Msg.FIELD_ATTR_SKEW_TOOLTIP = '设置元素的%1。';
+Msg.FIELD_ATTR_BORDERRADIUS_TOOLTIP = '设置元素的圆角半径。';
+Msg.FIELD_ATTR_BORDERWIDTH_TOOLTIP = '设置元素的边框宽度。';
+Msg.FIELD_ATTR_BORDERSTYLE_TOOLTIP = '设置元素的边框样式。';
+Msg.FIELD_ATTR_BORDERCOLOR_TOOLTIP = '设置元素的边框颜色。';
+Msg.FIELD_ATTR_DASHOFFSET_TOOLTIP = '如果元素边框样式为虚线，设置边框虚线的偏移量。';
+Msg.FIELD_ATTR_TEXTURE_TOOLTIP = '设置精灵元素的图片纹理。';
+Msg.FIELD_ATTR_TEXT_TOOLTIP = '设置文本元素的内容。';
+Msg.FIELD_ATTR_FONTSIZE_TOOLTIP = '设置文本元素的字号。';
+Msg.FIELD_ATTR_FONTFAMILY_TOOLTIP = '设置文本元素的字体。';
+Msg.FIELD_ATTR_FONTSTYLE_TOOLTIP = '设置文本元素的字体样式。';
+Msg.FIELD_ATTR_FONTVARIANT_TOOLTIP = '设置文本元素的字体变体。';
+Msg.FIELD_ATTR_FONTWEIGHT_TOOLTIP = '设置文本元素的字体粗细。';
+Msg.FIELD_ATTR_TEXTALIGN_TOOLTIP = '设置文本元素的文字对齐方式。';
+Msg.FIELD_ATTR_LINEHEIGHT_TOOLTIP = '设置文本元素的行高。';
+Msg.FIELD_ATTR_D_TOOLTIP = '设置矢量元素的SVG路径。';
+Msg.FIELD_ATTR_LINEWIDTH_TOOLTIP = '设置矢量元素的线宽。';
+Msg.FIELD_ATTR_LINEDASH_TOOLTIP = '将矢量元素的描线设为虚线。';
+Msg.FIELD_ATTR_LINEDASHOFFSET_TOOLTIP = '如果矢量元素的描线是虚线，设置虚线偏移量。';
+Msg.FIELD_ATTR_LINECAP_TOOLTIP = '设置矢量元素的线帽样式。';
+Msg.FIELD_ATTR_LINEJOIN_TOOLTIP = '设置矢量元素的连线样式。';
+Msg.FIELD_ATTR_BOUNDING_TOOLTIP = '使用%1的边界方式来检测碰撞。';
+Msg.FIELD_ATTR_STROKECOLOR_TOOLTIP = '设置一个矢量元素或文本元素的描线颜色。';
+Msg.FIELD_ATTR_FILLCOLOR_TOOLTIP = '设置一个矢量元素或文本元素的填充颜色。';
+
+Msg.RANDOM_NUMBER_MSG0 = '🎲 0~1之间随机数';
+Msg.RANDOM_NUMBER_TOOLTIP = '获得一个大于等于0且小于1的随机数。';
+
+Msg.RANDOM_INTEGER_FROM_TO_MSG0 = '🎲 %1~%2之间随机整数';
+Msg.RANDOM_INTEGER_FROM_TO_TOOLTIP = '获得一个大于等于%1且小于%2的随机整数。';
+
+Msg.RANDOM_STRING_MSG0 = '🎲 随机字符串';
+Msg.RANDOM_STRING_TOOLTIP = '获得一个11个字符长度的随机字符串。';
+
+Msg.RANDOM_COLOUR_RGB_MSG0 = '🎲 随机颜色';
+Msg.RANDOM_COLOUR_RGB_TOOLTIP = '获得一个随机的RGB颜色。';
+
+Msg.RANDOM_COLOUR_HUE_MSG0 = '🎲 随机色调';
+Msg.RANDOM_COLOUR_HUE_MSG1 = '饱和 %1% 亮 %2% 透明 %3.';
+Msg.RANDOM_COLOUR_HUE_TOOLTIP = '获得一个随机的HSLA颜色。';
+
+Msg.LOG_OPTION_LOG_LOG = '记录';
+Msg.LOG_OPTION_LOG_WARN = '警告';
+Msg.LOG_OPTION_LOG_ERROR = '错误';
+Msg.LOG_TOOLTIP = '输出信息到控制台。';
+Msg.LOG_ALERT_MSG0 = '🔔 弹出 %1';
+Msg.LOG_ALERT_TOOLTIP = '弹出一个会话框。';
+
+Msg.SIGNAL_DO_MSG0 = '当收到信号为 %1 🚩 执行';
+Msg.SIGNAL_DO_TOOLTIP = '当收到指定信号时，执行动作。';
+Msg.SIGNAL_DO_OPTION_SIGNAL_START = '开始运行';
+Msg.SIGNAL_DO_OPTION_SIGNAL_LAYER_CLICKED = '前景图层被鼠标点击';
+Msg.SIGNAL_DO_OPTION_SIGNAL_ELEMENT_CREATED = '元素被创建';
+Msg.SIGNAL_DO_OPTION_SIGNAL_ELEMENT_DESTROYED = '元素被销毁';
+
+Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG0 = '收到信号为 %1 🚩 时';
+Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG1 = '创建 %1 作为接收者';
+Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG2 = 'ID设为 %1';
+Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP = '收到某个信号时，新建一个元素作为接收者并执行动作。';
+
+Msg.SIGNAL_WHEN_RECEIVER_IS_MSG0 = '收到信号 %1 🚩';
+Msg.SIGNAL_WHEN_RECEIVER_IS_MSG1 = '当接收者为 %1 时';
+Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP = '收到某个信号且接收者为特定元素时，执行动作。';
+
+Msg.GET_DATA_PROP_MSG0 = '数据的 %1';
+Msg.GET_DATA_PROP_TOOLTIP = '读取信号的数据属性。如果信号是由事件触发，可读取这些属性。';
+Msg.GET_DATA_PROP_OPTION_PROP_OFFSETX = '相对坐标X';
+Msg.GET_DATA_PROP_OPTION_PROP_OFFSETY = '相对坐标Y';
+Msg.GET_DATA_PROP_OPTION_PROP_LAYERX = '绝对坐标X';
+Msg.GET_DATA_PROP_OPTION_PROP_LAYERY = '绝对坐标Y';
+Msg.GET_DATA_PROP_OPTION_PROP_ALTKEY = '按下ALT键';
+Msg.GET_DATA_PROP_OPTION_PROP_CTRLKEY = '按下CTRL键';
+Msg.GET_DATA_PROP_OPTION_PROP_SHIFTKEY = '按下SHIFT键';
+Msg.GET_DATA_PROP_OPTION_PROP_BUTTONS = '鼠标按键值';
+
+Msg.GET_DATA_PROP_CUSTOM_MSG0 = '数据的 %1 属性';
+Msg.GET_DATA_PROP_CUSTOM_TOOLTIP = '读取信号的数据属性。发起信号时可设置属性。';
+
+Msg.EVENT_IMMEDIATELY = '立即';
+Msg.EVENT_ONCLICK = '当被鼠标单击';
+Msg.EVENT_ONDBLCLICK = '被鼠标双击';
+Msg.EVENT_ONMOUSEDOWN = '按下鼠标按键';
+Msg.EVENT_ONMOUSEMOVE = '鼠标在元素内部移动';
+Msg.EVENT_ONMOUSEUP = '释放鼠标按键';
+Msg.EVENT_ONMOUSEENTER = '鼠标进入元素';
+Msg.EVENT_ONMOUSELEAVE = '鼠标离开元素';
+
+Msg.SIGNAL_ONEVENT_SEND_MSG0 = '%1 %2 发送 %3 🚩';
+Msg.SIGNAL_ONEVENT_SEND_MSG1 = '包含数据 %1';
+Msg.SIGNAL_ONEVENT_SEND_TOOLTIP = '当事件发生时，发送信号。';
+
+Msg.SPRITE_APPEND_TO_MSG0 = '%1 添加到 %2';
+Msg.SPRITE_APPEND_TO_TOOLTIP = '添加元素到层。';
+
+Msg.SPRITE_ATTRS_MSG0 = '设置 %1 属性';
+Msg.SPRITE_ATTRS_TOOLTIP = '设置属性值到元素。';
+
+Msg.SPRITE_CREATE_ATTRS_MSG0 = '创建 %1';
+Msg.SPRITE_CREATE_ATTRS_MSG1 = '命名为 %1 包含属性';
+Msg.SPRITE_CREATE_ATTRS_TOOLTIP = '创建一个指定名字的元素。可以使用循环语句创建多个同名元素。';
+
+Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG0 = '遍历每个名为 %1 的元素';
+Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG1 = '执行 %1';
+Msg.SPRITE_EACH_ELEMENTS_NAMED_TOOLTIP = '根据名字对元素执行迭代操作。';
+
+Msg.SPRITE_DESTROY_MSG0 = '💣 销毁 %1';
+Msg.SPRITE_DESTROY_TOOLTIP = '将元素移除层并销毁。';
+
+Msg.SPRITE_GET_ATTR_MSG0 = '%1 的 %2';
+Msg.SPRITE_GET_ATTR_TOOLTIP = '读取目标元素的属性值。';
+
+/***/ }),
+/* 128 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 __webpack_require__(129);
 
-__webpack_require__(130);
+__webpack_require__(134);
+
+__webpack_require__(137);
+
+__webpack_require__(138);
+
+__webpack_require__(139);
+
+__webpack_require__(140);
+
+__webpack_require__(141);
+
+__webpack_require__(142);
 
 /***/ }),
-/* 117 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _keys = __webpack_require__(118);
+var _keys = __webpack_require__(130);
 
 var _keys2 = _interopRequireDefault(_keys);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Blockly = __webpack_require__(115);
+var Blockly = __webpack_require__(126);
+var Msg = Blockly.Msg;
 
 Blockly.Blocks.field_attr_inc = {
   init: function init() {
     this.jsonInit({
-      message0: '%1 %2',
+      message0: Msg.FIELD_ATTR_INC_MSG0,
       args0: [{ type: 'field_dropdown',
         name: 'OP',
         options: [['+', '+'], ['-', '-'], ['*', '*'], ['/', '/'], ['^', '**']] }, { type: 'input_value', name: 'VALUE', check: 'Number' }],
-      colour: Blockly.Msg.ATTRS_HUE
+      colour: Blockly.Msg.ATTRS_HUE,
+      tooltip: Msg.FIELD_ATTR_INC_TOOLTIP
     });
     this.setOutput(true, 'Number');
   }
@@ -1991,25 +2261,27 @@ function createKVConf() {
   var colour = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : Blockly.Msg.ATTRS_HUE;
   var statementType = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'KeyValue';
 
-  var arg0 = { name: 'KEY', type: 'field_input' };
+  var arg0 = { name: 'KEY', type: 'field_dropdown' };
   var arg1 = { type: 'input_value', name: 'VALUE', check: valueType };
 
-  if (typeof keys !== 'string' && keys.prop && keys.options) {
-    arg0.text = keys.prop;
+  if (typeof keys === 'string') {
+    keys = [keys];
+  }
+
+  if (Array.isArray(keys)) {
+    arg0.options = keys.map(function (key) {
+      return [Msg.$(key, 'ATTR'), key];
+    });
+  } else if (typeof keys !== 'string' && keys.prop && keys.options) {
+    arg0.options = [[Msg.$(keys.prop, 'ATTR'), keys.prop]];
     arg1.type = 'field_dropdown';
     arg1.options = keys.options.map(function (s) {
-      return [s, s];
+      return [Msg.$(s, 'ATTR_VALUE'), s];
     });
-  } else if (Array.isArray(keys)) {
-    arg0.type = 'field_dropdown';
-    arg0.options = keys.map(function (key) {
-      return [key, key];
-    });
-  } else {
-    arg0.text = keys;
   }
+
   return {
-    message0: '%1: %2,',
+    message0: Msg.KEYVALUE_MSG0,
     args0: [arg0, arg1],
     colour: colour,
     previousStatement: statementType,
@@ -2019,121 +2291,165 @@ function createKVConf() {
 
 Blockly.Blocks.field_attr_anchor = {
   init: function init() {
+    var _this = this;
+
     this.jsonInit(createKVConf(['anchorX', 'anchorY'], 'Number'));
+    this.setTooltip(function () {
+      return Msg.FIELD_ATTR_ANCHOR_TOOLTIP.replace('%1', Msg.$(_this.getFieldValue('KEY'), 'ATTR'));
+    });
   }
 };
 
 Blockly.Blocks.field_attr_xy = {
   init: function init() {
+    var _this2 = this;
+
     this.jsonInit(createKVConf(['x', 'y'], 'Number'));
+    this.setTooltip(function () {
+      return Msg.FIELD_ATTR_XY_TOOLTIP.replace('%1', Msg.$(_this2.getFieldValue('KEY'), 'ATTR'));
+    });
   }
 };
 
 Blockly.Blocks.field_attr_size = {
   init: function init() {
+    var _this3 = this;
+
     this.jsonInit(createKVConf(['width', 'height'], 'Number'));
+    this.setTooltip(function () {
+      return Msg.FIELD_ATTR_SIZE_TOOLTIP.replace('%1', Msg.$(_this3.getFieldValue('KEY'), 'ATTR'));
+    });
   }
 };
 
 Blockly.Blocks.field_attr_bgcolor = {
   init: function init() {
     this.jsonInit(createKVConf('bgcolor', 'Colour'));
+    this.setTooltip(Msg.FIELD_ATTR_BGCOLOR_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_opacity = {
   init: function init() {
     this.jsonInit(createKVConf('opacity', 'Number'));
+    this.setTooltip(Msg.FIELD_ATTR_OPACITY_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_rotate = {
   init: function init() {
     this.jsonInit(createKVConf('rotate', 'Number'));
+    this.setTooltip(Msg.FIELD_ATTR_ROTATE_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_scale = {
   init: function init() {
+    var _this4 = this;
+
     this.jsonInit(createKVConf(['scaleX', 'scaleY'], 'Number'));
+    this.setTooltip(function () {
+      return Msg.FIELD_ATTR_SCALE_TOOLTIP.replace('%1', Msg.$(_this4.getFieldValue('KEY'), 'ATTR'));
+    });
   }
 };
 
 Blockly.Blocks.field_attr_translate = {
   init: function init() {
+    var _this5 = this;
+
     this.jsonInit(createKVConf(['translateX', 'translateY'], 'Number'));
+    this.setTooltip(function () {
+      return Msg.FIELD_ATTR_TRANSLATE_TOOLTIP.replace('%1', Msg.$(_this5.getFieldValue('KEY'), 'ATTR'));
+    });
   }
 };
 
 Blockly.Blocks.field_attr_skew = {
   init: function init() {
+    var _this6 = this;
+
     this.jsonInit(createKVConf(['skewX', 'skewY'], 'Number'));
+    this.setTooltip(function () {
+      return Msg.FIELD_ATTR_SKEW_TOOLTIP.replace('%1', Msg.$(_this6.getFieldValue('KEY'), 'ATTR'));
+    });
   }
 };
 
-Blockly.Blocks.field_attr_border_radius = {
+Blockly.Blocks.field_attr_borderRadius = {
   init: function init() {
     this.jsonInit(createKVConf('borderRadius', 'Number'));
+    this.setTooltip(Msg.FIELD_ATTR_BORDERRADIUS_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_borderWidth = {
   init: function init() {
     this.jsonInit(createKVConf('borderWidth', 'Number'));
+    this.setTooltip(Msg.FIELD_ATTR_BORDERWIDTH_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_borderStyle = {
   init: function init() {
     this.jsonInit(createKVConf({ prop: 'borderStyle', options: ['solid', 'dashed'] }, 'String'));
+    this.setTooltip(Msg.FIELD_ATTR_BORDERSTYLE_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_borderColour = {
   init: function init() {
     this.jsonInit(createKVConf('borderColor', 'Colour'));
+    this.setTooltip(Msg.FIELD_ATTR_BORDERCOLOR_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_dashOffset = {
   init: function init() {
     this.jsonInit(createKVConf('dashOffset', 'Number'));
+    this.setTooltip(Msg.FIELD_ATTR_DASHOFFSET_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_texture = {
   init: function init() {
     this.jsonInit(createKVConf('texture', 'String', Blockly.Msg.ATTRS_SPRITE_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_TEXTURE_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_text = {
   init: function init() {
     this.jsonInit(createKVConf('text', 'String', Blockly.Msg.ATTRS_LABEL_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_TEXT_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_fontSize = {
   init: function init() {
     this.jsonInit(createKVConf('fontSize', 'Number', Blockly.Msg.ATTRS_LABEL_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_FONTSIZE_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_fontFamily = {
   init: function init() {
     this.jsonInit(createKVConf('fontFamily', 'String', Blockly.Msg.ATTRS_LABEL_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_FONTFAMILY_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_fontStyle = {
   init: function init() {
     this.jsonInit(createKVConf({ prop: 'fontStyle', options: ['normal', 'italic', 'oblique'] }, 'String', Blockly.Msg.ATTRS_LABEL_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_FONTSTYLE_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_fontVariant = {
   init: function init() {
     this.jsonInit(createKVConf({ prop: 'fontVariant', options: ['normal', 'small-caps'] }, 'String', Blockly.Msg.ATTRS_LABEL_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_FONTVARIANT_TOOLTIP);
   }
 };
 
@@ -2143,72 +2459,88 @@ Blockly.Blocks.field_attr_fontWeight = {
       prop: 'fontWeight',
       options: ['normal', 'bold', 'bolder', 'lighter', '100', '200', '300', '400', '500', '600', '700', '800', '900']
     }, 'String', Blockly.Msg.ATTRS_LABEL_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_FONTWEIGHT_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_textAlign = {
   init: function init() {
     this.jsonInit(createKVConf({ prop: 'textAlign', options: ['left', 'right', 'center'] }, 'String', Blockly.Msg.ATTRS_LABEL_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_TEXTALIGN_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_lineHeight = {
   init: function init() {
     this.jsonInit(createKVConf('lineHeight', 'Number', Blockly.Msg.ATTRS_LABEL_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_LINEHEIGHT_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_d = {
   init: function init() {
     this.jsonInit(createKVConf('d', 'String', Blockly.Msg.ATTRS_PATH_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_D_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_lineWidth = {
   init: function init() {
     this.jsonInit(createKVConf('lineWidth', 'Number', Blockly.Msg.ATTRS_PATH_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_LINEWIDTH_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_lineDash = {
   init: function init() {
     this.jsonInit(createKVConf('lineDash', 'String', Blockly.Msg.ATTRS_PATH_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_LINEDASH_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_lineDashOffset = {
   init: function init() {
     this.jsonInit(createKVConf('lineDashOffset', 'Number', Blockly.Msg.ATTRS_PATH_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_LINEDASHOFFSET_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_lineCap = {
   init: function init() {
     this.jsonInit(createKVConf({ prop: 'lineCap', options: ['butt', 'round', 'square'] }, 'String', Blockly.Msg.ATTRS_PATH_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_LINECAP_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_lineJoin = {
   init: function init() {
     this.jsonInit(createKVConf({ prop: 'lineJoin', options: ['miter', 'round', 'bevel'] }, 'String', Blockly.Msg.ATTRS_PATH_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_LINEJOIN_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_bounding = {
   init: function init() {
+    var _this7 = this;
+
     this.jsonInit(createKVConf({ prop: 'bounding', options: ['box', 'path'] }, 'String', Blockly.Msg.ATTRS_PATH_HUE));
+    this.setTooltip(function () {
+      return Msg.FIELD_ATTR_BOUNDING_TOOLTIP.replace('%1', Msg.$(_this7.getFieldValue('VALUE'), 'ATTR_VALUE'));
+    });
   }
 };
 
 Blockly.Blocks.field_attr_strokeColour = {
   init: function init() {
     this.jsonInit(createKVConf('strokeColor', 'Colour', Blockly.Msg.ATTRS_PATH_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_STROKECOLOR_TOOLTIP);
   }
 };
 
 Blockly.Blocks.field_attr_fillColour = {
   init: function init() {
     this.jsonInit(createKVConf('fillColor', 'Colour', Blockly.Msg.ATTRS_PATH_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_FILLCOLOR_TOOLTIP);
   }
 };
 
@@ -2225,28 +2557,28 @@ function gencode(block) {
 });
 
 /***/ }),
-/* 118 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(119), __esModule: true };
+module.exports = { "default": __webpack_require__(131), __esModule: true };
 
 /***/ }),
-/* 119 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(120);
+__webpack_require__(132);
 module.exports = __webpack_require__(13).Object.keys;
 
 
 /***/ }),
-/* 120 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 Object.keys(O)
 var toObject = __webpack_require__(48);
 var $keys = __webpack_require__(32);
 
-__webpack_require__(121)('keys', function () {
+__webpack_require__(133)('keys', function () {
   return function keys(it) {
     return $keys(toObject(it));
   };
@@ -2254,7 +2586,7 @@ __webpack_require__(121)('keys', function () {
 
 
 /***/ }),
-/* 121 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
@@ -2270,36 +2602,42 @@ module.exports = function (KEY, exec) {
 
 
 /***/ }),
-/* 122 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dropdown = __webpack_require__(123);
+var _dropdown = __webpack_require__(135);
 
-var _utils = __webpack_require__(124);
+var _utils = __webpack_require__(136);
 
-var Blockly = __webpack_require__(115);
+var Blockly = __webpack_require__(126);
+var Msg = Blockly.Msg;
 
-var colour = Blockly.Msg.ANIMATE_HUE;
+var colour = Msg.ANIMATE_HUE;
 var previousStatement = 'Statement';
 var nextStatement = 'Statement';
 
 Blockly.Blocks.await = {
   init: function init() {
+    var _this = this;
+
     this.jsonInit({
-      message0: 'wait %1 millsec 🕙',
-      args0: [{ type: 'field_number', name: 'SEC', value: 16 }],
+      message0: Msg.AWAIT_MSG0,
+      args0: [{ type: 'field_number', name: 'MILLISEC', value: 16 }],
       colour: colour,
       previousStatement: 'Statement',
-      nextStatement: null
+      nextStatement: null,
+      tooltip: function tooltip() {
+        return Msg.AWAIT_TOOLTIP.replace('%1', _this.getFieldValue('MILLISEC'));
+      }
     });
   }
 };
 
 Blockly.JavaScript.await = function (block) {
-  var ms = parseInt(block.getFieldValue('SEC'), 10);
+  var ms = parseInt(block.getFieldValue('MILLISEC'), 10);
 
   return 'await utils.wait(' + ms + ');\n';
 };
@@ -2307,14 +2645,15 @@ Blockly.JavaScript.await = function (block) {
 Blockly.Blocks.await_frame = {
   init: function init() {
     this.jsonInit({
-      message0: 'next frame of %1 ⌛',
+      message0: Msg.AWAIT_FRAME_MSG0,
       args0: [{ type: 'field_dropdown',
         name: 'LAYER',
-        options: [['fglayer', 'fglayer'], ['bglayer', 'bglayer']]
+        options: [[Msg.COMMON_FGLAYER, 'fglayer'], [Msg.COMMON_BGLAYER, 'bglayer']]
       }],
       colour: colour,
       previousStatement: previousStatement,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.AWAIT_FRAME_TOOLTIP
     });
   }
 };
@@ -2327,17 +2666,17 @@ Blockly.JavaScript.await_frame = function (block) {
 Blockly.Blocks.sprite_animate = {
   init: function init() {
     this.jsonInit({
-      message0: '%1 %2 animate %3 s',
+      message0: Msg.SPRITE_ANIMATE_MSG0,
       args0: [{
         type: 'field_dropdown',
         name: 'ASYNC?',
-        options: [['⚡️', '-'], ['⌛️', 'await']]
+        options: [[Msg.SPRITE_ANIMATE_OPTION_ASYNC_DEFAULT, '-'], [Msg.SPRITE_ANIMATE_OPTION_ASYNC_AWAIT, 'await']]
       }, {
         type: 'field_dropdown',
         name: 'SPRITE',
         options: function options() {
           var sprites = _dropdown.Dropdown.get('Sprites');
-          return [['target', 'target'], ['sender', 'sender'], ['receiver', 'receiver'], ['item', 'item']].concat(sprites.map(function (s) {
+          return [[Msg.COMMON_TARGET, 'target'], [Msg.COMMON_SENDER, 'sender'], [Msg.COMMON_RECEIVER, 'receiver'], [Msg.COMMON_ITEM, 'item']].concat(sprites.map(function (s) {
             return [s, s];
           }));
         }
@@ -2346,19 +2685,19 @@ Blockly.Blocks.sprite_animate = {
         name: 'DURATION',
         check: 'Number'
       }],
-      message1: 'from %1',
+      message1: Msg.SPRITE_ANIMATE_MSG1,
       args1: [{
         type: 'input_statement',
         name: 'FROM_ATTRS',
         check: 'KeyValue'
       }],
-      message2: 'to %1',
+      message2: Msg.SPRITE_ANIMATE_MSG2,
       args2: [{
         type: 'input_statement',
         name: 'TO_ATTRS',
         check: 'KeyValue'
       }],
-      message3: 'easing %1',
+      message3: Msg.SPRITE_ANIMATE_MSG3,
       args3: [{
         type: 'input_value',
         name: 'EASING',
@@ -2366,7 +2705,8 @@ Blockly.Blocks.sprite_animate = {
       }],
       colour: colour,
       previousStatement: previousStatement,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.SPRITE_ANIMATE_TOOLTIP
     });
   },
 
@@ -2394,10 +2734,11 @@ Blockly.Blocks.easing = {
       args0: [{
         type: 'field_dropdown',
         name: 'EASING',
-        options: [['ease', 'ease'], ['ease-in', 'ease-in'], ['ease-out', 'ease-out'], ['ease-in-out', 'ease-in-out']]
+        options: [[Msg.EASING_OPTION_EASING_EASE, 'ease'], [Msg.EASING_OPTION_EASING_EASEIN, 'ease-in'], [Msg.EASING_OPTION_EASING_EASEOUT, 'ease-out'], [Msg.EASING_OPTION_EASING_EASEINOUT, 'ease-in-out']]
       }],
       colour: colour,
-      output: 'String'
+      output: 'String',
+      tooltip: Msg.EASING_OPTION_TOOLTIP
     });
   }
 };
@@ -2410,7 +2751,7 @@ Blockly.JavaScript.easing = function (block) {
 Blockly.Blocks.bezier_easing = {
   init: function init() {
     this.jsonInit({
-      message0: 'cubic-bezier %1 %2 %3 %4',
+      message0: Msg.BEZIER_EASING_MSG0,
       args0: [{
         type: 'field_number',
         name: 'X0',
@@ -2429,7 +2770,8 @@ Blockly.Blocks.bezier_easing = {
         value: 1.55
       }],
       colour: colour,
-      output: 'String'
+      output: 'String',
+      tooltip: Msg.BEZIER_EASING_TOOLTIP
     });
   }
 };
@@ -2443,7 +2785,7 @@ Blockly.JavaScript.bezier_easing = function (block) {
 };
 
 /***/ }),
-/* 123 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2462,7 +2804,7 @@ var _set = __webpack_require__(56);
 
 var _set2 = _interopRequireDefault(_set);
 
-var _map = __webpack_require__(83);
+var _map = __webpack_require__(96);
 
 var _map2 = _interopRequireDefault(_map);
 
@@ -2486,7 +2828,7 @@ var Dropdown = exports.Dropdown = {
 };
 
 /***/ }),
-/* 124 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2496,6 +2838,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.plugEachItemInForEachScope = plugEachItemInForEachScope;
+exports.spriteOptions = spriteOptions;
+
+var _dropdown = __webpack_require__(135);
+
 function plugEachItemInForEachScope() {
   var field = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'SPRITE';
 
@@ -2520,14 +2866,24 @@ function plugEachItemInForEachScope() {
   };
 }
 
+var Blockly = __webpack_require__(126);
+var Msg = Blockly.Msg;
+
+function spriteOptions() {
+  var sprites = _dropdown.Dropdown.get('Sprites');
+  return [[Msg.COMMON_TARGET, 'target'], [Msg.COMMON_SENDER, 'sender'], [Msg.COMMON_RECEIVER, 'receiver'], [Msg.COMMON_ITEM, 'item']].concat(sprites.map(function (s) {
+    return [s, s];
+  }));
+}
+
 /***/ }),
-/* 125 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Blockly = __webpack_require__(115);
+var Blockly = __webpack_require__(126);
 
 var controls_if_init = Blockly.Blocks.controls_if.init;
 
@@ -2592,18 +2948,20 @@ Blockly.Blocks.controls_whileUntil.init = function () {
 };
 
 /***/ }),
-/* 126 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Blockly = __webpack_require__(115);
+var Blockly = __webpack_require__(126);
+
+var Msg = Blockly.Msg;
 
 Blockly.Blocks.key_value = {
   init: function init() {
     this.jsonInit({
-      message0: '%1: %2,',
+      message0: Msg.KEYVALUE_MSG0,
       args0: [{
         type: 'field_input',
         name: 'KEY',
@@ -2612,10 +2970,11 @@ Blockly.Blocks.key_value = {
         type: 'input_value',
         name: 'VALUE'
       }],
-      colour: Blockly.Msg.LITERAL_HUE,
+      colour: Msg.LITERAL_HUE,
       previousStatement: 'KeyValue',
       nextStatement: 'KeyValue'
     });
+    this.setTooltip(Msg.KEYVALUE_TOOLTIP);
   }
 };
 
@@ -2627,16 +2986,21 @@ Blockly.JavaScript.key_value = function (block) {
 
 Blockly.Blocks.nil = {
   init: function init() {
+    var _this = this;
+
     this.jsonInit({
       message0: '%1',
       args0: [{
         type: 'field_dropdown',
         name: 'VALUE',
-        options: [['null', 'null'], ['undefined', 'undefined']]
+        options: [[Msg.LITERAL_NULL, 'null'], [Msg.LITERAL_UNDEFINED, 'undefined']]
       }],
-      colour: Blockly.Msg.LITERAL_HUE
+      colour: Msg.LITERAL_HUE
     });
     this.setOutput(true);
+    this.setTooltip(function () {
+      return Msg.NIL_TOOLTIP.replace('%1', _this.getFieldValue('VALUE'));
+    });
   }
 };
 
@@ -2680,10 +3044,8 @@ Blockly.Blocks.object_create = {
     this.appendDummyInput().appendField('new Object');
     this.appendStatementInput('FIELDS').setCheck(['KeyValue']);
     this.setOutput(true);
-    this.setColour(Blockly.Msg.LITERAL_HUE);
-    this.setTooltip(function () {
-      return 'Create object';
-    });
+    this.setColour(Msg.LITERAL_HUE);
+    this.setTooltip(Msg.OBJECT_CREATE_TOOLTIP);
   }
 };
 Blockly.JavaScript.object_create = function (block) {
@@ -2701,9 +3063,10 @@ Blockly.Blocks.colour_picker.init = function () {
 Blockly.Blocks.loop_get_index = {
   init: function init() {
     this.jsonInit({
-      message0: 'index',
-      colour: Blockly.Msg.LITERAL_HUE,
-      output: 'Number'
+      message0: Msg.LOOP_GET_INDEX_MSG0,
+      colour: Msg.LITERAL_HUE,
+      output: 'Number',
+      tooltip: Msg.LOOP_GET_INDEX_TOOLTIP
     });
   }
 };
@@ -2713,7 +3076,7 @@ Blockly.JavaScript.loop_get_index = function (block) {
 };
 
 /***/ }),
-/* 127 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2723,14 +3086,15 @@ var _toConsumableArray2 = __webpack_require__(2);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _dropdown = __webpack_require__(123);
+var _dropdown = __webpack_require__(135);
 
-var _utils = __webpack_require__(124);
+var _utils = __webpack_require__(136);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Blockly = __webpack_require__(115);
+var Blockly = __webpack_require__(126);
 
+var Msg = Blockly.Msg;
 var colour = Blockly.Msg.SIGNALS_HUE;
 var previousStatement = 'Statement';
 var nextStatement = 'Statement';
@@ -2740,10 +3104,10 @@ function listSignal() {
     extras[_key] = arguments[_key];
   }
 
-  var signals = ['START', 'ELEMENT_CREATED', 'ELEMENT_CLICK', 'ELEMENT_DBLCLICK', 'ELEMENT_MOUSEDOWN', 'ELEMENT_MOUSEMOVE', 'ELEMENT_MOUSEUP', 'ELEMENT_MOUSEENTER', 'ELEMENT_MOUDELEAVE'];
+  var signals = ['START'];
   return function () {
     return [].concat(signals, extras, (0, _toConsumableArray3.default)(_dropdown.Dropdown.get('Signals'))).map(function (s) {
-      return [s, s];
+      return [Msg.$(s, 'SIGNAL_DO_OPTION_SIGNAL'), s];
     });
   };
 }
@@ -2761,15 +3125,16 @@ function listSprite() {
 Blockly.Blocks.signal_do = {
   init: function init() {
     this.jsonInit({
-      message0: 'On signal %1 🚩 do',
+      message0: Msg.SIGNAL_DO_MSG0,
       args0: [{
         type: 'field_dropdown',
-        name: 'SIG',
-        options: listSignal('LAYER_CLICKED', 'ELEMENT_DESTROYED')
+        name: 'SIGNAL',
+        options: listSignal('LAYER_CLICKED', 'ELEMENT_CREATED', 'ELEMENT_DESTROYED')
       }],
       // message1: '(sender, receiver, data)',
       colour: colour,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.SIGNAL_DO_TOOLTIP
     });
   }
 };
@@ -2781,19 +3146,19 @@ Blockly.JavaScript.signal_do = function (block) {
 Blockly.Blocks.signal_new_sprite_as_receiver = {
   init: function init() {
     this.jsonInit({
-      message0: 'On signal %1 🚩',
+      message0: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG0,
       args0: [{
         type: 'field_dropdown',
-        name: 'SIG',
+        name: 'SIGNAL',
         options: listSignal()
       }],
-      message1: 'new %1 as receiver',
+      message1: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG1,
       args1: [{
         type: 'field_dropdown',
         name: 'RECEIVER',
-        options: [['Sprite', 'Sprite'], ['Label', 'Label'], ['Path', 'Path']]
+        options: [[Msg.COMMON_SPRITE, 'Sprite'], [Msg.COMMON_LABEL, 'Label'], [Msg.COMMON_PATH, 'Path']]
       }],
-      message2: 'ID is %1',
+      message2: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG2,
       args2: [{
         type: 'field_input',
         name: 'ID',
@@ -2801,7 +3166,8 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
         text: 'Sprite_' + Math.random().toString().slice(2, 7)
       }],
       colour: colour,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP
     });
   }
 };
@@ -2813,20 +3179,21 @@ Blockly.JavaScript.signal_new_sprite_as_receiver = function (block) {
 Blockly.Blocks.signal_when_receiver_is = {
   init: function init() {
     this.jsonInit({
-      message0: 'On signals %1 🚩',
+      message0: Msg.SIGNAL_WHEN_RECEIVER_IS_MSG0,
       args0: [{
         type: 'field_dropdown',
-        name: 'SIG',
-        options: listSignal()
+        name: 'SIGNAL',
+        options: listSignal('ELEMENT_CREATED')
       }],
-      message1: 'when receiver is %1',
+      message1: Msg.SIGNAL_WHEN_RECEIVER_IS_MSG1,
       args1: [{
         type: 'field_dropdown',
         name: 'ID',
         options: listSprite
       }],
       colour: colour,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP
     });
   }
 };
@@ -2835,62 +3202,20 @@ Blockly.JavaScript.signal_when_receiver_is = function () {
   return '';
 };
 
-Blockly.Blocks.signal_send = {
-  init: function init() {
-    this.jsonInit({
-      message0: '%1 send signal %2 🚩',
-      args0: [{
-        type: 'field_dropdown',
-        name: 'TARGET',
-        options: function options() {
-          var sprites = _dropdown.Dropdown.get('Sprites');
-          return [['target', 'target'], ['sender', 'sender'], ['receiver', 'receiver'], ['item', 'item']].concat(sprites.map(function (s) {
-            return [s, s];
-          }));
-        }
-      }, {
-        type: 'field_input',
-        name: 'NAME',
-        text: 'MY_SIGNAL',
-        check: 'String'
-      }],
-      message1: 'data %1',
-      args1: [{
-        type: 'input_statement',
-        name: 'DATA',
-        check: 'KeyValue'
-      }],
-      colour: colour,
-      previousStatement: previousStatement,
-      nextStatement: nextStatement
-    });
-  },
-
-  onchange: (0, _utils.plugEachItemInForEachScope)('TARGET')
-};
-
-Blockly.JavaScript.signal_send = function (block) {
-  var target = block.getFieldValue('TARGET');
-  var signal = block.getFieldValue('NAME');
-  var data = Blockly.JavaScript.statementToCode(block, 'DATA');
-
-  return 'utils.Signal.send(\'' + signal + '\', {sender:' + target + ', data: Object.assign({target: ' + target + '}, {' + data + '})});\n';
-};
-
 Blockly.Blocks.get_data_prop = {
   init: function init() {
     this.jsonInit({
-      message0: 'data get %1',
+      message0: Msg.GET_DATA_PROP_MSG0,
       args0: [{
         type: 'field_dropdown',
         name: 'PROP',
-        options: ['offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'button', 'buttons'].map(function (s) {
-          return [s, s];
+        options: ['offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'buttons'].map(function (s) {
+          return [Msg.$(s, 'GET_DATA_PROP_OPTION_PROP'), s];
         })
       }],
       colour: colour,
       output: true,
-      tooltip: 'get signal data property value.'
+      tooltip: Msg.GET_DATA_PROP_TOOLTIP
     });
   }
 };
@@ -2903,7 +3228,7 @@ Blockly.JavaScript.get_data_prop = function (block) {
 Blockly.Blocks.get_data_prop_custom = {
   init: function init() {
     this.jsonInit({
-      message0: 'data get %1',
+      message0: Msg.GET_DATA_PROP_CUSTOM_MSG0,
       args0: [{
         type: 'field_input',
         name: 'PROP',
@@ -2911,7 +3236,7 @@ Blockly.Blocks.get_data_prop_custom = {
       }],
       colour: colour,
       output: true,
-      tooltip: 'get signal data property value.'
+      tooltip: Msg.GET_DATA_PROP_CUSTOM_TOOLTIP
     });
   }
 };
@@ -2921,19 +3246,68 @@ Blockly.JavaScript.get_data_prop_custom = function (block) {
   return ['data.' + prop, Blockly.JavaScript.ORDER_MEMBER];
 };
 
+var events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave'];
+
+Blockly.Blocks.signal_onevent_send = {
+  init: function init() {
+    this.jsonInit({
+      message0: Msg.SIGNAL_ONEVENT_SEND_MSG0,
+      args0: [{
+        type: 'field_dropdown',
+        name: 'SPRITE',
+        options: _utils.spriteOptions
+      }, {
+        type: 'field_dropdown',
+        name: 'EVENT',
+        options: events.map(function (s) {
+          return [Msg.$(s, 'EVENT'), s];
+        })
+      }, {
+        type: 'field_input',
+        name: 'SIGNAL',
+        text: 'MY_SIGNAL'
+      }],
+      message1: Msg.SIGNAL_ONEVENT_SEND_MSG1,
+      args1: [{
+        type: 'input_statement',
+        name: 'DATA',
+        check: 'KeyValue'
+      }],
+      colour: colour,
+      previousStatement: previousStatement,
+      nextStatement: nextStatement,
+      tooltip: Msg.SIGNAL_ONEVENT_SEND_TOOLTIP + '\n' + Msg.SENDER_RECEIVER_TARGET_TOOLTIP
+    });
+  }
+};
+
+Blockly.JavaScript.signal_onevent_send = function (block) {
+  var target = block.getFieldValue('SPRITE');
+  var event = block.getFieldValue('EVENT');
+  var signal = block.getFieldValue('SIGNAL');
+  var data = Blockly.JavaScript.statementToCode(block, 'DATA');
+
+  if (event !== 'immediately') {
+    var eventName = event.slice(2);
+    return target + '.on(\'' + eventName + '\', \n      evt => {\n        const {altKey, button, buttons, ctrlKey, shiftKey} = evt.originalEvent;\n        utils.Signal.send(\'' + signal + '\', \n          {\n            sender:' + target + ',\n            data: Object.assign(\n              {\n                target: evt.target,\n                offsetX: evt.offsetX,\n                offsetY: evt.offsetY,\n                layerX: evt.layerX,\n                layerY: evt.layerY,\n                altKey,\n                button,\n                buttons,\n                ctrlKey,\n                shiftKey,\n              },\n              {' + data + '},\n            ),\n          });\n      });';
+  }
+  return 'utils.Signal.send(\'' + signal + '\', {sender:' + target + ', data: Object.assign({target: ' + target + '}, {' + data + '})});\n';
+};
+
 /***/ }),
-/* 128 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dropdown = __webpack_require__(123);
+var _dropdown = __webpack_require__(135);
 
-var _utils = __webpack_require__(124);
+var _utils = __webpack_require__(136);
 
-var Blockly = __webpack_require__(115);
+var Blockly = __webpack_require__(126);
 
+var Msg = Blockly.Msg;
 var colour = Blockly.Msg.SPRITE_HUE;
 var previousStatement = 'Statement';
 var nextStatement = 'Statement';
@@ -2941,25 +3315,21 @@ var nextStatement = 'Statement';
 var sender_receiver_dropdown = {
   type: 'field_dropdown',
   name: 'SPRITE',
-  options: function options() {
-    var sprites = _dropdown.Dropdown.get('Sprites');
-    return [['target', 'target'], ['sender', 'sender'], ['receiver', 'receiver'], ['item', 'item']].concat(sprites.map(function (s) {
-      return [s, s];
-    }));
-  }
+  options: _utils.spriteOptions
 };
 
 Blockly.Blocks.sprite_append_to = {
   init: function init() {
     this.jsonInit({
-      message0: 'append %1 to %2',
+      message0: Msg.SPRITE_APPEND_TO_MSG0,
       args0: [sender_receiver_dropdown, { type: 'field_dropdown',
         name: 'LAYER',
-        options: [['fglayer', 'fglayer'], ['bglayer', 'bglayer']]
+        options: [[Msg.COMMON_FGLAYER, 'fglayer'], [Msg.COMMON_BGLAYER, 'bglayer']]
       }],
       colour: colour,
       previousStatement: previousStatement,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.SPRITE_APPEND_TO_TOOLTIP + '\n' + Msg.FGLAYER_BGLAYER_TOOTIP
     });
   },
 
@@ -2980,13 +3350,14 @@ Blockly.JavaScript.sprite_append_to = function (block) {
 Blockly.Blocks.sprite_attrs = {
   init: function init() {
     this.jsonInit({
-      message0: 'set %1 attrs',
+      message0: Msg.SPRITE_ATTRS_MSG0,
       args0: [sender_receiver_dropdown],
       message1: '%1',
       args1: [{ type: 'input_statement', name: 'ATTRS', check: 'KeyValue' }],
       colour: colour,
       previousStatement: previousStatement,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.SPRITE_ATTRS_TOOLTIP
     });
   },
 
@@ -3007,24 +3378,24 @@ Blockly.JavaScript.sprite_attrs = function (block) {
 Blockly.Blocks.sprite_create_attrs = {
   init: function init() {
     this.jsonInit({
-      message0: 'create %1',
+      message0: Msg.SPRITE_CREATE_ATTRS_MSG0,
       args0: [{
         type: 'field_dropdown',
         name: 'TYPE',
-        options: [['Sprite', 'Sprite'], ['Label', 'Label'], ['Path', 'Path']]
+        options: [[Msg.COMMON_SPRITE, 'Sprite'], [Msg.COMMON_LABEL, 'Label'], [Msg.COMMON_PATH, 'Path']]
       }],
-      message1: 'named %1 attrs',
+      message1: Msg.SPRITE_CREATE_ATTRS_MSG1,
       args1: [{
         type: 'field_input',
         name: 'NAME',
-        text: 'MyName',
-        check: 'String'
+        text: 'MyName'
       }],
       message2: '%1',
       args2: [{ type: 'input_statement', name: 'ATTRS', check: 'KeyValue' }],
       colour: colour,
       previousStatement: previousStatement,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.SPRITE_CREATE_ATTRS_TOOLTIP
     });
   }
 };
@@ -3039,7 +3410,7 @@ Blockly.JavaScript.sprite_create_attrs = function (block) {
 Blockly.Blocks.sprite_each_elements_named = {
   init: function init() {
     this.jsonInit({
-      message0: 'each elements named %1',
+      message0: Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG0,
       args0: [{
         type: 'field_dropdown',
         name: 'NAME',
@@ -3053,7 +3424,7 @@ Blockly.Blocks.sprite_each_elements_named = {
           return [['', '']];
         }
       }],
-      message1: 'do %1',
+      message1: Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG1,
       args1: [{
         type: 'input_statement',
         name: 'DO',
@@ -3061,7 +3432,8 @@ Blockly.Blocks.sprite_each_elements_named = {
       }],
       colour: colour,
       previousStatement: previousStatement,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.SPRITE_EACH_ELEMENTS_NAMED_TOOLTIP
     });
   }
 };
@@ -3075,11 +3447,12 @@ Blockly.JavaScript.sprite_each_elements_named = function (block) {
 Blockly.Blocks.sprite_destroy = {
   init: function init() {
     this.jsonInit({
-      message0: '💣 destroy %1',
+      message0: Msg.SPRITE_DESTROY_MSG0,
       args0: [sender_receiver_dropdown],
       colour: colour,
       previousStatement: previousStatement,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.SPRITE_DESTROY_TOOLTIP
     });
   },
 
@@ -3093,22 +3466,23 @@ Blockly.JavaScript.sprite_destroy = function (block) {
 
 function attrs_dropdown() {
   var attrs = ['id', 'name', 'anchorX', 'anchorY', 'x', 'y', 'width', 'height', 'bgcolor', 'opacity', 'rotate', 'scaleX', 'scaleY', 'translateX', 'translateY', 'skewX', 'skewY', 'borderRadius', 'borderWidth', 'borderStyle', 'borderColor', 'dashOffset', 'texture', 'text', 'fontSize', 'fontFamily', 'fontStyle', 'fontVariant', 'fontWeight', 'textAlign', 'lineHeight', 'd', 'lineWidth', 'lineDash', 'lineDashOffset', 'lineCap', 'lineJoin', 'bounding', 'strokeColor', 'fillColor'];
-  return attrs.sort().map(function (s) {
-    return [s, s];
+  return attrs.map(function (s) {
+    return [Msg.$(s, 'ATTR'), s];
   });
 }
 
 Blockly.Blocks.sprite_get_attr = {
   init: function init() {
     this.jsonInit({
-      message0: '%1 get %2',
+      message0: Msg.SPRITE_GET_ATTR_MSG0,
       args0: [sender_receiver_dropdown, {
         type: 'field_dropdown',
         name: 'ATTR',
         options: attrs_dropdown
       }],
       colour: colour,
-      output: true
+      output: true,
+      tooltip: Msg.SPRITE_GET_ATTR_TOOLTIP
     });
   },
 
@@ -3122,14 +3496,15 @@ Blockly.JavaScript.sprite_get_attr = function (block) {
 };
 
 /***/ }),
-/* 129 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Blockly = __webpack_require__(115);
+var Blockly = __webpack_require__(126);
 
+var Msg = Blockly.Msg;
 var colour = Blockly.Msg.LOG_HUE;
 var previousStatement = 'Statement';
 var nextStatement = 'Statement';
@@ -3141,7 +3516,7 @@ Blockly.Blocks.log_log = {
       args0: [{
         type: 'field_dropdown',
         name: 'LOG',
-        options: [['log', 'log'], ['warn', 'warn'], ['error', 'error']]
+        options: [[Msg.LOG_OPTION_LOG_LOG, 'log'], [Msg.LOG_OPTION_LOG_WARN, 'warn'], [Msg.LOG_OPTION_LOG_ERROR, 'error']]
       }, {
         type: 'input_value',
         name: 'MSG'
@@ -3149,7 +3524,8 @@ Blockly.Blocks.log_log = {
       // message1: '(sender, receiver, data)',
       colour: colour,
       previousStatement: previousStatement,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.LOG_TOOLTIP
     });
   }
 };
@@ -3163,7 +3539,7 @@ Blockly.JavaScript.log_log = function (block) {
 Blockly.Blocks.log_alert = {
   init: function init() {
     this.jsonInit({
-      message0: '🔔 alert %1',
+      message0: Msg.LOG_ALERT_MSG0,
       args0: [{
         type: 'input_value',
         name: 'MSG'
@@ -3171,7 +3547,8 @@ Blockly.Blocks.log_alert = {
       // message1: '(sender, receiver, data)',
       colour: colour,
       previousStatement: previousStatement,
-      nextStatement: nextStatement
+      nextStatement: nextStatement,
+      tooltip: Msg.LOG_ALERT_TOOLTIP
     });
   }
 };
@@ -3182,23 +3559,24 @@ Blockly.JavaScript.log_alert = function (block) {
 };
 
 /***/ }),
-/* 130 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Blockly = __webpack_require__(115);
+var Blockly = __webpack_require__(126);
 
+var Msg = Blockly.Msg;
 var colour = Blockly.Msg.MATH_HUE;
 
 Blockly.Blocks.random_number = {
   init: function init() {
     this.jsonInit({
-      message0: '🎲 random number',
+      message0: Msg.RANDOM_NUMBER_MSG0,
       colour: colour,
       output: 'Number',
-      tooltip: 'Get a random number ≥ 0 and < 1.'
+      tooltip: Msg.RANDOM_NUMBER_TOOLTIP
     });
   }
 };
@@ -3212,7 +3590,7 @@ Blockly.Blocks.random_integer_from_to = {
     var _this = this;
 
     this.jsonInit({
-      message0: '🎲 random int ≥ %1 < %2',
+      message0: Msg.RANDOM_INTEGER_FROM_TO_MSG0,
       args0: [{
         type: 'field_number',
         name: 'FROM',
@@ -3223,13 +3601,10 @@ Blockly.Blocks.random_integer_from_to = {
         value: 10
       }],
       colour: colour,
-      output: 'Number'
-    });
-
-    this.setTooltip(function () {
-      var from = _this.getFieldValue('FROM'),
-          to = _this.getFieldValue('TO');
-      return 'Get a random integer \u2265 ' + from + ' and < ' + to + '.';
+      output: 'Number',
+      tooltip: function tooltip() {
+        return Msg.RANDOM_INTEGER_FROM_TO_TOOLTIP.replace('%1', _this.getFieldValue('FROM')).replace('%2', _this.getFieldValue('TO'));
+      }
     });
   },
   onchange: function onchange(evt) {
@@ -3251,10 +3626,10 @@ Blockly.JavaScript.random_integer_from_to = function (block) {
 Blockly.Blocks.random_string = {
   init: function init() {
     this.jsonInit({
-      message0: '🎲 random string',
+      message0: Msg.RANDOM_STRING_MSG0,
       colour: colour,
       output: 'String',
-      tooltip: 'Get a 11 bytes length random string.'
+      tooltip: Msg.RANDOM_STRING_TOOLTIP
     });
   }
 };
@@ -3266,10 +3641,10 @@ Blockly.JavaScript.random_string = function (block) {
 Blockly.Blocks.random_colour_rgb = {
   init: function init() {
     this.jsonInit({
-      message0: '🎲 COLOUR',
+      message0: Msg.RANDOM_COLOUR_RGB_MSG0,
       colour: colour,
       output: 'Colour',
-      tooltip: 'Get a random hsla color.'
+      tooltip: Msg.RANDOM_COLOUR_RGB_TOOLTIP
     });
   }
 };
@@ -3281,8 +3656,8 @@ Blockly.JavaScript.random_colour_rgb = function (block) {
 Blockly.Blocks.random_colour_hue = {
   init: function init() {
     this.jsonInit({
-      message0: '🎲 random COLOUR_HUE',
-      message1: 'S %1% L %2% A %3.',
+      message0: Msg.RANDOM_COLOUR_HUE_MSG0,
+      message1: Msg.RANDOM_COLOUR_HUE_MSG1,
       args1: [{
         type: 'field_number',
         name: 'S',
@@ -3298,7 +3673,7 @@ Blockly.Blocks.random_colour_hue = {
       }],
       colour: colour,
       output: 'Colour',
-      tooltip: 'Get a random hsla color.'
+      tooltip: Msg.RANDOM_COLOUR_HUE_TOOLTIP
     });
   }
 };
@@ -3309,7 +3684,7 @@ Blockly.JavaScript.random_colour_hue = function (block) {
   var l = block.getFieldValue('L');
   var a = block.getFieldValue('A');
 
-  return ['\'hsla(' + h + ',' + s + '%,' + l + '%,' + a + ')\'', Blockly.JavaScript.ORDER_NONE];
+  return ['utils.random_color_hue(' + s + ',' + l + ',' + a + ')', Blockly.JavaScript.ORDER_NONE];
 };
 
 /***/ })

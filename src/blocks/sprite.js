@@ -1,8 +1,9 @@
 import {Dropdown} from '../dropdown';
-import {plugEachItemInForEachScope} from './utils';
+import {plugEachItemInForEachScope, spriteOptions} from './utils';
 
 const Blockly = require('blockly');
 
+const Msg = Blockly.Msg;
 const colour = Blockly.Msg.SPRITE_HUE;
 const previousStatement = 'Statement';
 const nextStatement = 'Statement';
@@ -10,34 +11,27 @@ const nextStatement = 'Statement';
 const sender_receiver_dropdown = {
   type: 'field_dropdown',
   name: 'SPRITE',
-  options: () => {
-    const sprites = Dropdown.get('Sprites');
-    return [
-      ['target', 'target'],
-      ['sender', 'sender'],
-      ['receiver', 'receiver'],
-      ['item', 'item'],
-    ].concat(sprites.map(s => [s, s]));
-  },
+  options: spriteOptions,
 };
 
 Blockly.Blocks.sprite_append_to = {
   init() {
     this.jsonInit({
-      message0: 'append %1 to %2',
+      message0: Msg.SPRITE_APPEND_TO_MSG0,
       args0: [
         sender_receiver_dropdown,
         {type: 'field_dropdown',
           name: 'LAYER',
           options: [
-            ['fglayer', 'fglayer'],
-            ['bglayer', 'bglayer'],
+            [Msg.COMMON_FGLAYER, 'fglayer'],
+            [Msg.COMMON_BGLAYER, 'bglayer'],
           ],
         },
       ],
       colour,
       previousStatement,
       nextStatement,
+      tooltip: `${Msg.SPRITE_APPEND_TO_TOOLTIP}\n${Msg.FGLAYER_BGLAYER_TOOTIP}`,
     });
   },
   onchange: plugEachItemInForEachScope(),
@@ -57,7 +51,7 @@ Blockly.JavaScript.sprite_append_to = function (block) {
 Blockly.Blocks.sprite_attrs = {
   init() {
     this.jsonInit({
-      message0: 'set %1 attrs',
+      message0: Msg.SPRITE_ATTRS_MSG0,
       args0: [
         sender_receiver_dropdown,
       ],
@@ -68,6 +62,7 @@ Blockly.Blocks.sprite_attrs = {
       colour,
       previousStatement,
       nextStatement,
+      tooltip: Msg.SPRITE_ATTRS_TOOLTIP,
     });
   },
   onchange: plugEachItemInForEachScope(),
@@ -87,22 +82,21 @@ Blockly.JavaScript.sprite_attrs = function (block) {
 Blockly.Blocks.sprite_create_attrs = {
   init() {
     this.jsonInit({
-      message0: 'create %1',
+      message0: Msg.SPRITE_CREATE_ATTRS_MSG0,
       args0: [{
         type: 'field_dropdown',
         name: 'TYPE',
         options: [
-          ['Sprite', 'Sprite'],
-          ['Label', 'Label'],
-          ['Path', 'Path'],
+          [Msg.COMMON_SPRITE, 'Sprite'],
+          [Msg.COMMON_LABEL, 'Label'],
+          [Msg.COMMON_PATH, 'Path'],
         ],
       }],
-      message1: 'named %1 attrs',
+      message1: Msg.SPRITE_CREATE_ATTRS_MSG1,
       args1: [{
         type: 'field_input',
         name: 'NAME',
         text: 'MyName',
-        check: 'String',
       }],
       message2: '%1',
       args2: [
@@ -111,6 +105,7 @@ Blockly.Blocks.sprite_create_attrs = {
       colour,
       previousStatement,
       nextStatement,
+      tooltip: Msg.SPRITE_CREATE_ATTRS_TOOLTIP,
     });
   },
 };
@@ -125,7 +120,7 @@ Blockly.JavaScript.sprite_create_attrs = function (block) {
 Blockly.Blocks.sprite_each_elements_named = {
   init() {
     this.jsonInit({
-      message0: 'each elements named %1',
+      message0: Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG0,
       args0: [
         {
           type: 'field_dropdown',
@@ -141,7 +136,7 @@ Blockly.Blocks.sprite_each_elements_named = {
           },
         },
       ],
-      message1: 'do %1',
+      message1: Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG1,
       args1: [{
         type: 'input_statement',
         name: 'DO',
@@ -150,6 +145,7 @@ Blockly.Blocks.sprite_each_elements_named = {
       colour,
       previousStatement,
       nextStatement,
+      tooltip: Msg.SPRITE_EACH_ELEMENTS_NAMED_TOOLTIP,
     });
   },
 };
@@ -163,13 +159,14 @@ Blockly.JavaScript.sprite_each_elements_named = function (block) {
 Blockly.Blocks.sprite_destroy = {
   init() {
     this.jsonInit({
-      message0: '💣 destroy %1',
+      message0: Msg.SPRITE_DESTROY_MSG0,
       args0: [
         sender_receiver_dropdown,
       ],
       colour,
       previousStatement,
       nextStatement,
+      tooltip: Msg.SPRITE_DESTROY_TOOLTIP,
     });
   },
   onchange: plugEachItemInForEachScope(),
@@ -190,13 +187,13 @@ function attrs_dropdown() {
     'text', 'fontSize', 'fontFamily', 'fontStyle', 'fontVariant', 'fontWeight', 'textAlign', 'lineHeight',
     'd', 'lineWidth', 'lineDash', 'lineDashOffset', 'lineCap', 'lineJoin', 'bounding', 'strokeColor', 'fillColor',
   ];
-  return attrs.sort().map(s => [s, s]);
+  return attrs.map(s => [Msg.$(s, 'ATTR'), s]);
 }
 
 Blockly.Blocks.sprite_get_attr = {
   init() {
     this.jsonInit({
-      message0: '%1 get %2',
+      message0: Msg.SPRITE_GET_ATTR_MSG0,
       args0: [
         sender_receiver_dropdown,
         {
@@ -207,6 +204,7 @@ Blockly.Blocks.sprite_get_attr = {
       ],
       colour,
       output: true,
+      tooltip: Msg.SPRITE_GET_ATTR_TOOLTIP,
     });
   },
   onchange: plugEachItemInForEachScope(),

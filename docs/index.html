@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <script src="/js/blockly_node_javascript_en.js"></script>
+  <script src="/js/blockly_node_javascript_cn.js"></script>
   <script src="https://unpkg.com/spritejs/dist/spritejs.min.js"></script>
   <script src="/js/spritly.js"></script>
   <style>
@@ -75,7 +75,7 @@
       <block type="signal_do"></block>
       <block type="signal_new_sprite_as_receiver"></block>
       <block type="signal_when_receiver_is"></block>
-      <block type="signal_send"></block>
+      <block type="signal_onevent_send"></block>
       <block type="get_data_prop"></block>
       <block type="get_data_prop_custom"></block>
     </category>
@@ -157,7 +157,7 @@
                 </block>
             </value>
           </block>
-          <block type="field_attr_border_radius">
+          <block type="field_attr_borderRadius">
             <value name="VALUE">
                 <block type="number">
                   <field name="NUM">0</field>
@@ -292,9 +292,7 @@
           </block>
         </value>
         <value name="EASING">
-          <block type="string">
-            <field name="TEXT">ease-in</field>
-          </block>
+          <block type="easing"></block>
         </value>
       </block>
       <block type="await"></block>
@@ -422,7 +420,7 @@
       // Add each top block one by one and generate code.
       const allCode = [];
 
-      const signal_lists = xml.querySelectorAll('block[type="signal_send"] > field[name="NAME"]');
+      const signal_lists = xml.querySelectorAll('block[type="signal_onevent_send"] > field[name="SIGNAL"]');
       signal_lists.forEach((sig) => {
         Dropdown.set('Signals', sig.textContent);
       });
@@ -442,16 +440,16 @@
           xml.removeChild(block);
           if(type === 'signal_do') {
             const signal = block.querySelector('field').textContent || 'START';
-            topBlocks.unshift({block, type, signal});
+            topBlocks.unshift({block, type, signal, id: ''});
           } else if(type === 'signal_new_sprite_as_receiver') {
-            const signal = block.querySelector('field[name="SIG"]').textContent || 'START';
+            const signal = block.querySelector('field[name="SIGNAL"]').textContent || 'START';
             const nodeType = block.querySelector('field[name="RECEIVER"]').textContent || 'Sprite';
             const id = block.querySelector('field[name="ID"]').textContent;
             Dropdown.set('Sprites', id);
             allCode.push(`utils.Signal.listen('${signal}', {id: '${id}', $$creator: '${nodeType}'});\n`);
             topBlocks.unshift({block, type, signal, id});
           } else if(type === 'signal_when_receiver_is') {
-            const signal = block.querySelector('field[name="SIG"]').textContent || 'START';
+            const signal = block.querySelector('field[name="SIGNAL"]').textContent || 'START';
             const id = block.querySelector('field[name="ID"]').textContent;
             topBlocks.unshift({block, type, signal, id});
           }
@@ -469,8 +467,7 @@
         const code = Blockly.JavaScript.workspaceToCode(headless);
         allCode.push(`utils.Signal.on('${signal}',
 async function({signal, sender, receiver, data, target}){
-// console.log(signal, '${id}', receiver.id);
-if(receiver.id === '${id || '$$default$signal$receiver'}' || target === receiver){
+if(receiver.id === '${id}' || !'${id}' && receiver === utils.Signal.DEFAULT_SIGNAL || target === receiver){
   if(receiver.$$creator) {
     receiver.$$target = spritejs.createElement(receiver.$$creator, {id: '${id}'});
     utils.ElementList.add(receiver.$$target);
@@ -483,7 +480,8 @@ if(receiver.id === '${id || '$$default$signal$receiver'}' || target === receiver
     target = data.target;
   }
   if(target == null) {
-    target = receiver;
+    if(receiver && receiver !== utils.Signal.DEFAULT_SIGNAL) target = receiver;
+    else target = sender;
   }
 ${code}
 }
@@ -540,6 +538,7 @@ ${code}
 
     workspace.addChangeListener((event) => {
       if(event.type === Blockly.Events.CHANGE
+      || event.type === Blockly.Events.DELETE
       || event.type === Blockly.Events.MOVE && event.oldParentId !== event.newParentId) {
         update();
       }

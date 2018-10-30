@@ -1,6 +1,7 @@
 const signals = new Map();
 
 const Signal = {
+  DEFAULT_SIGNAL: {id: Symbol('default_signal')},
   on(signal, handler) {
     const {receivers, handlers} = signals.get(signal) || {receivers: new Set(), handlers: []};
     handlers.push(handler);
@@ -19,7 +20,7 @@ const Signal = {
   send(signal, {sender, data = {}, receiver} = {}) {
     // console.log('send signal', signal);
     const {receivers, handlers} = signals.get(signal) || {receivers: new Set(), handlers: []};
-    [...receivers, {id: '$$default$signal$receiver'}].forEach((_receiver) => {
+    [...receivers, Signal.DEFAULT_SIGNAL].forEach((_receiver) => {
       if(receiver == null || receiver === _receiver) {
         handlers.forEach((handler) => {
           handler({signal, sender, receiver: _receiver, data, target: receiver});

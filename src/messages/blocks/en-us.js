@@ -8,6 +8,17 @@ Msg.COMMON_TARGET = 'target';
 Msg.COMMON_SENDER = 'sender';
 Msg.COMMON_RECEIVER = 'receiver';
 Msg.COMMON_ITEM = 'item';
+Msg.COMMON_SPRITE = 'Sprite';
+Msg.COMMON_LABEL = 'Label';
+Msg.COMMON_PATH = 'Path';
+
+Msg.SENDER_RECEIVER_TARGET_TOOLTIP = `sender: the element who send the signal.
+receiver: the element who receive the signal.
+target: if the signal trigger by event, target is event.target.`;
+
+Msg.FGLAYER_BGLAYER_TOOTIP = `fglayer receive DOM events.
+bglayer ignore DOM events.`;
+
 
 Msg.LITERAL_NULL = 'null';
 Msg.LITERAL_UNDEFINED = 'undefined';
@@ -33,6 +44,7 @@ Msg.ATTR_TRANSLATEX = 'translateX';
 Msg.ATTR_TRANSLATEY = 'translateY';
 Msg.ATTR_SKEWX = 'skewX';
 Msg.ATTR_SKEWY = 'skewY';
+Msg.ATTR_ROTATE = 'rotate';
 Msg.ATTR_BORDERRADIUS = 'borderRadius';
 Msg.ATTR_BORDERWIDTH = 'borderWidth';
 Msg.ATTR_BORDERSTYLE = 'borderStyle';
@@ -160,3 +172,66 @@ Msg.LOG_OPTION_LOG_ERROR = 'error';
 Msg.LOG_TOOLTIP = 'Output message to console.';
 Msg.LOG_ALERT_MSG0 = '🔔 alert %1';
 Msg.LOG_ALERT_TOOLTIP = 'Popup a message box.';
+
+Msg.SIGNAL_DO_MSG0 = 'On signal %1 🚩 do';
+Msg.SIGNAL_DO_TOOLTIP = 'When receive signal do something.';
+Msg.SIGNAL_DO_OPTION_SIGNAL_START = 'START';
+Msg.SIGNAL_DO_OPTION_SIGNAL_LAYER_CLICKED = 'LAYER_CLICKED';
+Msg.SIGNAL_DO_OPTION_SIGNAL_ELEMENT_CREATED = 'ELEMENT_CREATED';
+Msg.SIGNAL_DO_OPTION_SIGNAL_ELEMENT_DESTROYED = 'ELEMENT_DESTROYED';
+
+Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG0 = 'On signal %1 🚩';
+Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG1 = 'new %1 as receiver';
+Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG2 = 'ID is %1';
+Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP = 'When receive signal create an element as receiver.';
+
+Msg.SIGNAL_WHEN_RECEIVER_IS_MSG0 = 'On signals %1 🚩';
+Msg.SIGNAL_WHEN_RECEIVER_IS_MSG1 = 'when receiver is %1';
+Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP = 'When signal has been send to receiver.';
+
+Msg.GET_DATA_PROP_MSG0 = 'data get %1';
+Msg.GET_DATA_PROP_TOOLTIP = 'get signal data property value.';
+Msg.GET_DATA_PROP_OPTION_PROP_OFFSETX = 'offsetX';
+Msg.GET_DATA_PROP_OPTION_PROP_OFFSETY = 'offsetY';
+Msg.GET_DATA_PROP_OPTION_PROP_LAYERX = 'layerX';
+Msg.GET_DATA_PROP_OPTION_PROP_LAYERY = 'layerY';
+Msg.GET_DATA_PROP_OPTION_PROP_ALTKEY = 'altKey';
+Msg.GET_DATA_PROP_OPTION_PROP_CTRLKEY = 'ctrlKey';
+Msg.GET_DATA_PROP_OPTION_PROP_SHIFTKEY = 'shiftKey';
+Msg.GET_DATA_PROP_OPTION_PROP_BUTTONS = 'buttons';
+
+Msg.GET_DATA_PROP_CUSTOM_MSG0 = 'data get %1';
+Msg.GET_DATA_PROP_CUSTOM_TOOLTIP = 'get signal data property value.';
+
+Msg.EVENT_IMMEDIATELY = 'immediately';
+Msg.EVENT_ONCLICK = 'onclick';
+Msg.EVENT_ONDBLCLICK = 'ondblclick';
+Msg.EVENT_ONMOUSEDOWN = 'onmousedown';
+Msg.EVENT_ONMOUSEMOVE = 'onmousemove';
+Msg.EVENT_ONMOUSEUP = 'onmouseup';
+Msg.EVENT_ONMOUSEENTER = 'onmouseenter';
+Msg.EVENT_ONMOUSELEAVE = 'onmouseleave';
+
+Msg.SIGNAL_ONEVENT_SEND_MSG0 = '%1 %2 send %3 🚩';
+Msg.SIGNAL_ONEVENT_SEND_MSG1 = 'with data %1';
+Msg.SIGNAL_ONEVENT_SEND_TOOLTIP = 'When event send signal.';
+
+Msg.SPRITE_APPEND_TO_MSG0 = 'append %1 to %2';
+Msg.SPRITE_APPEND_TO_TOOLTIP = 'Append the element to layer.';
+
+Msg.SPRITE_ATTRS_MSG0 = 'set %1 attrs';
+Msg.SPRITE_ATTRS_TOOLTIP = 'Set attribute value to the element.';
+
+Msg.SPRITE_CREATE_ATTRS_MSG0 = 'create %1';
+Msg.SPRITE_CREATE_ATTRS_MSG1 = 'named %1 attrs';
+Msg.SPRITE_CREATE_ATTRS_TOOLTIP = 'Create an element by name.\nYou can use loop statement to creat sevaral elements with the same name.';
+
+Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG0 = 'each elements named %1';
+Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG1 = 'do %1';
+Msg.SPRITE_EACH_ELEMENTS_NAMED_TOOLTIP = 'Iterate elements by name.';
+
+Msg.SPRITE_DESTROY_MSG0 = '💣 destroy %1';
+Msg.SPRITE_DESTROY_TOOLTIP = 'Remove the element from layer and destruct.';
+
+Msg.SPRITE_GET_ATTR_MSG0 = '%1 get %2';
+Msg.SPRITE_GET_ATTR_TOOLTIP = 'Get attribute value from the element.';

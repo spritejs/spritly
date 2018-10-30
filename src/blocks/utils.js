@@ -1,3 +1,5 @@
+import {Dropdown} from '../dropdown';
+
 export function plugEachItemInForEachScope(field = 'SPRITE') {
   return function () {
     const el = this.getFieldValue(field);
@@ -18,4 +20,17 @@ export function plugEachItemInForEachScope(field = 'SPRITE') {
       }
     }
   };
+}
+
+const Blockly = require('blockly');
+const Msg = Blockly.Msg;
+
+export function spriteOptions() {
+  const sprites = Dropdown.get('Sprites');
+  return [
+    [Msg.COMMON_TARGET, 'target'],
+    [Msg.COMMON_SENDER, 'sender'],
+    [Msg.COMMON_RECEIVER, 'receiver'],
+    [Msg.COMMON_ITEM, 'item'],
+  ].concat(sprites.map(s => [s, s]));
 }

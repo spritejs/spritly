@@ -1,8 +1,9 @@
 <xml>
   <block type="signal_new_sprite_as_receiver">
-    <field name="SIG">START</field>
+    <field name="SIGNAL">START</field>
     <next>
       <block type="sprite_attrs">
+        <field name="SPRITE">receiver</field>
         <value name="ATTRS">
           <block type="field_attr_anchor">
             <field name="KEY">anchorX</field>
@@ -58,6 +59,7 @@
           </block>     
         </value>
         <next><block type="sprite_append_to">
+          <field name="SPRITE">receiver</field>
         <next><block type="sprite_animate">
           <field name="ASYNC?">await</field>
           <value name="DURATION">
@@ -84,8 +86,9 @@
           <value name="EASING">
             <block type="easing"></block>
           </value>
-        <next><block type="signal_send">
-          <field name="NAME">MOVE_FINISHED</field>
+        <next><block type="signal_onevent_send">
+          <field name="SPRITE">receiver</field>
+          <field name="SIGNAL">移动结束</field>
         </block></next>
         </block></next>
         </block></next>

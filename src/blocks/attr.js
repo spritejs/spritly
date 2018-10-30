@@ -31,19 +31,21 @@ Blockly.JavaScript.field_attr_inc = function (block) {
 };
 
 function createKVConf(keys = 'key', valueType = '', colour = Blockly.Msg.ATTRS_HUE, statementType = 'KeyValue') {
-  const arg0 = {name: 'KEY', type: 'field_input'};
+  const arg0 = {name: 'KEY', type: 'field_dropdown'};
   const arg1 = {type: 'input_value', name: 'VALUE', check: valueType};
 
-  if(typeof keys !== 'string' && keys.prop && keys.options) {
-    arg0.text = Msg.$(keys.prop, 'ATTR');
+  if(typeof keys === 'string') {
+    keys = [keys];
+  }
+
+  if(Array.isArray(keys)) {
+    arg0.options = keys.map(key => [Msg.$(key, 'ATTR'), key]);
+  } else if(typeof keys !== 'string' && keys.prop && keys.options) {
+    arg0.options = [[Msg.$(keys.prop, 'ATTR'), keys.prop]];
     arg1.type = 'field_dropdown';
     arg1.options = keys.options.map(s => [Msg.$(s, 'ATTR_VALUE'), s]);
-  } else if(Array.isArray(keys)) {
-    arg0.type = 'field_dropdown';
-    arg0.options = keys.map(key => [Msg.$(key, 'ATTR'), key]);
-  } else {
-    arg0.text = keys;
   }
+
   return {
     message0: Msg.KEYVALUE_MSG0,
     args0: [
@@ -59,21 +61,24 @@ function createKVConf(keys = 'key', valueType = '', colour = Blockly.Msg.ATTRS_H
 Blockly.Blocks.field_attr_anchor = {
   init() {
     this.jsonInit(createKVConf(['anchorX', 'anchorY'], 'Number'));
-    this.setTooltip(() => Msg.FIELD_ATTR_ANCHOR_TOOLTIP.replace('%1', this.getFieldValue('KEY')));
+    this.setTooltip(() => Msg.FIELD_ATTR_ANCHOR_TOOLTIP.replace('%1',
+      Msg.$(this.getFieldValue('KEY'), 'ATTR')));
   },
 };
 
 Blockly.Blocks.field_attr_xy = {
   init() {
     this.jsonInit(createKVConf(['x', 'y'], 'Number'));
-    this.setTooltip(() => Msg.FIELD_ATTR_XY_TOOLTIP.replace('%1', this.getFieldValue('KEY')));
+    this.setTooltip(() => Msg.FIELD_ATTR_XY_TOOLTIP.replace('%1',
+      Msg.$(this.getFieldValue('KEY'), 'ATTR')));
   },
 };
 
 Blockly.Blocks.field_attr_size = {
   init() {
     this.jsonInit(createKVConf(['width', 'height'], 'Number'));
-    this.setTooltip(() => Msg.FIELD_ATTR_SIZE_TOOLTIP.replace('%1', this.getFieldValue('KEY')));
+    this.setTooltip(() => Msg.FIELD_ATTR_SIZE_TOOLTIP.replace('%1',
+      Msg.$(this.getFieldValue('KEY'), 'ATTR')));
   },
 };
 
@@ -101,21 +106,24 @@ Blockly.Blocks.field_attr_rotate = {
 Blockly.Blocks.field_attr_scale = {
   init() {
     this.jsonInit(createKVConf(['scaleX', 'scaleY'], 'Number'));
-    this.setTooltip(() => Msg.FIELD_ATTR_SCALE_TOOLTIP.replace('%1', this.getFieldValue('KEY')));
+    this.setTooltip(() => Msg.FIELD_ATTR_SCALE_TOOLTIP.replace('%1',
+      Msg.$(this.getFieldValue('KEY'), 'ATTR')));
   },
 };
 
 Blockly.Blocks.field_attr_translate = {
   init() {
     this.jsonInit(createKVConf(['translateX', 'translateY'], 'Number'));
-    this.setTooltip(() => Msg.FIELD_ATTR_TRANSLATE_TOOLTIP.replace('%1', this.getFieldValue('KEY')));
+    this.setTooltip(() => Msg.FIELD_ATTR_TRANSLATE_TOOLTIP.replace('%1',
+      Msg.$(this.getFieldValue('KEY'), 'ATTR')));
   },
 };
 
 Blockly.Blocks.field_attr_skew = {
   init() {
     this.jsonInit(createKVConf(['skewX', 'skewY'], 'Number'));
-    this.setTooltip(() => Msg.FIELD_ATTR_SKEW_TOOLTIP.replace('%1', this.getFieldValue('KEY')));
+    this.setTooltip(() => Msg.FIELD_ATTR_SKEW_TOOLTIP.replace('%1',
+      Msg.$(this.getFieldValue('KEY'), 'ATTR')));
   },
 };
 
@@ -270,7 +278,8 @@ Blockly.Blocks.field_attr_lineJoin = {
 Blockly.Blocks.field_attr_bounding = {
   init() {
     this.jsonInit(createKVConf({prop: 'bounding', options: ['box', 'path']}, 'String', Blockly.Msg.ATTRS_PATH_HUE));
-    this.setTooltip(() => Msg.FIELD_ATTR_BOUNDING_TOOLTIP.replace('%1', this.getFieldValue('VALUE')));
+    this.setTooltip(() => Msg.FIELD_ATTR_BOUNDING_TOOLTIP.replace('%1',
+      Msg.$(this.getFieldValue('VALUE'), 'ATTR_VALUE')));
   },
 };
 
