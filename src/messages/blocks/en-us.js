@@ -150,12 +150,6 @@ Msg.FIELD_ATTR_BOUNDING_TOOLTIP = 'Use bounding %1 to check collision.';
 Msg.FIELD_ATTR_STROKECOLOR_TOOLTIP = 'Set strokeColor of a path or label.';
 Msg.FIELD_ATTR_FILLCOLOR_TOOLTIP = 'Set fillColor of a path or label.';
 
-Msg.RANDOM_NUMBER_MSG0 = '🎲 random number';
-Msg.RANDOM_NUMBER_TOOLTIP = 'Get a random number ≥ 0 and < 1.';
-
-Msg.RANDOM_INTEGER_FROM_TO_MSG0 = '🎲 random int ≥ %1 < %2';
-Msg.RANDOM_INTEGER_FROM_TO_TOOLTIP = 'Get a random integer ≥ %1 and < %2.';
-
 Msg.RANDOM_STRING_MSG0 = '🎲 random string';
 Msg.RANDOM_STRING_TOOLTIP = 'Get a 11 bytes length random string.';
 
@@ -235,3 +229,14 @@ Msg.SPRITE_DESTROY_TOOLTIP = 'Remove the element from layer and destruct.';
 
 Msg.SPRITE_GET_ATTR_MSG0 = '%1 get %2';
 Msg.SPRITE_GET_ATTR_TOOLTIP = 'Get attribute value from the element.';
+
+Msg.MATH_RANDOM_INT_TITLE = `🎲 ${Msg.MATH_RANDOM_INT_TITLE}`;
+Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = `🎲 ${Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM}`;
+
+Msg.LIST_FOREACH_MSG0 = 'foreach %1:';
+Msg.LIST_FOREACH_MSG1 = 'do %1';
+Msg.LIST_FOREACH_MSG2 = '%1 as item, %2 as index';
+Msg.LIST_FOREACH_TOOLTIP = 'For each member of list, do something.';
+
+Msg.LIST_INDEX_TOOLTIP = 'Get list iterate index.';
+Msg.LIST_ITEM_TOOLTIP = 'Get list iterate item.';

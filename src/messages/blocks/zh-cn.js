@@ -149,12 +149,6 @@ Msg.FIELD_ATTR_BOUNDING_TOOLTIP = '使用%1的边界方式来检测碰撞。';
 Msg.FIELD_ATTR_STROKECOLOR_TOOLTIP = '设置一个矢量元素或文本元素的描线颜色。';
 Msg.FIELD_ATTR_FILLCOLOR_TOOLTIP = '设置一个矢量元素或文本元素的填充颜色。';
 
-Msg.RANDOM_NUMBER_MSG0 = '🎲 0~1之间随机数';
-Msg.RANDOM_NUMBER_TOOLTIP = '获得一个大于等于0且小于1的随机数。';
-
-Msg.RANDOM_INTEGER_FROM_TO_MSG0 = '🎲 %1~%2之间随机整数';
-Msg.RANDOM_INTEGER_FROM_TO_TOOLTIP = '获得一个大于等于%1且小于%2的随机整数。';
-
 Msg.RANDOM_STRING_MSG0 = '🎲 随机字符串';
 Msg.RANDOM_STRING_TOOLTIP = '获得一个11个字符长度的随机字符串。';
 
@@ -234,3 +228,14 @@ Msg.SPRITE_DESTROY_TOOLTIP = '将元素移除层并销毁。';
 
 Msg.SPRITE_GET_ATTR_MSG0 = '%1 的 %2';
 Msg.SPRITE_GET_ATTR_TOOLTIP = '读取目标元素的属性值。';
+
+Msg.MATH_RANDOM_INT_TITLE = `🎲 ${Msg.MATH_RANDOM_INT_TITLE}`;
+Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = `🎲 ${Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM}`;
+
+Msg.LIST_FOREACH_MSG0 = 'foreach %1:';
+Msg.LIST_FOREACH_MSG1 = 'do %1';
+Msg.LIST_FOREACH_MSG2 = '%1 as item, %2 as index';
+Msg.LIST_FOREACH_TOOLTIP = 'For each member of list, do something.';
+
+Msg.LIST_INDEX_TOOLTIP = 'Get list iterate index.';
+Msg.LIST_ITEM_TOOLTIP = 'Get list iterate item.';

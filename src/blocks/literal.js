@@ -81,12 +81,6 @@ Blockly.Blocks.string = {
 };
 Blockly.JavaScript.string = Blockly.JavaScript.text;
 
-const lists_create_with_init = Blockly.Blocks.lists_create_with.init;
-Blockly.Blocks.lists_create_with.init = function () {
-  lists_create_with_init.call(this);
-  this.setColour(Blockly.Msg.LITERAL_HUE);
-};
-
 Blockly.Blocks.object_create = {
   init() {
     this.appendDummyInput().appendField('new Object');

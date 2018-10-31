@@ -6,3 +6,4 @@ import './signals';
 import './sprite';
 import './log';
 import './math';
+import './lists';

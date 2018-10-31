@@ -317,7 +317,6 @@
         <field name="TEXT">Hello</field>
       </block>
       <block type="colour_picker"></block>
-      <block type="lists_create_with"></block>
       <block type="object_create">
         <value name="FIELDS">
             <block type="key_value">
@@ -330,6 +329,38 @@
         </value>
       </block>
       <block type="loop_get_index"></block>
+    </category>
+    <category name="Lists" colour="%{BKY_LISTS_HUE}">
+      <block type="lists_create_empty"></block>
+      <block type="lists_repeat"></block>
+      <block type="lists_create_with"></block>
+      <block type="lists_reverse"></block>
+      <block type="lists_isEmpty"></block>
+      <block type="lists_length"></block>
+    </category>
+    <category name="Math" colour="%{BKY_MATH_HUE}">
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+      <block type="math_number_property"></block>
+      <block type="math_round"></block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo"></block>
+      <block type="random_string"></block>
+      <block type="math_random_int">
+        <value name="FROM">
+          <block type="number">
+            <field name="NUM">0</field>
+          </block>          
+        </value>
+        <value name="TO">
+          <block type="number">
+            <field name="NUM">10</field>
+          </block>          
+        </value>
+      </block>
+      <block type="math_random_float"></block>
+      <block type="random_colour_rgb"></block>
+      <block type="random_colour_hue"></block>
     </category>
     <category name="Logic" colour="%{BKY_LOGIC_HUE}">
       <block type="logic_compare"></block>
@@ -346,15 +377,9 @@
         </value>
       </block>
       <block type="controls_whileUntil"></block>
-    </category>
-    <category name="Math" colour="%{BKY_MATH_HUE}">
-      <block type="math_arithmetic"></block>
-      <block type="math_single"></block>
-      <block type="random_number"></block>
-      <block type="random_string"></block>
-      <block type="random_integer_from_to"></block>
-      <block type="random_colour_rgb"></block>
-      <block type="random_colour_hue"></block>
+      <block type="list_foreach"></block>
+      <block type="list_index"></block>
+      <block type="list_item"></block>
     </category>
     <category name="Log" colour="%{BKY_LOG_HUE}">
       <block type="log_log"></block>
@@ -430,6 +455,11 @@
         Dropdown.set('SpriteNames', name.textContent);
       });
 
+      const foreach_items = xml.querySelectorAll('block[type="list_foreach"] > field[name="ITEM"]');
+      foreach_items.forEach((name) => {
+        Dropdown.set('ListItems', name.textContent);
+      });
+
       // Find and remove all top blocks.
       const topBlocks = [];
       for(let i = xml.childNodes.length - 1; i >= 0; i--) {
@@ -464,29 +494,29 @@
         const headless = new Blockly.Workspace();
         xml.appendChild(block);
         Blockly.Xml.domToWorkspace(xml, headless);
-        const code = Blockly.JavaScript.workspaceToCode(headless);
-        allCode.push(`utils.Signal.on('${signal}',
-async function({signal, sender, receiver, data, target}){
-if(receiver.id === '${id}' || !'${id}' && receiver === utils.Signal.DEFAULT_SIGNAL || target === receiver){
-  if(receiver.$$creator) {
-    receiver.$$target = spritejs.createElement(receiver.$$creator, {id: '${id}'});
-    utils.ElementList.add(receiver.$$target);
-    delete receiver.$$creator;
-  }
-  if(receiver.$$target) {
-    receiver = receiver.$$target;
-  }
-  if(data.target != null) {
-    target = data.target;
-  }
-  if(target == null) {
-    if(receiver && receiver !== utils.Signal.DEFAULT_SIGNAL) target = receiver;
-    else target = sender;
-  }
+        const indent = Blockly.Generator.prototype.INDENT + Blockly.Generator.prototype.INDENT;
+        const code = indent + Blockly.JavaScript.workspaceToCode(headless).split(/\n/g)
+          .join(`\n${indent}`).trimRight();
+        allCode.push(`utils.Signal.on('${signal}', async function({signal, sender, receiver, data, target}){
+  if(receiver.id === '${id}' || !'${id}' && receiver === utils.Signal.DEFAULT_SIGNAL || target === receiver){
+    if(receiver.$$creator) {
+      receiver.$$target = spritejs.createElement(receiver.$$creator, {id: '${id}'});
+      utils.ElementList.add(receiver.$$target);
+      delete receiver.$$creator;
+    }
+    if(receiver.$$target) {
+      receiver = receiver.$$target;
+    }
+    if(data.target != null) {
+      target = data.target;
+    }
+    if(target == null) {
+      if(receiver && receiver !== utils.Signal.DEFAULT_SIGNAL) target = receiver;
+      else target = sender;
+    }
 ${code}
-}
-});
-        `);
+  }
+});`);
         headless.dispose();
         xml.removeChild(block);
       }
@@ -538,6 +568,7 @@ ${code}
 
     workspace.addChangeListener((event) => {
       if(event.type === Blockly.Events.CHANGE
+      || event.type === Blockly.Events.CREATE
       || event.type === Blockly.Events.DELETE
       || event.type === Blockly.Events.MOVE && event.oldParentId !== event.newParentId) {
         update();

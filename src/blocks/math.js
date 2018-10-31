@@ -3,58 +3,6 @@ const Blockly = require('blockly');
 const Msg = Blockly.Msg;
 const colour = Blockly.Msg.MATH_HUE;
 
-Blockly.Blocks.random_number = {
-  init() {
-    this.jsonInit({
-      message0: Msg.RANDOM_NUMBER_MSG0,
-      colour,
-      output: 'Number',
-      tooltip: Msg.RANDOM_NUMBER_TOOLTIP,
-    });
-  },
-};
-
-Blockly.JavaScript.random_number = function (block) {
-  return ['Math.random()', Blockly.JavaScript.ORDER_NONE];
-};
-
-Blockly.Blocks.random_integer_from_to = {
-  init() {
-    this.jsonInit({
-      message0: Msg.RANDOM_INTEGER_FROM_TO_MSG0,
-      args0: [
-        {
-          type: 'field_number',
-          name: 'FROM',
-          value: 0,
-        },
-        {
-          type: 'field_number',
-          name: 'TO',
-          value: 10,
-        },
-      ],
-      colour,
-      output: 'Number',
-      tooltip: () => Msg.RANDOM_INTEGER_FROM_TO_TOOLTIP.replace('%1', this.getFieldValue('FROM')).replace('%2', this.getFieldValue('TO')),
-    });
-  },
-  onchange(evt) {
-    const from = this.getFieldValue('FROM'),
-      to = this.getFieldValue('TO');
-
-    this.setFieldValue(Math.round(from), 'FROM');
-    this.setFieldValue(Math.round(to), 'TO');
-  },
-};
-
-Blockly.JavaScript.random_integer_from_to = function (block) {
-  const from = block.getFieldValue('FROM'),
-    to = block.getFieldValue('TO');
-
-  return [`utils.random(${from}, ${to})`, Blockly.JavaScript.ORDER_NONE];
-};
-
 Blockly.Blocks.random_string = {
   init() {
     this.jsonInit({
