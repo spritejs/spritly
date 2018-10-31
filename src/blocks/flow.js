@@ -58,6 +58,37 @@ Blockly.Blocks.controls_repeat_ext.init = function () {
   this.setColour(Msg.FLOWS_HUE);
 };
 
+Blockly.JavaScript.controls_repeat_ext = function (block) {
+  // Repeat n times.
+  let repeats;
+  if(block.getField('TIMES')) {
+    // Internal number.
+    repeats = String(Number(block.getFieldValue('TIMES')));
+  } else {
+    // External number.
+    repeats = Blockly.JavaScript.valueToCode(block, 'TIMES',
+      Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
+  }
+  let branch = Blockly.JavaScript.statementToCode(block, 'DO');
+  branch = Blockly.JavaScript.addLoopTrap(branch, block.id);
+  let code = '';
+  const loopVar = Blockly.JavaScript.variableDB_.getDistinctName(
+    'count', Blockly.Variables.NAME_TYPE
+  );
+  let endVar = repeats;
+  let endVarDef = '';
+  if(!repeats.match(/^\w+$/) && !Blockly.isNumber(repeats)) {
+    endVar = Blockly.JavaScript.variableDB_.getDistinctName(
+      'repeat_end', Blockly.Variables.NAME_TYPE
+    );
+    endVarDef = `, ${endVar} = ${repeats}`;
+  }
+  code += `for(let ${loopVar} = 0${endVarDef}; ${loopVar} < ${endVar}; ${loopVar}++){
+${branch}}\n`;
+
+  return code;
+};
+
 const controls_whileUntil_init = Blockly.Blocks.controls_whileUntil.init;
 Blockly.Blocks.controls_whileUntil.init = function () {
   controls_whileUntil_init.call(this);
@@ -156,11 +187,11 @@ Blockly.Blocks.list_item = {
             if(items.length) {
               return items.map(s => [s, s]);
             }
-            return [['', '']];
+            return [['item', 'item']];
           },
         },
       ],
-      output: 'Number',
+      output: null,
       colour: Msg.FLOWS_HUE,
       tooltip: Msg.LIST_ITEM_TOOLTIP,
     });

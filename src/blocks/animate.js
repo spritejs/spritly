@@ -1,5 +1,3 @@
-import {Dropdown} from '../dropdown';
-import {plugEachItemInForEachScope} from './utils';
 const Blockly = require('blockly');
 const Msg = Blockly.Msg;
 
@@ -67,17 +65,9 @@ Blockly.Blocks.sprite_animate = {
             [Msg.SPRITE_ANIMATE_OPTION_ASYNC_AWAIT, 'await'],
           ],
         }, {
-          type: 'field_dropdown',
+          type: 'input_value',
           name: 'SPRITE',
-          options: () => {
-            const sprites = Dropdown.get('Sprites');
-            return [
-              [Msg.COMMON_TARGET, 'target'],
-              [Msg.COMMON_SENDER, 'sender'],
-              [Msg.COMMON_RECEIVER, 'receiver'],
-              [Msg.COMMON_ITEM, 'item'],
-            ].concat(sprites.map(s => [s, s]));
-          },
+          check: 'Sprite',
         }, {
           type: 'input_value',
           name: 'DURATION',
@@ -114,12 +104,11 @@ Blockly.Blocks.sprite_animate = {
       tooltip: Msg.SPRITE_ANIMATE_TOOLTIP,
     });
   },
-  onchange: plugEachItemInForEachScope(),
 };
 
 Blockly.JavaScript.sprite_animate = function (block) {
   const isAsync = block.getFieldValue('ASYNC?') === 'await';
-  const sprite = block.getFieldValue('SPRITE');
+  const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   const duration = Blockly.JavaScript.valueToCode(block, 'DURATION', Blockly.JavaScript.ORDER_NONE) || 600;
   const easing = Blockly.JavaScript.valueToCode(block, 'EASING', Blockly.JavaScript.ORDER_NONE) || '"ease"';
   const from = Blockly.JavaScript.statementToCode(block, 'FROM_ATTRS');

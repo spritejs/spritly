@@ -1,5 +1,4 @@
 import {Dropdown} from '../dropdown';
-import {spriteOptions} from './utils';
 
 const Blockly = require('blockly');
 
@@ -115,6 +114,21 @@ Blockly.JavaScript.signal_when_receiver_is = function () {
   return '';
 };
 
+Blockly.Blocks.get_data = {
+  init() {
+    this.jsonInit({
+      message0: Msg.GET_DATA_MSG0,
+      colour,
+      output: 'Object',
+      tooltip: Msg.GET_DATA_TOOLTIP,
+    });
+  },
+};
+
+Blockly.JavaScript.get_data = function (block) {
+  return ['data', Blockly.JavaScript.ORDER_NONE];
+};
+
 Blockly.Blocks.get_data_prop = {
   init() {
     this.jsonInit({
@@ -134,7 +148,7 @@ Blockly.Blocks.get_data_prop = {
         ].map(s => [Msg.$(s, 'GET_DATA_PROP_OPTION_PROP'), s]),
       }],
       colour,
-      output: true,
+      output: ['Number', 'Boolean'],
       tooltip: Msg.GET_DATA_PROP_TOOLTIP,
     });
   },
@@ -142,28 +156,7 @@ Blockly.Blocks.get_data_prop = {
 
 Blockly.JavaScript.get_data_prop = function (block) {
   const prop = block.getFieldValue('PROP');
-  return [`data.${prop}`, Blockly.JavaScript.ORDER_MEMBER];
-};
-
-Blockly.Blocks.get_data_prop_custom = {
-  init() {
-    this.jsonInit({
-      message0: Msg.GET_DATA_PROP_CUSTOM_MSG0,
-      args0: [{
-        type: 'field_input',
-        name: 'PROP',
-        text: 'key',
-      }],
-      colour,
-      output: true,
-      tooltip: Msg.GET_DATA_PROP_CUSTOM_TOOLTIP,
-    });
-  },
-};
-
-Blockly.JavaScript.get_data_prop_custom = function (block) {
-  const prop = block.getFieldValue('PROP');
-  return [`data.${prop}`, Blockly.JavaScript.ORDER_MEMBER];
+  return [`data[utils.Symbols.${prop}]`, Blockly.JavaScript.ORDER_MEMBER];
 };
 
 const events = ['immediately', 'onclick', 'ondblclick',
@@ -174,9 +167,9 @@ Blockly.Blocks.signal_onevent_send = {
     this.jsonInit({
       message0: Msg.SIGNAL_ONEVENT_SEND_MSG0,
       args0: [{
-        type: 'field_dropdown',
+        type: 'input_value',
         name: 'SPRITE',
-        options: spriteOptions,
+        check: 'Sprite',
       }, {
         type: 'field_dropdown',
         name: 'EVENT',
@@ -203,7 +196,7 @@ Blockly.Blocks.signal_onevent_send = {
 };
 
 Blockly.JavaScript.signal_onevent_send = function (block) {
-  const target = block.getFieldValue('SPRITE');
+  const target = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   const event = block.getFieldValue('EVENT');
   const signal = block.getFieldValue('SIGNAL');
   const data = Blockly.JavaScript.statementToCode(block, 'DATA');
@@ -211,28 +204,27 @@ Blockly.JavaScript.signal_onevent_send = function (block) {
   if(event !== 'immediately') {
     const eventName = event.slice(2);
     return `${target}.on('${eventName}', 
-      evt => {
-        const {altKey, button, buttons, ctrlKey, shiftKey} = evt.originalEvent;
-        utils.Signal.send('${signal}', 
+  evt => {
+    const {altKey, buttons, ctrlKey, shiftKey} = evt.originalEvent;
+    utils.Signal.send('${signal}', 
+      {
+        sender:${target},
+        data: Object.assign(
           {
-            sender:${target},
-            data: Object.assign(
-              {
-                target: evt.target,
-                offsetX: evt.offsetX,
-                offsetY: evt.offsetY,
-                layerX: evt.layerX,
-                layerY: evt.layerY,
-                altKey,
-                button,
-                buttons,
-                ctrlKey,
-                shiftKey,
-              },
-              {${data}},
-            ),
-          });
-      });`;
+            [utils.Symbols.target]: evt.target,
+            [utils.Symbols.offsetX]: evt.offsetX,
+            [utils.Symbols.offsetY]: evt.offsetY,
+            [utils.Symbols.layerX]: evt.layerX,
+            [utils.Symbols.layerY]: evt.layerY,
+            [utils.Symbols.altKey]: altKey,
+            [utils.Symbols.buttons]: buttons,
+            [utils.Symbols.ctrlKey]: ctrlKey,
+            [utils.Symbols.shiftKey]: shiftKey,
+          },
+          {${data}},
+        ),
+      });
+  });`;
   }
-  return `utils.Signal.send('${signal}', {sender:${target}, data: Object.assign({target: ${target}}, {${data}})});\n`;
+  return `utils.Signal.send('${signal}', {sender:${target}, data: {${data}}});\n`;
 };

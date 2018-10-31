@@ -7,7 +7,6 @@ Msg.COMMON_BGLAYER = '背景图层';
 Msg.COMMON_TARGET = '目标元素';
 Msg.COMMON_SENDER = '发送者';
 Msg.COMMON_RECEIVER = '接收者';
-Msg.COMMON_ITEM = '迭代元素';
 Msg.COMMON_SPRITE = '精灵元素';
 Msg.COMMON_LABEL = '文本元素';
 Msg.COMMON_PATH = '矢量元素';
@@ -182,7 +181,9 @@ Msg.SIGNAL_WHEN_RECEIVER_IS_MSG0 = '收到信号 %1 🚩';
 Msg.SIGNAL_WHEN_RECEIVER_IS_MSG1 = '当接收者为 %1 时';
 Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP = '收到某个信号且接收者为特定元素时，执行动作。';
 
-Msg.GET_DATA_PROP_MSG0 = '数据的 %1';
+Msg.GET_DATA_MSG0 = '消息';
+Msg.GET_DATA_TOOLTIP = '读取信号消息。';
+Msg.GET_DATA_PROP_MSG0 = '消息的 %1';
 Msg.GET_DATA_PROP_TOOLTIP = '读取信号的数据属性。如果信号是由事件触发，可读取这些属性。';
 Msg.GET_DATA_PROP_OPTION_PROP_OFFSETX = '相对坐标X';
 Msg.GET_DATA_PROP_OPTION_PROP_OFFSETY = '相对坐标Y';
@@ -192,9 +193,6 @@ Msg.GET_DATA_PROP_OPTION_PROP_ALTKEY = '按下ALT键';
 Msg.GET_DATA_PROP_OPTION_PROP_CTRLKEY = '按下CTRL键';
 Msg.GET_DATA_PROP_OPTION_PROP_SHIFTKEY = '按下SHIFT键';
 Msg.GET_DATA_PROP_OPTION_PROP_BUTTONS = '鼠标按键值';
-
-Msg.GET_DATA_PROP_CUSTOM_MSG0 = '数据的 %1 属性';
-Msg.GET_DATA_PROP_CUSTOM_TOOLTIP = '读取信号的数据属性。发起信号时可设置属性。';
 
 Msg.EVENT_IMMEDIATELY = '立即';
 Msg.EVENT_ONCLICK = '当被鼠标单击';
@@ -206,10 +204,12 @@ Msg.EVENT_ONMOUSEENTER = '鼠标进入元素';
 Msg.EVENT_ONMOUSELEAVE = '鼠标离开元素';
 
 Msg.SIGNAL_ONEVENT_SEND_MSG0 = '%1 %2 发送 %3 🚩';
-Msg.SIGNAL_ONEVENT_SEND_MSG1 = '包含数据 %1';
+Msg.SIGNAL_ONEVENT_SEND_MSG1 = '包含消息 %1';
 Msg.SIGNAL_ONEVENT_SEND_TOOLTIP = '当事件发生时，发送信号。';
 
-Msg.SPRITE_APPEND_TO_MSG0 = '%1 添加到 %2';
+Msg.SPRITE_MSG0_TOOLTIP = `指定元素。\n${Msg.SENDER_RECEIVER_TARGET_TOOLTIP}`;
+
+Msg.SPRITE_APPEND_TO_MSG0 = '将 %1 添加到 %2';
 Msg.SPRITE_APPEND_TO_TOOLTIP = '添加元素到层。';
 
 Msg.SPRITE_ATTRS_MSG0 = '设置 %1 属性';
@@ -219,9 +219,8 @@ Msg.SPRITE_CREATE_ATTRS_MSG0 = '创建 %1';
 Msg.SPRITE_CREATE_ATTRS_MSG1 = '命名为 %1 包含属性';
 Msg.SPRITE_CREATE_ATTRS_TOOLTIP = '创建一个指定名字的元素。可以使用循环语句创建多个同名元素。';
 
-Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG0 = '遍历每个名为 %1 的元素';
-Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG1 = '执行 %1';
-Msg.SPRITE_EACH_ELEMENTS_NAMED_TOOLTIP = '根据名字对元素执行迭代操作。';
+Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG0 = '所有名为 %1 的元素';
+Msg.SPRITE_EACH_ELEMENTS_NAMED_TOOLTIP = '获得指定名字的全部元素。';
 
 Msg.SPRITE_DESTROY_MSG0 = '💣 销毁 %1';
 Msg.SPRITE_DESTROY_TOOLTIP = '将元素移除层并销毁。';
@@ -232,10 +231,13 @@ Msg.SPRITE_GET_ATTR_TOOLTIP = '读取目标元素的属性值。';
 Msg.MATH_RANDOM_INT_TITLE = `🎲 ${Msg.MATH_RANDOM_INT_TITLE}`;
 Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM = `🎲 ${Msg.MATH_RANDOM_FLOAT_TITLE_RANDOM}`;
 
-Msg.LIST_FOREACH_MSG0 = 'foreach %1:';
-Msg.LIST_FOREACH_MSG1 = 'do %1';
-Msg.LIST_FOREACH_MSG2 = '%1 as item, %2 as index';
-Msg.LIST_FOREACH_TOOLTIP = 'For each member of list, do something.';
+Msg.LIST_FOREACH_MSG0 = '遍历列表 %1:';
+Msg.LIST_FOREACH_MSG1 = '执行 %1';
+Msg.LIST_FOREACH_MSG2 = '%1 代表每个元素, %2 代表索引';
+Msg.LIST_FOREACH_TOOLTIP = '遍历列表每个元素，执行动作。';
 
-Msg.LIST_INDEX_TOOLTIP = 'Get list iterate index.';
-Msg.LIST_ITEM_TOOLTIP = 'Get list iterate item.';
+Msg.LIST_INDEX_TOOLTIP = '获取迭代索引。';
+Msg.LIST_ITEM_TOOLTIP = '获取迭代元素。';
+
+Msg.OBJECT_GET_PROP_MSG0 = '%1.%2';
+Msg.OBJECT_GET_PROP_TOOLTIP = '读取对象属性。';

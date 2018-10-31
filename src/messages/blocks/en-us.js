@@ -7,7 +7,6 @@ Msg.COMMON_BGLAYER = 'bglayer';
 Msg.COMMON_TARGET = 'target';
 Msg.COMMON_SENDER = 'sender';
 Msg.COMMON_RECEIVER = 'receiver';
-Msg.COMMON_ITEM = 'item';
 Msg.COMMON_SPRITE = 'Sprite';
 Msg.COMMON_LABEL = 'Label';
 Msg.COMMON_PATH = 'Path';
@@ -183,6 +182,8 @@ Msg.SIGNAL_WHEN_RECEIVER_IS_MSG0 = 'On signals %1 🚩';
 Msg.SIGNAL_WHEN_RECEIVER_IS_MSG1 = 'when receiver is %1';
 Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP = 'When signal has been send to receiver.';
 
+Msg.GET_DATA_MSG0 = 'get signal data';
+Msg.GET_DATA_TOOLTIP = 'Get signal data.';
 Msg.GET_DATA_PROP_MSG0 = 'data get %1';
 Msg.GET_DATA_PROP_TOOLTIP = 'get signal data property value.';
 Msg.GET_DATA_PROP_OPTION_PROP_OFFSETX = 'offsetX';
@@ -193,9 +194,6 @@ Msg.GET_DATA_PROP_OPTION_PROP_ALTKEY = 'altKey';
 Msg.GET_DATA_PROP_OPTION_PROP_CTRLKEY = 'ctrlKey';
 Msg.GET_DATA_PROP_OPTION_PROP_SHIFTKEY = 'shiftKey';
 Msg.GET_DATA_PROP_OPTION_PROP_BUTTONS = 'buttons';
-
-Msg.GET_DATA_PROP_CUSTOM_MSG0 = 'data get %1';
-Msg.GET_DATA_PROP_CUSTOM_TOOLTIP = 'get signal data property value.';
 
 Msg.EVENT_IMMEDIATELY = 'immediately';
 Msg.EVENT_ONCLICK = 'onclick';
@@ -210,6 +208,8 @@ Msg.SIGNAL_ONEVENT_SEND_MSG0 = '%1 %2 send %3 🚩';
 Msg.SIGNAL_ONEVENT_SEND_MSG1 = 'with data %1';
 Msg.SIGNAL_ONEVENT_SEND_TOOLTIP = 'When event send signal.';
 
+Msg.SPRITE_MSG0_TOOLTIP = `Get sprite element.\n${Msg.SENDER_RECEIVER_TARGET_TOOLTIP}`;
+
 Msg.SPRITE_APPEND_TO_MSG0 = 'append %1 to %2';
 Msg.SPRITE_APPEND_TO_TOOLTIP = 'Append the element to layer.';
 
@@ -220,9 +220,8 @@ Msg.SPRITE_CREATE_ATTRS_MSG0 = 'create %1';
 Msg.SPRITE_CREATE_ATTRS_MSG1 = 'named %1 attrs';
 Msg.SPRITE_CREATE_ATTRS_TOOLTIP = 'Create an element by name.\nYou can use loop statement to creat sevaral elements with the same name.';
 
-Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG0 = 'each elements named %1';
-Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG1 = 'do %1';
-Msg.SPRITE_EACH_ELEMENTS_NAMED_TOOLTIP = 'Iterate elements by name.';
+Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG0 = 'Elements named %1';
+Msg.SPRITE_EACH_ELEMENTS_NAMED_TOOLTIP = 'Get elements by name.';
 
 Msg.SPRITE_DESTROY_MSG0 = '💣 destroy %1';
 Msg.SPRITE_DESTROY_TOOLTIP = 'Remove the element from layer and destruct.';
@@ -240,3 +239,6 @@ Msg.LIST_FOREACH_TOOLTIP = 'For each member of list, do something.';
 
 Msg.LIST_INDEX_TOOLTIP = 'Get list iterate index.';
 Msg.LIST_ITEM_TOOLTIP = 'Get list iterate item.';
+
+Msg.OBJECT_GET_PROP_MSG0 = '%1.%2';
+Msg.OBJECT_GET_PROP_TOOLTIP = 'Get object property.';

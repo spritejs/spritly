@@ -1,5 +1,5 @@
 import {Dropdown} from '../dropdown';
-import {plugEachItemInForEachScope, spriteOptions} from './utils';
+import {spriteOptions} from './utils';
 
 const Blockly = require('blockly');
 
@@ -14,12 +14,39 @@ const sender_receiver_dropdown = {
   options: spriteOptions,
 };
 
+Blockly.Blocks.sprite = {
+  init() {
+    this.jsonInit({
+      message0: '%1',
+      args0: [
+        sender_receiver_dropdown,
+      ],
+      colour,
+      output: 'Sprite',
+      tooltip: Msg.SPRITE_MSG0_TOOLTIP,
+    });
+  },
+};
+
+Blockly.JavaScript.sprite = function (block) {
+  let sprite = block.getFieldValue('SPRITE');
+  if(sprite !== 'target' && sprite !== 'sender' && sprite !== 'receiver' && sprite !== 'item') {
+    sprite = `utils.ElementList.getElementById('${sprite}')`;
+  }
+
+  return [sprite, Blockly.JavaScript.ORDER_NONE];
+};
+
 Blockly.Blocks.sprite_append_to = {
   init() {
     this.jsonInit({
       message0: Msg.SPRITE_APPEND_TO_MSG0,
       args0: [
-        sender_receiver_dropdown,
+        {
+          type: 'input_value',
+          name: 'SPRITE',
+          check: 'Sprite',
+        },
         {type: 'field_dropdown',
           name: 'LAYER',
           options: [
@@ -34,16 +61,11 @@ Blockly.Blocks.sprite_append_to = {
       tooltip: `${Msg.SPRITE_APPEND_TO_TOOLTIP}\n${Msg.FGLAYER_BGLAYER_TOOTIP}`,
     });
   },
-  onchange: plugEachItemInForEachScope(),
 };
 
 Blockly.JavaScript.sprite_append_to = function (block) {
-  let sprite = block.getFieldValue('SPRITE');
+  const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   const layerName = block.getFieldValue('LAYER');
-
-  if(sprite !== 'target' && sprite !== 'sender' && sprite !== 'receiver' && sprite !== 'item') {
-    sprite = `utils.ElementList.getElementById('${sprite}')`;
-  }
 
   return `scene.layer('${layerName}').append(${sprite});\n`;
 };
@@ -53,7 +75,11 @@ Blockly.Blocks.sprite_attrs = {
     this.jsonInit({
       message0: Msg.SPRITE_ATTRS_MSG0,
       args0: [
-        sender_receiver_dropdown,
+        {
+          type: 'input_value',
+          name: 'SPRITE',
+          check: 'Sprite',
+        },
       ],
       message1: '%1',
       args1: [
@@ -65,16 +91,11 @@ Blockly.Blocks.sprite_attrs = {
       tooltip: Msg.SPRITE_ATTRS_TOOLTIP,
     });
   },
-  onchange: plugEachItemInForEachScope(),
 };
 
 Blockly.JavaScript.sprite_attrs = function (block) {
-  let sprite = block.getFieldValue('SPRITE');
+  const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   const attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
-
-  if(sprite !== 'target' && sprite !== 'sender' && sprite !== 'receiver' && sprite !== 'item') {
-    sprite = `utils.ElementList.getElementById('${sprite}')`;
-  }
 
   return `${sprite}.attr(utils.parse_attr({${attrs}\n}));\n`;
 };
@@ -136,15 +157,8 @@ Blockly.Blocks.sprite_each_elements_named = {
           },
         },
       ],
-      message1: Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG1,
-      args1: [{
-        type: 'input_statement',
-        name: 'DO',
-        check: 'Statement',
-      }],
       colour,
-      previousStatement,
-      nextStatement,
+      output: 'Array',
       tooltip: Msg.SPRITE_EACH_ELEMENTS_NAMED_TOOLTIP,
     });
   },
@@ -152,8 +166,7 @@ Blockly.Blocks.sprite_each_elements_named = {
 
 Blockly.JavaScript.sprite_each_elements_named = function (block) {
   const name = block.getFieldValue('NAME');
-  const code = Blockly.JavaScript.statementToCode(block, 'DO');
-  return `await Promise.all(utils.ElementList.getElementsByName('${name}').map(async (item, index) => {\n${code}\n}));\n`;
+  return [`utils.ElementList.getElementsByName('${name}')`, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.Blocks.sprite_destroy = {
@@ -161,7 +174,11 @@ Blockly.Blocks.sprite_destroy = {
     this.jsonInit({
       message0: Msg.SPRITE_DESTROY_MSG0,
       args0: [
-        sender_receiver_dropdown,
+        {
+          type: 'input_value',
+          name: 'SPRITE',
+          check: 'Sprite',
+        },
       ],
       colour,
       previousStatement,
@@ -169,11 +186,10 @@ Blockly.Blocks.sprite_destroy = {
       tooltip: Msg.SPRITE_DESTROY_TOOLTIP,
     });
   },
-  onchange: plugEachItemInForEachScope(),
 };
 
 Blockly.JavaScript.sprite_destroy = function (block) {
-  const sprite = block.getFieldValue('SPRITE');
+  const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   return `utils.ElementList.remove(${sprite});\n`;
 };
 
@@ -195,7 +211,11 @@ Blockly.Blocks.sprite_get_attr = {
     this.jsonInit({
       message0: Msg.SPRITE_GET_ATTR_MSG0,
       args0: [
-        sender_receiver_dropdown,
+        {
+          type: 'input_value',
+          name: 'SPRITE',
+          check: 'Sprite',
+        },
         {
           type: 'field_dropdown',
           name: 'ATTR',
@@ -207,11 +227,10 @@ Blockly.Blocks.sprite_get_attr = {
       tooltip: Msg.SPRITE_GET_ATTR_TOOLTIP,
     });
   },
-  onchange: plugEachItemInForEachScope(),
 };
 
 Blockly.JavaScript.sprite_get_attr = function (block) {
-  const sprite = block.getFieldValue('SPRITE');
+  const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   const attr = block.getFieldValue('ATTR');
   return [`utils.get_attr(${sprite}, '${attr}')`, Blockly.JavaScript.ORDER_MEMBER];
 };

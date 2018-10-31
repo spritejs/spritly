@@ -7,3 +7,4 @@ import './sprite';
 import './log';
 import './math';
 import './lists';
+import './getter_setter';

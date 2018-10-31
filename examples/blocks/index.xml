@@ -3,7 +3,11 @@
     <field name="SIGNAL">START</field>
     <next>
       <block type="sprite_attrs">
-        <field name="SPRITE">receiver</field>
+        <value name="SPRITE">
+          <block type="sprite">
+            <field name="SPRITE">receiver</field>
+          </block>
+        </value>
         <value name="ATTRS">
           <block type="field_attr_anchor">
             <field name="KEY">anchorX</field>
@@ -59,8 +63,17 @@
           </block>     
         </value>
         <next><block type="sprite_append_to">
-          <field name="SPRITE">receiver</field>
+          <value name="SPRITE">
+            <block type="sprite">
+              <field name="SPRITE">receiver</field>
+            </block>
+          </value>
         <next><block type="sprite_animate">
+          <value name="SPRITE">
+            <block type="sprite">
+              <field name="SPRITE">receiver</field>
+            </block>
+          </value> 
           <field name="ASYNC?">await</field>
           <value name="DURATION">
             <block type="number">
@@ -87,7 +100,11 @@
             <block type="easing"></block>
           </value>
         <next><block type="signal_onevent_send">
-          <field name="SPRITE">receiver</field>
+          <value name="SPRITE">
+            <block type="sprite">
+              <field name="SPRITE">receiver</field>
+            </block>
+          </value>  
           <field name="SIGNAL">移动结束</field>
         </block></next>
         </block></next>
