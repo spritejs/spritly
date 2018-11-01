@@ -423,6 +423,10 @@ Msg.LIST_ITEM_TOOLTIP = '获取迭代元素。';
 Msg.OBJECT_GET_PROP_MSG0 = '%1.%2';
 Msg.OBJECT_GET_PROP_TOOLTIP = '读取对象属性。';
 
+Msg.LISTS_CREATE_RANGE_MSG0 = 'Create list';
+Msg.LISTS_CREATE_RANGE_MSG1 = 'from %1 to %2';
+Msg.LISTS_CREATE_RANGE_TOOLTIP = 'Create list by range.';
+
 /***/ }),
 /* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -796,7 +800,7 @@ Blockly.Blocks.await_frame = {
 
 Blockly.JavaScript.await_frame = function (block) {
   const layerName = block.getFieldValue('LAYER');
-  return `await scene.layer('${layerName}').prepareRender();\n`;
+  return `await spritly.runtime.scene.layer('${layerName}').prepareRender();\n`;
 };
 
 Blockly.Blocks.sprite_animate = {
@@ -1507,7 +1511,7 @@ Blockly.JavaScript.sprite_append_to = function (block) {
   const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   const layerName = block.getFieldValue('LAYER');
 
-  return `scene.layer('${layerName}').append(${sprite});\n`;
+  return `spritly.runtime.scene.layer('${layerName}').append(${sprite});\n`;
 };
 
 Blockly.Blocks.sprite_attrs = {
@@ -1801,9 +1805,41 @@ Blockly.JavaScript.random_colour_hue = function (block) {
 
 /***/ }),
 /* 23 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
+const Blockly = __webpack_require__(10);
 
+const Msg = Blockly.Msg;
+const colour = Msg.LISTS_HUE;
+
+Blockly.Blocks.lists_create_range = {
+  init() {
+    this.jsonInit({
+      message0: Msg.LISTS_CREATE_RANGE_MSG0,
+      message1: Msg.LISTS_CREATE_RANGE_MSG1,
+      args1: [{
+        type: 'input_value',
+        name: 'FROM',
+        check: 'Number'
+      }, {
+        type: 'input_value',
+        name: 'TO',
+        check: 'Number'
+      }],
+      inputsInline: true,
+      output: 'Array',
+      colour,
+      tooltip: Msg.LISTS_CREATE_RANGE_TOOLTIP
+    });
+  }
+};
+
+Blockly.JavaScript.lists_create_range = function (block) {
+  const from = Blockly.JavaScript.valueToCode(block, 'FROM', Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
+  const to = Blockly.JavaScript.valueToCode(block, 'TO', Blockly.JavaScript.ORDER_ASSIGNMENT) || '0';
+
+  return [`(Array.from({length: Math.abs(${from} - ${to}) + 1}).map((_, i) => ${from} + (${from} - ${to} > 0 ? -1 : 1) * i))`, Blockly.JavaScript.ORDER_NONE];
+};
 
 /***/ }),
 /* 24 */

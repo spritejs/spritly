@@ -117,23 +117,25 @@ function use({ Scene }, options = { container: '#stage', viewport: 'auto', resol
   function getClickHandler(signal) {
     return function (evt) {
       const { altKey, button, buttons, ctrlKey, shiftKey } = evt.originalEvent;
+      const runtime = spritly.runtime;
       _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send(signal, { sender: scene }, {
-        target: evt.target,
-        offsetX: evt.offsetX,
-        offsetY: evt.offsetY,
-        layerX: evt.layerX,
-        layerY: evt.layerY,
-        altKey,
-        button,
-        buttons,
-        ctrlKey,
-        shiftKey
+        [runtime.Symbols.target]: evt.target,
+        [runtime.Symbols.offsetX]: evt.offsetX,
+        [runtime.Symbols.offsetY]: evt.offsetY,
+        [runtime.Symbols.layerX]: evt.layerX,
+        [runtime.Symbols.layerY]: evt.layerY,
+        [runtime.Symbols.altKey]: altKey,
+        [runtime.Symbols.buttons]: buttons,
+        [runtime.Symbols.ctrlKey]: ctrlKey,
+        [runtime.Symbols.shiftKey]: shiftKey
       });
     };
   }
 
   _signal__WEBPACK_IMPORTED_MODULE_0__["default"].listen('LAYER_CLICKED', fglayer);
   fglayer.on('click', getClickHandler('LAYER_CLICKED'));
+
+  this.scene = scene;
 
   return scene;
 }

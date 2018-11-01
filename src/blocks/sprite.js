@@ -67,7 +67,7 @@ Blockly.JavaScript.sprite_append_to = function (block) {
   const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   const layerName = block.getFieldValue('LAYER');
 
-  return `scene.layer('${layerName}').append(${sprite});\n`;
+  return `spritly.runtime.scene.layer('${layerName}').append(${sprite});\n`;
 };
 
 Blockly.Blocks.sprite_attrs = {

@@ -49,7 +49,7 @@ Blockly.Blocks.await_frame = {
 
 Blockly.JavaScript.await_frame = function (block) {
   const layerName = block.getFieldValue('LAYER');
-  return `await scene.layer('${layerName}').prepareRender();\n`;
+  return `await spritly.runtime.scene.layer('${layerName}').prepareRender();\n`;
 };
 
 Blockly.Blocks.sprite_animate = {

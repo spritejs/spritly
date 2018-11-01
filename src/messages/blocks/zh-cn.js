@@ -241,3 +241,7 @@ Msg.LIST_ITEM_TOOLTIP = '获取迭代元素。';
 
 Msg.OBJECT_GET_PROP_MSG0 = '%1.%2';
 Msg.OBJECT_GET_PROP_TOOLTIP = '读取对象属性。';
+
+Msg.LISTS_CREATE_RANGE_MSG0 = 'Create list';
+Msg.LISTS_CREATE_RANGE_MSG1 = 'from %1 to %2';
+Msg.LISTS_CREATE_RANGE_TOOLTIP = 'Create list by range.';

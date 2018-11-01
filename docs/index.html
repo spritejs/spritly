@@ -339,6 +339,16 @@
     <category name="Lists" colour="%{BKY_LISTS_HUE}">
       <block type="lists_create_empty"></block>
       <block type="lists_repeat"></block>
+      <block type="lists_create_range">
+        <value name="FROM">
+          <block type="number"></block>
+        </value>
+        <value name="TO">
+          <block type="number">
+            <field name="NUM">9</field>
+          </block>
+        </value>
+      </block>
       <block type="lists_create_with"></block>
       <block type="lists_reverse"></block>
       <block type="lists_isEmpty"></block>
@@ -510,7 +520,7 @@ ${code}
   Usage: 
   <script src="https://unpkg.com/spritejs/dist/spritejs.min.js"><\/script>
   <script src="https://unpkg.com/spritly/dist/spritly-runtime.min.js"><\/script>
-  <div id="stage">
+  <div id="stage" style="width:100%;height:100%;"></div>
   <script type="text/javascript">
     spritly.runtime.use(spritejs);
   <\/script>
