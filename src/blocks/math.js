@@ -30,7 +30,7 @@ Blockly.Blocks.random_colour_rgb = {
 };
 
 Blockly.JavaScript.random_colour_rgb = function (block) {
-  return ['utils.random_color()', Blockly.JavaScript.ORDER_NONE];
+  return ['spritly.runtime.random_color()', Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.Blocks.random_colour_hue = {
@@ -68,5 +68,5 @@ Blockly.JavaScript.random_colour_hue = function (block) {
   const l = block.getFieldValue('L');
   const a = block.getFieldValue('A');
 
-  return [`utils.random_color_hue(${s},${l},${a})`, Blockly.JavaScript.ORDER_NONE];
+  return [`spritly.runtime.random_color_hue(${s},${l},${a})`, Blockly.JavaScript.ORDER_NONE];
 };

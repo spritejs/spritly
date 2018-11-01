@@ -156,7 +156,7 @@ Blockly.Blocks.get_data_prop = {
 
 Blockly.JavaScript.get_data_prop = function (block) {
   const prop = block.getFieldValue('PROP');
-  return [`data[utils.Symbols.${prop}]`, Blockly.JavaScript.ORDER_MEMBER];
+  return [`data[spritly.runtime.Symbols.${prop}]`, Blockly.JavaScript.ORDER_MEMBER];
 };
 
 const events = ['immediately', 'onclick', 'ondblclick',
@@ -206,25 +206,26 @@ Blockly.JavaScript.signal_onevent_send = function (block) {
     return `${target}.on('${eventName}', 
   evt => {
     const {altKey, buttons, ctrlKey, shiftKey} = evt.originalEvent;
-    utils.Signal.send('${signal}', 
+    const runtime = spritly.runtime;
+    runtime.Signal.send('${signal}', 
       {
         sender:${target},
         data: Object.assign(
           {
-            [utils.Symbols.target]: evt.target,
-            [utils.Symbols.offsetX]: evt.offsetX,
-            [utils.Symbols.offsetY]: evt.offsetY,
-            [utils.Symbols.layerX]: evt.layerX,
-            [utils.Symbols.layerY]: evt.layerY,
-            [utils.Symbols.altKey]: altKey,
-            [utils.Symbols.buttons]: buttons,
-            [utils.Symbols.ctrlKey]: ctrlKey,
-            [utils.Symbols.shiftKey]: shiftKey,
+            [runtime.Symbols.target]: evt.target,
+            [runtime.Symbols.offsetX]: evt.offsetX,
+            [runtime.Symbols.offsetY]: evt.offsetY,
+            [runtime.Symbols.layerX]: evt.layerX,
+            [runtime.Symbols.layerY]: evt.layerY,
+            [runtime.Symbols.altKey]: altKey,
+            [runtime.Symbols.buttons]: buttons,
+            [runtime.Symbols.ctrlKey]: ctrlKey,
+            [runtime.Symbols.shiftKey]: shiftKey,
           },
           {${data}},
         ),
       });
   });`;
   }
-  return `utils.Signal.send('${signal}', {sender:${target}, data: {${data}}});\n`;
+  return `spritly.runtime.Signal.send('${signal}', {sender:${target}, data: {${data}}});\n`;
 };

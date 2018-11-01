@@ -23,7 +23,7 @@ Blockly.Blocks.await = {
 Blockly.JavaScript.await = function (block) {
   const ms = parseInt(block.getFieldValue('MILLISEC'), 10);
 
-  return `await utils.wait(${ms});\n`;
+  return `await spritly.runtime.wait(${ms});\n`;
 };
 
 Blockly.Blocks.await_frame = {

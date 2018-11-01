@@ -31,7 +31,7 @@ Blockly.Blocks.sprite = {
 Blockly.JavaScript.sprite = function (block) {
   let sprite = block.getFieldValue('SPRITE');
   if(sprite !== 'target' && sprite !== 'sender' && sprite !== 'receiver' && sprite !== 'item') {
-    sprite = `utils.ElementList.getElementById('${sprite}')`;
+    sprite = `spritly.runtime.ElementList.getElementById('${sprite}')`;
   }
 
   return [sprite, Blockly.JavaScript.ORDER_NONE];
@@ -97,7 +97,7 @@ Blockly.JavaScript.sprite_attrs = function (block) {
   const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   const attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
 
-  return `${sprite}.attr(utils.parse_attr({${attrs}\n}));\n`;
+  return `${sprite}.attr(spritly.runtime.parse_attr({${attrs}\n}));\n`;
 };
 
 Blockly.Blocks.sprite_create_attrs = {
@@ -135,7 +135,7 @@ Blockly.JavaScript.sprite_create_attrs = function (block) {
   const type = block.getFieldValue('TYPE');
   const name = block.getFieldValue('NAME');
   const attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
-  return `utils.ElementList.add(spritejs.createElement('${type}', utils.parse_attr({name: '${name}'}, {${attrs}\n})));\n`;
+  return `spritly.runtime.ElementList.add(spritejs.createElement('${type}', spritly.runtime.parse_attr({name: '${name}'}, {${attrs}\n})));\n`;
 };
 
 Blockly.Blocks.sprite_each_elements_named = {
@@ -166,7 +166,7 @@ Blockly.Blocks.sprite_each_elements_named = {
 
 Blockly.JavaScript.sprite_each_elements_named = function (block) {
   const name = block.getFieldValue('NAME');
-  return [`utils.ElementList.getElementsByName('${name}')`, Blockly.JavaScript.ORDER_NONE];
+  return [`spritly.runtime.ElementList.getElementsByName('${name}')`, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.Blocks.sprite_destroy = {
@@ -190,7 +190,7 @@ Blockly.Blocks.sprite_destroy = {
 
 Blockly.JavaScript.sprite_destroy = function (block) {
   const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
-  return `utils.ElementList.remove(${sprite});\n`;
+  return `spritly.runtime.ElementList.remove(${sprite});\n`;
 };
 
 function attrs_dropdown() {
@@ -232,5 +232,5 @@ Blockly.Blocks.sprite_get_attr = {
 Blockly.JavaScript.sprite_get_attr = function (block) {
   const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   const attr = block.getFieldValue('ATTR');
-  return [`utils.get_attr(${sprite}, '${attr}')`, Blockly.JavaScript.ORDER_MEMBER];
+  return [`spritly.runtime.get_attr(${sprite}, '${attr}')`, Blockly.JavaScript.ORDER_MEMBER];
 };

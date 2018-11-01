@@ -104,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ElementList = exports.random_color_hue = exports.random_color = exports.random = exports.wait = exports.get_attr = exports.parse_attr = exports.Signal = undefined;
+exports.ElementList = exports.random_color_hue = exports.random_color = exports.random = exports.wait = exports.get_attr = exports.parse_attr = exports.Symbols = exports.Signal = undefined;
 
 var _signal = __webpack_require__(1);
 
@@ -124,9 +124,14 @@ var _get_attr = __webpack_require__(122);
 
 var _get_attr2 = _interopRequireDefault(_get_attr);
 
+var _symbols = __webpack_require__(123);
+
+var _symbols2 = _interopRequireDefault(_symbols);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.Signal = _signal2.default;
+exports.Symbols = _symbols2.default;
 exports.parse_attr = _parse_attr2.default;
 exports.get_attr = _get_attr2.default;
 exports.wait = _misc.wait;
@@ -3259,6 +3264,38 @@ function get_attr(el, attr) {
   }
   return el.attr(attr);
 }
+
+/***/ }),
+/* 123 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _symbol = __webpack_require__(83);
+
+var _symbol2 = _interopRequireDefault(_symbol);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function createSymbols() {
+  var ret = {};
+
+  for (var _len = arguments.length, keys = Array(_len), _key = 0; _key < _len; _key++) {
+    keys[_key] = arguments[_key];
+  }
+
+  keys.forEach(function (key) {
+    ret[key] = (0, _symbol2.default)(key);
+  });
+  return ret;
+}
+
+exports.default = createSymbols('target', 'offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'buttons');
 
 /***/ })
 /******/ ]);

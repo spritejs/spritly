@@ -22,7 +22,7 @@ module.exports = function (env = {}) {
     path: path.resolve(__dirname, 'dist'),
     filename: env.esnext ? '[name].es6' : '[name]',
     publicPath: '/js/',
-    library: '[name]',
+    library: 'spritly',
     libraryTarget: env.esnext ? 'commonjs2' : 'umd',
   };
 
@@ -38,7 +38,7 @@ module.exports = function (env = {}) {
     mode: env.production ? 'production' : 'none',
     // entry: './src/web/entry-runtime-with-compiler.js',
     entry: {
-      utils: './src/utils/index.js',
+      'spritly-runtime': './src/runtime/index.js',
       spritly: './src/index.js',
     },
     output,

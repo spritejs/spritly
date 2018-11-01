@@ -112,6 +112,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _get_attr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_attr", function() { return _get_attr__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
+/* harmony import */ var _symbols__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Symbols", function() { return _symbols__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+
+
 
 
 
@@ -327,6 +331,22 @@ function get_attr(el, attr) {
   }
   return el.attr(attr);
 }
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function createSymbols(...keys) {
+  const ret = {};
+  keys.forEach(key => {
+    ret[key] = Symbol(key);
+  });
+  return ret;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (createSymbols('target', 'offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'buttons'));
 
 /***/ })
 /******/ ]);
