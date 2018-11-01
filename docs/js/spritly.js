@@ -2975,7 +2975,7 @@ Blockly.JavaScript.list_foreach = function (block) {
   if (indent) indent = '\n' + indent[0];else indent = '\n' + Blockly.Generator.prototype.INDENT;
   if (code) code = code + '\n';
 
-  return list + '.reduce(async function($$prestep, ' + item + ', ' + index + ') {' + indent + 'await $$prestep;\n' + code + '}, null);\n';
+  return 'await ' + list + '.reduce(async function($$prestep, ' + item + ', ' + index + ') {' + indent + 'await $$prestep;\n' + code + '}, null);\n';
 };
 
 Blockly.Blocks.list_index = {
