@@ -71,7 +71,7 @@
   </div>
 
   <xml id="toolbox" style="display: none">
-    <category name="Signals" colour="%{BKY_SIGNALS_HUE}">
+    <category name="%{BKY_CATEGORY_SIGNALS}" colour="%{BKY_SIGNALS_HUE}">
       <block type="signal_do"></block>
       <block type="signal_new_sprite_as_receiver"></block>
       <block type="signal_when_receiver_is"></block>
@@ -82,8 +82,9 @@
       </block>
       <block type="get_data"></block>
       <block type="get_data_prop"></block>
+      <block type="get_store_data_prop"></block>
     </category>
-    <category name="Sprites" colour="%{BKY_SPRITE_HUE}">
+    <category name="%{BKY_CATEGORY_SPRITES}" colour="%{BKY_SPRITE_HUE}">
       <block type="sprite"></block>
       <block type="sprite_attrs">
         <value name="SPRITE">
@@ -105,8 +106,8 @@
         </value>  
       </block>
     </category>
-    <category name="Attributes">
-      <category name="Common" colour="%{BKY_ATTRS_HUE}">
+    <category name="%{BKY_CATEGORY_ATTRIBUTES}">
+      <category name="%{BKY_CATEGORY_ATTRIBUTES_COMMON}" colour="%{BKY_ATTRS_HUE}">
           <block type="field_attr_inc">
             <value name="VALUE">
               <block type="number">
@@ -205,7 +206,7 @@
               </value>             
           </block>
       </category>
-      <category name="Sprite" colour="%{BKY_ATTRS_SPRITE_HUE}">
+      <category name="%{BKY_CATEGORY_ATTRIBUTES_SPRITE}" colour="%{BKY_ATTRS_SPRITE_HUE}">
           <block type="field_attr_texture">
             <value name="VALUE">
                 <block type="string">
@@ -214,7 +215,7 @@
             </value>              
           </block>
       </category>
-      <category name="Label" colour="%{BKY_ATTRS_LABEL_HUE}">
+      <category name="%{BKY_CATEGORY_ATTRIBUTES_LABEL}" colour="%{BKY_ATTRS_LABEL_HUE}">
         <block type="field_attr_text">
           <value name="VALUE">
               <block type="string">
@@ -258,7 +259,7 @@
           </value>
         </block>
       </category>
-      <category name="Path" colour="%{BKY_ATTRS_Path_HUE}">
+      <category name="%{BKY_CATEGORY_ATTRIBUTES_PATH}" colour="%{BKY_ATTRS_Path_HUE}">
         <block type="field_attr_d">
           <value name="VALUE">
             <block type="string">
@@ -302,7 +303,7 @@
         </block>
       </category>
     </category>
-    <category name="Anim & Async" colour="%{BKY_ANIMATE_HUE}">
+    <category name="%{BKY_CATEGORY_ANIM_ASYNC}" colour="%{BKY_ANIMATE_HUE}">
       <block type="sprite_animate">
         <value name="SPRITE">
           <block type="sprite"></block>
@@ -321,11 +322,46 @@
       <block type="easing"></block>
       <block type="bezier_easing"></block>
     </category>
-    <category name="Getter & Setter" colour="%{BKY_GETTER_SETTER_HUE}">
-      <block type="key_value"></block>
-      <block type="object_get_prop"></block>
+    <category name="%{BKY_CATEGORY_GETTER_SETTER}" colour="%{BKY_GETTER_SETTER_HUE}">
+      <block type="key_value">
+        <value name="KEY">
+          <block type="string">
+            <field name="TEXT">key</field>
+          </block>
+        </value>
+      </block>
+      <block type="object_get_prop">
+        <value name="PROP">
+          <block type="string">
+            <field name="TEXT">key</field>
+          </block>
+        </value>
+      </block>
     </category>
-    <category name="Literals" colour="%{BKY_LITERAL_HUE}">
+    <category name="%{BKY_CATEGORY_STORE}" colour="%{BKY_STORE_HUE}">
+      <block type="store_set">
+        <value name="KEY">
+          <block type="string">
+            <field name="TEXT">key</field>
+          </block>
+        </value>
+      </block>
+      <block type="store_get">
+        <value name="KEY">
+          <block type="string">
+            <field name="TEXT">key</field>
+          </block>
+        </value>        
+      </block>
+      <block type="store_delete">
+        <value name="KEY">
+          <block type="string">
+            <field name="TEXT">key</field>
+          </block>
+        </value>        
+      </block>
+    </category>
+    <category name="%{BKY_CATEGORY_LITERALS}" colour="%{BKY_LITERAL_HUE}">
       <block type="nil"></block>
       <block type="boolean"></block>
       <block type="number">
@@ -336,7 +372,7 @@
       </block>
       <block type="colour_picker"></block>
     </category>
-    <category name="Lists" colour="%{BKY_LISTS_HUE}">
+    <category name="%{BKY_CATEGORY_LISTS}" colour="%{BKY_LISTS_HUE}">
       <block type="lists_create_empty"></block>
       <block type="lists_repeat"></block>
       <block type="lists_create_range">
@@ -354,7 +390,7 @@
       <block type="lists_isEmpty"></block>
       <block type="lists_length"></block>
     </category>
-    <category name="Math" colour="%{BKY_MATH_HUE}">
+    <category name="%{BKY_CATEGORY_MATH}" colour="%{BKY_MATH_HUE}">
       <block type="math_arithmetic"></block>
       <block type="math_single"></block>
       <block type="math_number_property"></block>
@@ -378,12 +414,12 @@
       <block type="random_colour_rgb"></block>
       <block type="random_colour_hue"></block>
     </category>
-    <category name="Logic" colour="%{BKY_LOGIC_HUE}">
+    <category name="%{BKY_CATEGORY_LOGIC}" colour="%{BKY_LOGIC_HUE}">
       <block type="logic_compare"></block>
       <block type="logic_operation"></block>
       <block type="logic_negate"></block>
     </category>
-    <category name="Flows" colour="%{BKY_FLOWS_HUE}">
+    <category name="%{BKY_CATEGORY_FLOWS}" colour="%{BKY_FLOWS_HUE}">
       <block type="controls_if"></block>
       <block type="controls_repeat_ext">
         <value name="TIMES">
@@ -397,7 +433,7 @@
       <block type="list_index"></block>
       <block type="list_item"></block>
     </category>
-    <category name="Log" colour="%{BKY_LOG_HUE}">
+    <category name="%{BKY_CATEGORY_LOG}" colour="%{BKY_LOG_HUE}">
       <block type="log_log"></block>
       <block type="log_alert"></block>
     </category>
@@ -514,17 +550,6 @@ ${code}
       }
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
       allCode.push("spritly.runtime.Signal.send('START');\n");
-      /* eslint-disable */
-      allCode.unshift(`/** 
-  Generated by spritly ${(new Date()).toLocaleString()};
-  Usage: 
-  <script src="https://unpkg.com/spritejs/dist/spritejs.min.js"><\/script>
-  <script src="https://unpkg.com/spritly/dist/spritly-runtime.min.js"><\/script>
-  <div id="stage" style="width:100%;height:100%;"></div>
-  <script type="text/javascript">
-    spritly.runtime.use(spritejs);
-  <\/script>
-*/`); /* eslint-enable */
       return allCode;
     }
 
@@ -535,12 +560,13 @@ ${code}
       let code2 = code.replace(/></g, '>\n<');
       code2 = code2.split(/\n/g).map((line) => {
         let ret = '';
+        if(/^<\//.test(line)) {
+          indent -= 2;
+        }
         if(indent > 0) {
           ret = `${(new Array(indent + 1)).join(' ')}${line}`;
         }
-        if(/^<\//.test(line)) {
-          indent -= 2;
-        } else if(!(/<\/\w+>$/.test(line))) {
+        if(!(/<\/\w+>$/.test(line))) {
           indent += 2;
         }
         return ret;
@@ -553,7 +579,15 @@ ${code}
 
     function showCode() {
       // Generate JavaScript code and display it.
-      const code = getCode().join('\n\n');
+      /* eslint-disable */
+      const comment = `/** 
+  Generated by spritly ${(new Date()).toLocaleString()};
+  Usage: 
+  <script src="https://unpkg.com/spritejs/dist/spritejs.min.js"><\/script>
+  <script src="https://unpkg.com/spritly/dist/spritly-runtime.min.js"><\/script>
+  <div id="stage" style="width:100%;height:100%;"></div>
+*/`; /* eslint-enable */
+      const code = [comment, 'spritly.runtime.use(spritejs);', ...getCode()].join('\n\n');
       const wnd = window.open('', '__blank', '');
       wnd.document.write(`<pre class="prettyprint" lang-js>${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
       wnd.document.write('<script>var sel = document.createElement("script"); sel.src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"; window.onload = function(){document.body.appendChild(sel)};<\/script>'); // eslint-disable-line

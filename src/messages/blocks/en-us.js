@@ -11,6 +11,23 @@ Msg.COMMON_SPRITE = 'Sprite';
 Msg.COMMON_LABEL = 'Label';
 Msg.COMMON_PATH = 'Path';
 
+Msg.CATEGORY_SIGNALS = 'Signals';
+Msg.CATEGORY_SPRITES = 'Sprites';
+Msg.CATEGORY_ATTRIBUTES = 'Attributes';
+Msg.CATEGORY_ATTRIBUTES_COMMON = 'Common';
+Msg.CATEGORY_ATTRIBUTES_SPRITE = 'Sprite';
+Msg.CATEGORY_ATTRIBUTES_LABEL = 'Lable';
+Msg.CATEGORY_ATTRIBUTES_PATH = 'Path';
+Msg.CATEGORY_ANIM_ASYNC = 'Anim & Async';
+Msg.CATEGORY_GETTER_SETTER = 'Getter & Setter';
+Msg.CATEGORY_STORE = 'Store';
+Msg.CATEGORY_LITERALS = 'Literals';
+Msg.CATEGORY_LISTS = 'Lists';
+Msg.CATEGORY_MATH = 'Math';
+Msg.CATEGORY_LOGIC = 'Logic';
+Msg.CATEGORY_FLOWS = 'Flows';
+Msg.CATEGORY_LOG = 'Log';
+
 Msg.SENDER_RECEIVER_TARGET_TOOLTIP = `sender: the element who send the signal.
 receiver: the element who receive the signal.
 target: if the signal trigger by event, target is event.target.`;
@@ -169,6 +186,7 @@ Msg.LOG_ALERT_TOOLTIP = 'Popup a message box.';
 Msg.SIGNAL_DO_MSG0 = 'On signal %1 🚩 do';
 Msg.SIGNAL_DO_TOOLTIP = 'When receive signal do something.';
 Msg.SIGNAL_DO_OPTION_SIGNAL_START = 'START';
+Msg.SIGNAL_DO_OPTION_SIGNAL_STORE_PROPERTY_UPDATE = 'STORE_PROPERTY_UPDATE';
 Msg.SIGNAL_DO_OPTION_SIGNAL_LAYER_CLICKED = 'LAYER_CLICKED';
 Msg.SIGNAL_DO_OPTION_SIGNAL_ELEMENT_CREATED = 'ELEMENT_CREATED';
 Msg.SIGNAL_DO_OPTION_SIGNAL_ELEMENT_DESTROYED = 'ELEMENT_DESTROYED';
@@ -186,6 +204,7 @@ Msg.GET_DATA_MSG0 = 'get signal data';
 Msg.GET_DATA_TOOLTIP = 'Get signal data.';
 Msg.GET_DATA_PROP_MSG0 = 'data get %1';
 Msg.GET_DATA_PROP_TOOLTIP = 'get signal data property value.';
+Msg.GET_DATA_PROP_TOOLTIP2 = 'get signal data property value.';
 Msg.GET_DATA_PROP_OPTION_PROP_OFFSETX = 'offsetX';
 Msg.GET_DATA_PROP_OPTION_PROP_OFFSETY = 'offsetY';
 Msg.GET_DATA_PROP_OPTION_PROP_LAYERX = 'layerX';
@@ -194,6 +213,9 @@ Msg.GET_DATA_PROP_OPTION_PROP_ALTKEY = 'altKey';
 Msg.GET_DATA_PROP_OPTION_PROP_CTRLKEY = 'ctrlKey';
 Msg.GET_DATA_PROP_OPTION_PROP_SHIFTKEY = 'shiftKey';
 Msg.GET_DATA_PROP_OPTION_PROP_BUTTONS = 'buttons';
+Msg.GET_DATA_PROP_OPTION_PROP_PROPERTY = 'changedProperty';
+Msg.GET_DATA_PROP_OPTION_PROP_OLDVALUE = 'oldValue';
+Msg.GET_DATA_PROP_OPTION_PROP_NEWVALUE = 'newValue';
 
 Msg.EVENT_IMMEDIATELY = 'immediately';
 Msg.EVENT_ONCLICK = 'onclick';
@@ -242,3 +264,16 @@ Msg.LIST_ITEM_TOOLTIP = 'Get list iterate item.';
 
 Msg.OBJECT_GET_PROP_MSG0 = '%1.%2';
 Msg.OBJECT_GET_PROP_TOOLTIP = 'Get object property.';
+
+Msg.LISTS_CREATE_RANGE_MSG0 = 'Create list';
+Msg.LISTS_CREATE_RANGE_MSG1 = 'from %1 to %2';
+Msg.LISTS_CREATE_RANGE_TOOLTIP = 'Create list by range.';
+
+Msg.STORE_SET_MSG0 = '📝 set key %1 value %2.';
+Msg.STORE_SET_TOOLKIT = 'Set data {key, value} to global store.';
+
+Msg.STORE_GET_MSG0 = '📝 get key %1';
+Msg.STORE_GET_TOOLTIP = 'Get data[key] from global store.';
+
+Msg.STORE_DELETE_MSG0 = '✂️ delete key %1';
+Msg.STORE_DELETE_TOOLTIP = 'Delete data[key] from global store.';

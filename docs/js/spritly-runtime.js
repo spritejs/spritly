@@ -132,6 +132,10 @@ var _symbols = __webpack_require__(127);
 
 var _symbols2 = _interopRequireDefault(_symbols);
 
+var _store = __webpack_require__(128);
+
+var _store2 = _interopRequireDefault(_store);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function use(_ref) {
@@ -154,7 +158,6 @@ function use(_ref) {
 
       var _evt$originalEvent = evt.originalEvent,
           altKey = _evt$originalEvent.altKey,
-          button = _evt$originalEvent.button,
           buttons = _evt$originalEvent.buttons,
           ctrlKey = _evt$originalEvent.ctrlKey,
           shiftKey = _evt$originalEvent.shiftKey;
@@ -182,7 +185,8 @@ var runtime = {
   random: _misc.random,
   random_color: _misc.random_color,
   random_color_hue: _misc.random_color_hue,
-  ElementList: _element_list2.default
+  ElementList: _element_list2.default,
+  Store: _store2.default
 };
 
 exports.runtime = runtime;
@@ -3398,7 +3402,68 @@ function createSymbols() {
   return ret;
 }
 
-exports.default = createSymbols('target', 'offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'buttons');
+exports.default = createSymbols('target', 'offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'buttons', 'property', 'oldValue', 'newValue');
+
+/***/ }),
+/* 128 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _defineProperty2 = __webpack_require__(1);
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
+var _map = __webpack_require__(100);
+
+var _map2 = _interopRequireDefault(_map);
+
+var _signal = __webpack_require__(21);
+
+var _signal2 = _interopRequireDefault(_signal);
+
+var _symbols = __webpack_require__(127);
+
+var _symbols2 = _interopRequireDefault(_symbols);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var store = new _map2.default();
+
+exports.default = {
+  set: function set(key, value) {
+    var _data;
+
+    var operator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+    var oldValue = store.get(key);
+    store.set(key, value);
+    _signal2.default.send('STORE_PROPERTY_UPDATE', {
+      sender: operator,
+      data: (_data = {}, (0, _defineProperty3.default)(_data, _symbols2.default.property, key), (0, _defineProperty3.default)(_data, _symbols2.default.oldValue, oldValue), (0, _defineProperty3.default)(_data, _symbols2.default.newValue, value), _data)
+    });
+  },
+  get: function get(key) {
+    return store.get(key);
+  },
+  delete: function _delete(key) {
+    var _data2;
+
+    var operator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+    var oldValue = store.get(key);
+    store.delete(key);
+    _signal2.default.send('STORE_PROPERTY_UPDATE', {
+      sender: operator,
+      data: (_data2 = {}, (0, _defineProperty3.default)(_data2, _symbols2.default.property, key), (0, _defineProperty3.default)(_data2, _symbols2.default.oldValue, oldValue), _data2)
+    });
+  }
+};
 
 /***/ })
 /******/ ]);

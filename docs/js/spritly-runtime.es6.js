@@ -98,6 +98,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _parse_attr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
 /* harmony import */ var _get_attr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
 /* harmony import */ var _symbols__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
+
 
 
 
@@ -116,7 +118,7 @@ function use({ Scene }, options = { container: '#stage', viewport: 'auto', resol
 
   function getClickHandler(signal) {
     return function (evt) {
-      const { altKey, button, buttons, ctrlKey, shiftKey } = evt.originalEvent;
+      const { altKey, buttons, ctrlKey, shiftKey } = evt.originalEvent;
       const runtime = spritly.runtime;
       _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send(signal, { sender: scene }, {
         [runtime.Symbols.target]: evt.target,
@@ -150,7 +152,8 @@ const runtime = {
   random: _misc__WEBPACK_IMPORTED_MODULE_2__["random"],
   random_color: _misc__WEBPACK_IMPORTED_MODULE_2__["random_color"],
   random_color_hue: _misc__WEBPACK_IMPORTED_MODULE_2__["random_color_hue"],
-  ElementList: _element_list__WEBPACK_IMPORTED_MODULE_1__["default"]
+  ElementList: _element_list__WEBPACK_IMPORTED_MODULE_1__["default"],
+  Store: _store__WEBPACK_IMPORTED_MODULE_6__["default"]
 };
 
 
@@ -377,7 +380,48 @@ function createSymbols(...keys) {
   return ret;
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (createSymbols('target', 'offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'buttons'));
+/* harmony default export */ __webpack_exports__["default"] = (createSymbols('target', 'offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'buttons', 'property', 'oldValue', 'newValue'));
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _signal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony import */ var _symbols__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+
+
+const store = new Map();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  set(key, value, operator = null) {
+    const oldValue = store.get(key);
+    store.set(key, value);
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('STORE_PROPERTY_UPDATE', {
+      sender: operator,
+      data: {
+        [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].property]: key,
+        [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].oldValue]: oldValue,
+        [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].newValue]: value
+      }
+    });
+  },
+  get(key) {
+    return store.get(key);
+  },
+  delete(key, operator = null) {
+    const oldValue = store.get(key);
+    store.delete(key);
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('STORE_PROPERTY_UPDATE', {
+      sender: operator,
+      data: {
+        [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].property]: key,
+        [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].oldValue]: oldValue
+      }
+    });
+  }
+});
 
 /***/ })
 /******/ ]);

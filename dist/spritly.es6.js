@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -93,23 +93,24 @@ module.exports =
 /* 4 */,
 /* 5 */,
 /* 6 */,
-/* 7 */
+/* 7 */,
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Blockly", function() { return Blockly; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initWorkspace", function() { return initWorkspace; });
-/* harmony import */ var _messages__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
-/* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
+/* harmony import */ var _messages__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Dropdown", function() { return _dropdown__WEBPACK_IMPORTED_MODULE_2__["Dropdown"]; });
 
 
 
 
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 Blockly.BlockSvg.START_HAT = true;
 
 Blockly.Field.prototype.maxDisplayLength = 20;
@@ -125,19 +126,19 @@ function initWorkspace(el, options) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9);
+/* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
 /* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_colors__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(11);
+/* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(12);
 /* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_blocks__WEBPACK_IMPORTED_MODULE_1__);
 
 
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 
 const { Msg } = Blockly;
 
@@ -148,10 +149,10 @@ Msg.$ = (key, prefix = 'COMMON') => {
 };
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 
 const { Msg } = Blockly;
 
@@ -165,21 +166,22 @@ Msg.ANIMATE_HUE = 345;
 Msg.SIGNALS_HUE = 55;
 Msg.LITERAL_HUE = 250;
 Msg.GETTER_SETTER_HUE = 120;
+Msg.STORE_HUE = 70;
 Msg.FLOWS_HUE = 220;
 Msg.MATH_HUE = 270;
 Msg.LOG_HUE = 310;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = require("Blockly");
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 
 const { Msg } = Blockly;
 
@@ -191,6 +193,23 @@ Msg.COMMON_RECEIVER = '接收者';
 Msg.COMMON_SPRITE = '精灵元素';
 Msg.COMMON_LABEL = '文本元素';
 Msg.COMMON_PATH = '矢量元素';
+
+Msg.CATEGORY_SIGNALS = '信号';
+Msg.CATEGORY_SPRITES = '元素对象';
+Msg.CATEGORY_ATTRIBUTES = '元素属性';
+Msg.CATEGORY_ATTRIBUTES_COMMON = '公共属性';
+Msg.CATEGORY_ATTRIBUTES_SPRITE = '精灵属性';
+Msg.CATEGORY_ATTRIBUTES_LABEL = '文本属性';
+Msg.CATEGORY_ATTRIBUTES_PATH = '矢量属性';
+Msg.CATEGORY_ANIM_ASYNC = '动画和异步';
+Msg.CATEGORY_GETTER_SETTER = '属性读写';
+Msg.CATEGORY_STORE = '共享对象';
+Msg.CATEGORY_LITERALS = '字面量';
+Msg.CATEGORY_LISTS = '列表对象';
+Msg.CATEGORY_MATH = '数学计算';
+Msg.CATEGORY_LOGIC = '逻辑判断';
+Msg.CATEGORY_FLOWS = '循环和条件';
+Msg.CATEGORY_LOG = '日志输出';
 
 Msg.SENDER_RECEIVER_TARGET_TOOLTIP = `发送者：发送信号的元素。
 接收者：接收信号的元素。
@@ -349,6 +368,7 @@ Msg.LOG_ALERT_TOOLTIP = '弹出一个会话框。';
 Msg.SIGNAL_DO_MSG0 = '当收到信号为 %1 🚩 执行';
 Msg.SIGNAL_DO_TOOLTIP = '当收到指定信号时，执行动作。';
 Msg.SIGNAL_DO_OPTION_SIGNAL_START = '开始运行';
+Msg.SIGNAL_DO_OPTION_SIGNAL_STORE_PROPERTY_UPDATE = '共享数据内容更新';
 Msg.SIGNAL_DO_OPTION_SIGNAL_LAYER_CLICKED = '前景图层被鼠标点击';
 Msg.SIGNAL_DO_OPTION_SIGNAL_ELEMENT_CREATED = '元素被创建';
 Msg.SIGNAL_DO_OPTION_SIGNAL_ELEMENT_DESTROYED = '元素被销毁';
@@ -366,6 +386,7 @@ Msg.GET_DATA_MSG0 = '消息';
 Msg.GET_DATA_TOOLTIP = '读取信号消息。';
 Msg.GET_DATA_PROP_MSG0 = '消息的 %1';
 Msg.GET_DATA_PROP_TOOLTIP = '读取信号的数据属性。如果信号是由事件触发，可读取这些属性。';
+Msg.GET_DATA_PROP_TOOLTIP2 = '读取信号的数据属性。如果信号是存储数据改变，可读取这些属性。';
 Msg.GET_DATA_PROP_OPTION_PROP_OFFSETX = '相对坐标X';
 Msg.GET_DATA_PROP_OPTION_PROP_OFFSETY = '相对坐标Y';
 Msg.GET_DATA_PROP_OPTION_PROP_LAYERX = '绝对坐标X';
@@ -374,6 +395,9 @@ Msg.GET_DATA_PROP_OPTION_PROP_ALTKEY = '按下ALT键';
 Msg.GET_DATA_PROP_OPTION_PROP_CTRLKEY = '按下CTRL键';
 Msg.GET_DATA_PROP_OPTION_PROP_SHIFTKEY = '按下SHIFT键';
 Msg.GET_DATA_PROP_OPTION_PROP_BUTTONS = '鼠标按键值';
+Msg.GET_DATA_PROP_OPTION_PROP_PROPERTY = '更新的存储属性';
+Msg.GET_DATA_PROP_OPTION_PROP_OLDVALUE = '属性原值';
+Msg.GET_DATA_PROP_OPTION_PROP_NEWVALUE = '属性新值';
 
 Msg.EVENT_IMMEDIATELY = '立即';
 Msg.EVENT_ONCLICK = '当被鼠标单击';
@@ -423,33 +447,45 @@ Msg.LIST_ITEM_TOOLTIP = '获取迭代元素。';
 Msg.OBJECT_GET_PROP_MSG0 = '%1.%2';
 Msg.OBJECT_GET_PROP_TOOLTIP = '读取对象属性。';
 
-Msg.LISTS_CREATE_RANGE_MSG0 = 'Create list';
-Msg.LISTS_CREATE_RANGE_MSG1 = 'from %1 to %2';
-Msg.LISTS_CREATE_RANGE_TOOLTIP = 'Create list by range.';
+Msg.LISTS_CREATE_RANGE_MSG0 = '创建列表范围';
+Msg.LISTS_CREATE_RANGE_MSG1 = '从 %1 到 %2';
+Msg.LISTS_CREATE_RANGE_TOOLTIP = '通过整数范围创建列表。';
+
+Msg.STORE_SET_MSG0 = '📝 设置 %1 的值为 %2';
+Msg.STORE_SET_TOOLTIP = '设置共享数据的值。';
+
+Msg.STORE_GET_MSG0 = '📝 获取 %1 的值';
+Msg.STORE_GET_TOOLTIP = '获取共享数据的值。';
+
+Msg.STORE_DELETE_MSG0 = '✂️ 删除 %1 的值';
+Msg.STORE_DELETE_TOOLTIP = '删除共享数据的值。';
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
 /* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_attr__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _animate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _animate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
 /* harmony import */ var _animate__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_animate__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _flow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
-/* harmony import */ var _literal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(17);
+/* harmony import */ var _flow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(16);
+/* harmony import */ var _literal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(18);
 /* harmony import */ var _literal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_literal__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _signals__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(18);
-/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(19);
-/* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(21);
+/* harmony import */ var _signals__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(19);
+/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(20);
+/* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(22);
 /* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_log__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(22);
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(23);
 /* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_math__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(23);
+/* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(24);
 /* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_lists__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _getter_setter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(24);
+/* harmony import */ var _getter_setter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(25);
 /* harmony import */ var _getter_setter__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_getter_setter__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(26);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_store__WEBPACK_IMPORTED_MODULE_10__);
+
 
 
 
@@ -462,10 +498,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 const Msg = Blockly.Msg;
 
 Blockly.Blocks.field_attr_inc = {
@@ -484,8 +520,8 @@ Blockly.Blocks.field_attr_inc = {
 
 Blockly.JavaScript.field_attr_inc = function (block) {
   const op = block.getFieldValue('OP');
-  const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ADDITION) || 0;
-  return [`v => v ${op} ${value}`, Blockly.JavaScript.ORDER_MEMBER];
+  const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || 0;
+  return [`v => v ${op} ${value}`, Blockly.JavaScript.ORDER_NONE];
 };
 
 function createKVConf(keys = 'key', valueType = '', colour = Blockly.Msg.ATTRS_HUE, statementType = 'KeyValue') {
@@ -753,10 +789,10 @@ Object.keys(Blockly.Blocks).forEach(key => {
 });
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 const Msg = Blockly.Msg;
 
 const colour = Msg.ANIMATE_HUE;
@@ -923,14 +959,14 @@ Blockly.JavaScript.bezier_easing = function (block) {
 };
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 
 const Msg = Blockly.Msg;
 const controls_if_init = Blockly.Blocks.controls_if.init;
@@ -1115,7 +1151,7 @@ Blockly.JavaScript.list_item = function (block) {
 };
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1139,10 +1175,10 @@ const Dropdown = {
 };
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 
 const Msg = Blockly.Msg;
 
@@ -1228,15 +1264,15 @@ Blockly.JavaScript.loop_get_index = function (block) {
 };
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
 
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 
 const Msg = Blockly.Msg;
 const colour = Blockly.Msg.SIGNALS_HUE;
@@ -1244,7 +1280,7 @@ const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
 function listSignal(...extras) {
-  const signals = ['START'];
+  const signals = ['START', 'STORE_PROPERTY_UPDATE'];
   return () => {
     return [...signals, ...extras, ..._dropdown__WEBPACK_IMPORTED_MODULE_0__["Dropdown"].get('Signals')].map(s => [Msg.$(s, 'SIGNAL_DO_OPTION_SIGNAL'), s]);
   };
@@ -1371,6 +1407,27 @@ Blockly.Blocks.get_data_prop = {
 
 Blockly.JavaScript.get_data_prop = function (block) {
   const prop = block.getFieldValue('PROP');
+  return [`data[spritly.runtime.Symbols.${prop}]`, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.Blocks.get_store_data_prop = {
+  init() {
+    this.jsonInit({
+      message0: Msg.GET_DATA_PROP_MSG0,
+      args0: [{
+        type: 'field_dropdown',
+        name: 'PROP',
+        options: ['property', 'oldValue', 'newValue'].map(s => [Msg.$(s, 'GET_DATA_PROP_OPTION_PROP'), s])
+      }],
+      colour,
+      output: null,
+      tooltip: Msg.GET_DATA_PROP_TOOLTIP2
+    });
+  }
+};
+
+Blockly.JavaScript.get_store_data_prop = function (block) {
+  const prop = block.getFieldValue('PROP');
   return [`data[spritly.runtime.Symbols.${prop}]`, Blockly.JavaScript.ORDER_MEMBER];
 };
 
@@ -1443,17 +1500,17 @@ Blockly.JavaScript.signal_onevent_send = function (block) {
 };
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(20);
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(21);
 
 
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 
 const Msg = Blockly.Msg;
 const colour = Blockly.Msg.SPRITE_HUE;
@@ -1649,20 +1706,20 @@ Blockly.Blocks.sprite_get_attr = {
 Blockly.JavaScript.sprite_get_attr = function (block) {
   const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   const attr = block.getFieldValue('ATTR');
-  return [`spritly.runtime.get_attr(${sprite}, '${attr}')`, Blockly.JavaScript.ORDER_MEMBER];
+  return [`spritly.runtime.get_attr(${sprite}, '${attr}')`, Blockly.JavaScript.ORDER_NONE];
 };
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "spriteOptions", function() { return spriteOptions; });
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(17);
 
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 const Msg = Blockly.Msg;
 
 function spriteOptions() {
@@ -1671,10 +1728,10 @@ function spriteOptions() {
 }
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 
 const Msg = Blockly.Msg;
 const colour = Blockly.Msg.LOG_HUE;
@@ -1731,10 +1788,10 @@ Blockly.JavaScript.log_alert = function (block) {
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 
 const Msg = Blockly.Msg;
 const colour = Blockly.Msg.MATH_HUE;
@@ -1804,10 +1861,10 @@ Blockly.JavaScript.random_colour_hue = function (block) {
 };
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 
 const Msg = Blockly.Msg;
 const colour = Msg.LISTS_HUE;
@@ -1842,10 +1899,10 @@ Blockly.JavaScript.lists_create_range = function (block) {
 };
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(10);
+const Blockly = __webpack_require__(11);
 
 const Msg = Blockly.Msg;
 
@@ -1854,9 +1911,9 @@ Blockly.Blocks.key_value = {
     this.jsonInit({
       message0: Msg.KEYVALUE_MSG0,
       args0: [{
-        type: 'field_input',
+        type: 'input_value',
         name: 'KEY',
-        text: 'key'
+        check: 'String'
       }, {
         type: 'input_value',
         name: 'VALUE'
@@ -1870,9 +1927,9 @@ Blockly.Blocks.key_value = {
 };
 
 Blockly.JavaScript.key_value = function (block) {
-  const key = block.getFieldValue('KEY');
+  const key = Blockly.JavaScript.valueToCode(block, 'KEY', Blockly.JavaScript.ORDER_NONE) || 'key';
   const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || 'null';
-  return `\n'${key}': ${value},`;
+  return `\n${key}: ${value},`;
 };
 
 Blockly.Blocks.object_get_prop = {
@@ -1883,9 +1940,9 @@ Blockly.Blocks.object_get_prop = {
         type: 'input_value',
         name: 'OBJECT'
       }, {
-        type: 'field_input',
+        type: 'input_value',
         name: 'PROP',
-        text: 'key'
+        check: 'String'
       }],
       inputsInline: true,
       output: null,
@@ -1896,10 +1953,89 @@ Blockly.Blocks.object_get_prop = {
 };
 
 Blockly.JavaScript.object_get_prop = function (block) {
-  const object = Blockly.JavaScript.valueToCode(block, 'OBJECT', Blockly.JavaScript.ORDER_NONE) || 'null';
-  const propName = block.getFieldValue('PROP');
+  const object = Blockly.JavaScript.valueToCode(block, 'OBJECT', Blockly.JavaScript.ORDER_NONE) || 'Object()';
+  const propName = Blockly.JavaScript.valueToCode(block, 'PROP', Blockly.JavaScript.ORDER_NONE) || 'key';
 
-  return [`${object}['${propName}']`, Blockly.JavaScript.ORDER_NONE];
+  return [`${object}[${propName}]`, Blockly.JavaScript.ORDER_NONE];
+};
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Blockly = __webpack_require__(11);
+
+const Msg = Blockly.Msg;
+const colour = Msg.STORE_HUE;
+
+Blockly.Blocks.store_set = {
+  init() {
+    this.jsonInit({
+      message0: Msg.STORE_SET_MSG0,
+      args0: [{
+        type: 'input_value',
+        name: 'KEY',
+        check: 'String'
+      }, {
+        type: 'input_value',
+        name: 'VALUE'
+      }],
+      inputsInline: true,
+      colour,
+      previousStatement: 'Statement',
+      nextStatement: 'Statement',
+      tooltip: Msg.STORE_SET_TOOLTIP
+    });
+  }
+};
+
+Blockly.JavaScript.store_set = function (block) {
+  const key = Blockly.JavaScript.valueToCode(block, 'KEY', Blockly.JavaScript.ORDER_MEMBER) || '\'key\'';
+  const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ASSIGNMENT) || 'null';
+
+  return `spritly.runtime.Store.set(${key}, ${value}, target);\n`;
+};
+
+Blockly.Blocks.store_get = {
+  init() {
+    this.jsonInit({
+      message0: Msg.STORE_GET_MSG0,
+      args0: [{
+        type: 'input_value',
+        name: 'KEY',
+        check: 'String'
+      }],
+      colour,
+      output: null,
+      tooltip: Msg.STORE_GET_TOOLTIP
+    });
+  }
+};
+
+Blockly.JavaScript.store_get = function (block) {
+  const key = Blockly.JavaScript.valueToCode(block, 'KEY', Blockly.JavaScript.ORDER_MEMBER) || '\'key\'';
+  return [`spritly.runtime.Store.get(${key})`, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.Blocks.store_delete = {
+  init() {
+    this.jsonInit({
+      message0: Msg.STORE_DELETE_MSG0,
+      args0: [{
+        type: 'input_value',
+        name: 'KEY',
+        check: 'String'
+      }],
+      colour,
+      output: null,
+      tooltip: Msg.STORE_DELETE_TOOLTIP
+    });
+  }
+};
+
+Blockly.JavaScript.store_delete = function (block) {
+  const key = Blockly.JavaScript.valueToCode(block, 'KEY', Blockly.JavaScript.ORDER_MEMBER) || '\'key\'';
+  return [`spritly.runtime.Store.delete(${key})`, Blockly.JavaScript.ORDER_NONE];
 };
 
 /***/ })

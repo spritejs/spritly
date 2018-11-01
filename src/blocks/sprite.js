@@ -232,5 +232,5 @@ Blockly.Blocks.sprite_get_attr = {
 Blockly.JavaScript.sprite_get_attr = function (block) {
   const sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   const attr = block.getFieldValue('ATTR');
-  return [`spritly.runtime.get_attr(${sprite}, '${attr}')`, Blockly.JavaScript.ORDER_MEMBER];
+  return [`spritly.runtime.get_attr(${sprite}, '${attr}')`, Blockly.JavaScript.ORDER_NONE];
 };

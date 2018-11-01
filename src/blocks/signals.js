@@ -8,7 +8,7 @@ const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
 function listSignal(...extras) {
-  const signals = ['START'];
+  const signals = ['START', 'STORE_PROPERTY_UPDATE'];
   return () => {
     return [...signals, ...extras, ...Dropdown.get('Signals')].map(s => [Msg.$(s, 'SIGNAL_DO_OPTION_SIGNAL'), s]);
   };
@@ -155,6 +155,31 @@ Blockly.Blocks.get_data_prop = {
 };
 
 Blockly.JavaScript.get_data_prop = function (block) {
+  const prop = block.getFieldValue('PROP');
+  return [`data[spritly.runtime.Symbols.${prop}]`, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.Blocks.get_store_data_prop = {
+  init() {
+    this.jsonInit({
+      message0: Msg.GET_DATA_PROP_MSG0,
+      args0: [{
+        type: 'field_dropdown',
+        name: 'PROP',
+        options: [
+          'property',
+          'oldValue',
+          'newValue',
+        ].map(s => [Msg.$(s, 'GET_DATA_PROP_OPTION_PROP'), s]),
+      }],
+      colour,
+      output: null,
+      tooltip: Msg.GET_DATA_PROP_TOOLTIP2,
+    });
+  },
+};
+
+Blockly.JavaScript.get_store_data_prop = function (block) {
   const prop = block.getFieldValue('PROP');
   return [`data[spritly.runtime.Symbols.${prop}]`, Blockly.JavaScript.ORDER_MEMBER];
 };

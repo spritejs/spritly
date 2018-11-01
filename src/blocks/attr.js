@@ -26,8 +26,8 @@ Blockly.Blocks.field_attr_inc = {
 
 Blockly.JavaScript.field_attr_inc = function (block) {
   const op = block.getFieldValue('OP');
-  const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ADDITION) || 0;
-  return [`v => v ${op} ${value}`, Blockly.JavaScript.ORDER_MEMBER];
+  const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || 0;
+  return [`v => v ${op} ${value}`, Blockly.JavaScript.ORDER_NONE];
 };
 
 function createKVConf(keys = 'key', valueType = '', colour = Blockly.Msg.ATTRS_HUE, statementType = 'KeyValue') {

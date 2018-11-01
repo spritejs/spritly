@@ -11,6 +11,23 @@ Msg.COMMON_SPRITE = '精灵元素';
 Msg.COMMON_LABEL = '文本元素';
 Msg.COMMON_PATH = '矢量元素';
 
+Msg.CATEGORY_SIGNALS = '信号';
+Msg.CATEGORY_SPRITES = '元素对象';
+Msg.CATEGORY_ATTRIBUTES = '元素属性';
+Msg.CATEGORY_ATTRIBUTES_COMMON = '公共属性';
+Msg.CATEGORY_ATTRIBUTES_SPRITE = '精灵属性';
+Msg.CATEGORY_ATTRIBUTES_LABEL = '文本属性';
+Msg.CATEGORY_ATTRIBUTES_PATH = '矢量属性';
+Msg.CATEGORY_ANIM_ASYNC = '动画和异步';
+Msg.CATEGORY_GETTER_SETTER = '属性读写';
+Msg.CATEGORY_STORE = '共享对象';
+Msg.CATEGORY_LITERALS = '字面量';
+Msg.CATEGORY_LISTS = '列表对象';
+Msg.CATEGORY_MATH = '数学计算';
+Msg.CATEGORY_LOGIC = '逻辑判断';
+Msg.CATEGORY_FLOWS = '循环和条件';
+Msg.CATEGORY_LOG = '日志输出';
+
 Msg.SENDER_RECEIVER_TARGET_TOOLTIP = `发送者：发送信号的元素。
 接收者：接收信号的元素。
 目标元素：如果信号由事件触发，目标元素是实际事件目标。`;
@@ -168,6 +185,7 @@ Msg.LOG_ALERT_TOOLTIP = '弹出一个会话框。';
 Msg.SIGNAL_DO_MSG0 = '当收到信号为 %1 🚩 执行';
 Msg.SIGNAL_DO_TOOLTIP = '当收到指定信号时，执行动作。';
 Msg.SIGNAL_DO_OPTION_SIGNAL_START = '开始运行';
+Msg.SIGNAL_DO_OPTION_SIGNAL_STORE_PROPERTY_UPDATE = '共享数据内容更新';
 Msg.SIGNAL_DO_OPTION_SIGNAL_LAYER_CLICKED = '前景图层被鼠标点击';
 Msg.SIGNAL_DO_OPTION_SIGNAL_ELEMENT_CREATED = '元素被创建';
 Msg.SIGNAL_DO_OPTION_SIGNAL_ELEMENT_DESTROYED = '元素被销毁';
@@ -185,6 +203,7 @@ Msg.GET_DATA_MSG0 = '消息';
 Msg.GET_DATA_TOOLTIP = '读取信号消息。';
 Msg.GET_DATA_PROP_MSG0 = '消息的 %1';
 Msg.GET_DATA_PROP_TOOLTIP = '读取信号的数据属性。如果信号是由事件触发，可读取这些属性。';
+Msg.GET_DATA_PROP_TOOLTIP2 = '读取信号的数据属性。如果信号是存储数据改变，可读取这些属性。';
 Msg.GET_DATA_PROP_OPTION_PROP_OFFSETX = '相对坐标X';
 Msg.GET_DATA_PROP_OPTION_PROP_OFFSETY = '相对坐标Y';
 Msg.GET_DATA_PROP_OPTION_PROP_LAYERX = '绝对坐标X';
@@ -193,6 +212,9 @@ Msg.GET_DATA_PROP_OPTION_PROP_ALTKEY = '按下ALT键';
 Msg.GET_DATA_PROP_OPTION_PROP_CTRLKEY = '按下CTRL键';
 Msg.GET_DATA_PROP_OPTION_PROP_SHIFTKEY = '按下SHIFT键';
 Msg.GET_DATA_PROP_OPTION_PROP_BUTTONS = '鼠标按键值';
+Msg.GET_DATA_PROP_OPTION_PROP_PROPERTY = '更新的存储属性';
+Msg.GET_DATA_PROP_OPTION_PROP_OLDVALUE = '属性原值';
+Msg.GET_DATA_PROP_OPTION_PROP_NEWVALUE = '属性新值';
 
 Msg.EVENT_IMMEDIATELY = '立即';
 Msg.EVENT_ONCLICK = '当被鼠标单击';
@@ -242,6 +264,15 @@ Msg.LIST_ITEM_TOOLTIP = '获取迭代元素。';
 Msg.OBJECT_GET_PROP_MSG0 = '%1.%2';
 Msg.OBJECT_GET_PROP_TOOLTIP = '读取对象属性。';
 
-Msg.LISTS_CREATE_RANGE_MSG0 = 'Create list';
-Msg.LISTS_CREATE_RANGE_MSG1 = 'from %1 to %2';
-Msg.LISTS_CREATE_RANGE_TOOLTIP = 'Create list by range.';
+Msg.LISTS_CREATE_RANGE_MSG0 = '创建列表范围';
+Msg.LISTS_CREATE_RANGE_MSG1 = '从 %1 到 %2';
+Msg.LISTS_CREATE_RANGE_TOOLTIP = '通过整数范围创建列表。';
+
+Msg.STORE_SET_MSG0 = '📝 设置 %1 的值为 %2';
+Msg.STORE_SET_TOOLTIP = '设置共享数据的值。';
+
+Msg.STORE_GET_MSG0 = '📝 获取 %1 的值';
+Msg.STORE_GET_TOOLTIP = '获取共享数据的值。';
+
+Msg.STORE_DELETE_MSG0 = '✂️ 删除 %1 的值';
+Msg.STORE_DELETE_TOOLTIP = '删除共享数据的值。';

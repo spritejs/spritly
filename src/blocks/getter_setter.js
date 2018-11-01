@@ -8,9 +8,9 @@ Blockly.Blocks.key_value = {
       message0: Msg.KEYVALUE_MSG0,
       args0: [
         {
-          type: 'field_input',
+          type: 'input_value',
           name: 'KEY',
-          text: 'key',
+          check: 'String',
         },
         {
           type: 'input_value',
@@ -26,9 +26,9 @@ Blockly.Blocks.key_value = {
 };
 
 Blockly.JavaScript.key_value = function (block) {
-  const key = block.getFieldValue('KEY');
+  const key = Blockly.JavaScript.valueToCode(block, 'KEY', Blockly.JavaScript.ORDER_NONE) || 'key';
   const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE) || 'null';
-  return `\n'${key}': ${value},`;
+  return `\n${key}: ${value},`;
 };
 
 Blockly.Blocks.object_get_prop = {
@@ -41,9 +41,9 @@ Blockly.Blocks.object_get_prop = {
           name: 'OBJECT',
         },
         {
-          type: 'field_input',
+          type: 'input_value',
           name: 'PROP',
-          text: 'key',
+          check: 'String',
         },
       ],
       inputsInline: true,
@@ -55,8 +55,8 @@ Blockly.Blocks.object_get_prop = {
 };
 
 Blockly.JavaScript.object_get_prop = function (block) {
-  const object = Blockly.JavaScript.valueToCode(block, 'OBJECT', Blockly.JavaScript.ORDER_NONE) || 'null';
-  const propName = block.getFieldValue('PROP');
+  const object = Blockly.JavaScript.valueToCode(block, 'OBJECT', Blockly.JavaScript.ORDER_NONE) || 'Object()';
+  const propName = Blockly.JavaScript.valueToCode(block, 'PROP', Blockly.JavaScript.ORDER_NONE) || 'key';
 
-  return [`${object}['${propName}']`, Blockly.JavaScript.ORDER_NONE];
+  return [`${object}[${propName}]`, Blockly.JavaScript.ORDER_NONE];
 };
