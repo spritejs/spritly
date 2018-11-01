@@ -2648,7 +2648,7 @@ Blockly.Blocks.await = {
 Blockly.JavaScript.await = function (block) {
   var ms = parseInt(block.getFieldValue('MILLISEC'), 10);
 
-  return 'await utils.wait(' + ms + ');\n';
+  return 'await spritly.runtime.wait(' + ms + ');\n';
 };
 
 Blockly.Blocks.await_frame = {
@@ -3286,7 +3286,7 @@ Blockly.Blocks.get_data_prop = {
 
 Blockly.JavaScript.get_data_prop = function (block) {
   var prop = block.getFieldValue('PROP');
-  return ['data[utils.Symbols.' + prop + ']', Blockly.JavaScript.ORDER_MEMBER];
+  return ['data[spritly.runtime.Symbols.' + prop + ']', Blockly.JavaScript.ORDER_MEMBER];
 };
 
 var events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave'];
@@ -3332,9 +3332,9 @@ Blockly.JavaScript.signal_onevent_send = function (block) {
 
   if (event !== 'immediately') {
     var eventName = event.slice(2);
-    return target + '.on(\'' + eventName + '\', \n  evt => {\n    const {altKey, buttons, ctrlKey, shiftKey} = evt.originalEvent;\n    utils.Signal.send(\'' + signal + '\', \n      {\n        sender:' + target + ',\n        data: Object.assign(\n          {\n            [utils.Symbols.target]: evt.target,\n            [utils.Symbols.offsetX]: evt.offsetX,\n            [utils.Symbols.offsetY]: evt.offsetY,\n            [utils.Symbols.layerX]: evt.layerX,\n            [utils.Symbols.layerY]: evt.layerY,\n            [utils.Symbols.altKey]: altKey,\n            [utils.Symbols.buttons]: buttons,\n            [utils.Symbols.ctrlKey]: ctrlKey,\n            [utils.Symbols.shiftKey]: shiftKey,\n          },\n          {' + data + '},\n        ),\n      });\n  });';
+    return target + '.on(\'' + eventName + '\', \n  evt => {\n    const {altKey, buttons, ctrlKey, shiftKey} = evt.originalEvent;\n    const runtime = spritly.runtime;\n    runtime.Signal.send(\'' + signal + '\', \n      {\n        sender:' + target + ',\n        data: Object.assign(\n          {\n            [runtime.Symbols.target]: evt.target,\n            [runtime.Symbols.offsetX]: evt.offsetX,\n            [runtime.Symbols.offsetY]: evt.offsetY,\n            [runtime.Symbols.layerX]: evt.layerX,\n            [runtime.Symbols.layerY]: evt.layerY,\n            [runtime.Symbols.altKey]: altKey,\n            [runtime.Symbols.buttons]: buttons,\n            [runtime.Symbols.ctrlKey]: ctrlKey,\n            [runtime.Symbols.shiftKey]: shiftKey,\n          },\n          {' + data + '},\n        ),\n      });\n  });';
   }
-  return 'utils.Signal.send(\'' + signal + '\', {sender:' + target + ', data: {' + data + '}});\n';
+  return 'spritly.runtime.Signal.send(\'' + signal + '\', {sender:' + target + ', data: {' + data + '}});\n';
 };
 
 /***/ }),
@@ -3376,7 +3376,7 @@ Blockly.Blocks.sprite = {
 Blockly.JavaScript.sprite = function (block) {
   var sprite = block.getFieldValue('SPRITE');
   if (sprite !== 'target' && sprite !== 'sender' && sprite !== 'receiver' && sprite !== 'item') {
-    sprite = 'utils.ElementList.getElementById(\'' + sprite + '\')';
+    sprite = 'spritly.runtime.ElementList.getElementById(\'' + sprite + '\')';
   }
 
   return [sprite, Blockly.JavaScript.ORDER_NONE];
@@ -3432,7 +3432,7 @@ Blockly.JavaScript.sprite_attrs = function (block) {
   var sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   var attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
 
-  return sprite + '.attr(utils.parse_attr({' + attrs + '\n}));\n';
+  return sprite + '.attr(spritly.runtime.parse_attr({' + attrs + '\n}));\n';
 };
 
 Blockly.Blocks.sprite_create_attrs = {
@@ -3464,7 +3464,7 @@ Blockly.JavaScript.sprite_create_attrs = function (block) {
   var type = block.getFieldValue('TYPE');
   var name = block.getFieldValue('NAME');
   var attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
-  return 'utils.ElementList.add(spritejs.createElement(\'' + type + '\', utils.parse_attr({name: \'' + name + '\'}, {' + attrs + '\n})));\n';
+  return 'spritly.runtime.ElementList.add(spritejs.createElement(\'' + type + '\', spritly.runtime.parse_attr({name: \'' + name + '\'}, {' + attrs + '\n})));\n';
 };
 
 Blockly.Blocks.sprite_each_elements_named = {
@@ -3493,7 +3493,7 @@ Blockly.Blocks.sprite_each_elements_named = {
 
 Blockly.JavaScript.sprite_each_elements_named = function (block) {
   var name = block.getFieldValue('NAME');
-  return ['utils.ElementList.getElementsByName(\'' + name + '\')', Blockly.JavaScript.ORDER_NONE];
+  return ['spritly.runtime.ElementList.getElementsByName(\'' + name + '\')', Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.Blocks.sprite_destroy = {
@@ -3515,7 +3515,7 @@ Blockly.Blocks.sprite_destroy = {
 
 Blockly.JavaScript.sprite_destroy = function (block) {
   var sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
-  return 'utils.ElementList.remove(' + sprite + ');\n';
+  return 'spritly.runtime.ElementList.remove(' + sprite + ');\n';
 };
 
 function attrs_dropdown() {
@@ -3548,7 +3548,7 @@ Blockly.Blocks.sprite_get_attr = {
 Blockly.JavaScript.sprite_get_attr = function (block) {
   var sprite = Blockly.JavaScript.valueToCode(block, 'SPRITE', Blockly.JavaScript.ORDER_NONE) || 'null';
   var attr = block.getFieldValue('ATTR');
-  return ['utils.get_attr(' + sprite + ', \'' + attr + '\')', Blockly.JavaScript.ORDER_MEMBER];
+  return ['spritly.runtime.get_attr(' + sprite + ', \'' + attr + '\')', Blockly.JavaScript.ORDER_MEMBER];
 };
 
 /***/ }),
@@ -3677,7 +3677,7 @@ Blockly.Blocks.random_colour_rgb = {
 };
 
 Blockly.JavaScript.random_colour_rgb = function (block) {
-  return ['utils.random_color()', Blockly.JavaScript.ORDER_NONE];
+  return ['spritly.runtime.random_color()', Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.Blocks.random_colour_hue = {
@@ -3711,7 +3711,7 @@ Blockly.JavaScript.random_colour_hue = function (block) {
   var l = block.getFieldValue('L');
   var a = block.getFieldValue('A');
 
-  return ['utils.random_color_hue(' + s + ',' + l + ',' + a + ')', Blockly.JavaScript.ORDER_NONE];
+  return ['spritly.runtime.random_color_hue(' + s + ',' + l + ',' + a + ')', Blockly.JavaScript.ORDER_NONE];
 };
 
 /***/ }),

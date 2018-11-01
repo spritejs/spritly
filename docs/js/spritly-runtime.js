@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["utils"] = factory();
+		exports["spritly"] = factory();
 	else
-		root["utils"] = factory();
+		root["spritly"] = factory();
 })(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -104,7 +104,7 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ElementList = exports.random_color_hue = exports.random_color = exports.random = exports.wait = exports.get_attr = exports.parse_attr = exports.Symbols = exports.Signal = undefined;
+exports.runtime = undefined;
 
 var _signal = __webpack_require__(1);
 
@@ -130,15 +130,64 @@ var _symbols2 = _interopRequireDefault(_symbols);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.Signal = _signal2.default;
-exports.Symbols = _symbols2.default;
-exports.parse_attr = _parse_attr2.default;
-exports.get_attr = _get_attr2.default;
-exports.wait = _misc.wait;
-exports.random = _misc.random;
-exports.random_color = _misc.random_color;
-exports.random_color_hue = _misc.random_color_hue;
-exports.ElementList = _element_list2.default;
+function use(_ref) {
+  var Scene = _ref.Scene;
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { container: '#stage', viewport: 'auto', resolution: 'flex' };
+  var container = options.container,
+      viewport = options.viewport,
+      resolution = options.resolution;
+
+  var scene = new Scene(container, {
+    viewport: viewport,
+    resolution: resolution
+  });
+  scene.layer('bglayer', { handleEvent: false });
+  var fglayer = scene.layer('fglayer');
+
+  function getClickHandler(signal) {
+    return function (evt) {
+      var _evt$originalEvent = evt.originalEvent,
+          altKey = _evt$originalEvent.altKey,
+          button = _evt$originalEvent.button,
+          buttons = _evt$originalEvent.buttons,
+          ctrlKey = _evt$originalEvent.ctrlKey,
+          shiftKey = _evt$originalEvent.shiftKey;
+
+      _signal2.default.send(signal, { sender: scene }, {
+        target: evt.target,
+        offsetX: evt.offsetX,
+        offsetY: evt.offsetY,
+        layerX: evt.layerX,
+        layerY: evt.layerY,
+        altKey: altKey,
+        button: button,
+        buttons: buttons,
+        ctrlKey: ctrlKey,
+        shiftKey: shiftKey
+      });
+    };
+  }
+
+  _signal2.default.listen('LAYER_CLICKED', fglayer);
+  fglayer.on('click', getClickHandler('LAYER_CLICKED'));
+
+  return scene;
+}
+
+var runtime = {
+  Signal: _signal2.default,
+  Symbols: _symbols2.default,
+  use: use,
+  parse_attr: _parse_attr2.default,
+  get_attr: _get_attr2.default,
+  wait: _misc.wait,
+  random: _misc.random,
+  random_color: _misc.random_color,
+  random_color_hue: _misc.random_color_hue,
+  ElementList: _element_list2.default
+};
+
+exports.runtime = runtime;
 
 /***/ }),
 /* 1 */

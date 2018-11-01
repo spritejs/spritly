@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Sandbox</title>
   <script src="https://unpkg.com/spritejs/dist/spritejs.min.js"></script>
-  <script src="/js/utils.js"></script>
+  <script src="/js/spritly-runtime.js"></script>
   <style>
     html, body {
       width: 100%;
@@ -37,9 +37,6 @@
   </div>
 
   <script>
-    const {Scene, Layer, Sprite, Label, Path} = spritejs;
-    const {Signal} = utils;
-
     function exec(code) {
       const script = document.createElement('script');
       script.innerHTML = code;
@@ -47,37 +44,10 @@
     }
     window.exec = exec;
 
-    const scene = new Scene('#stage', {
-      viewport: 'auto',
-      resolution: 'flex',
-    });
-
-    const bglayer = scene.layer('bglayer', {handleEvent: false});
+    const scene = spritly.runtime.use(spritejs);
     const fglayer = scene.layer('fglayer');
 
-    function getClickHandler(signal) {
-      return function (evt) {
-        const {altKey, button, buttons, ctrlKey, shiftKey} = evt.originalEvent;
-        Signal.send(signal, {sender: scene},
-          {
-            target: evt.target,
-            offsetX: evt.offsetX,
-            offsetY: evt.offsetY,
-            layerX: evt.layerX,
-            layerY: evt.layerY,
-            altKey,
-            button,
-            buttons,
-            ctrlKey,
-            shiftKey,
-          });
-      };
-    }
-
-    Signal.listen('LAYER_CLICKED', fglayer);
-    fglayer.on('click', getClickHandler('LAYER_CLICKED'));
-
-    const label = new Label('x=0, y=0');
+    const label = new spritejs.Label('x=0, y=0');
     label.attr({
       font: '24px "宋体"',
       fillColor: '#357',

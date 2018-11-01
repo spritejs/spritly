@@ -91,29 +91,13 @@ module.exports =
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "runtime", function() { return runtime; });
 /* harmony import */ var _signal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Signal", function() { return _signal__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
 /* harmony import */ var _element_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ElementList", function() { return _element_list__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
 /* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "wait", function() { return _misc__WEBPACK_IMPORTED_MODULE_2__["wait"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "random", function() { return _misc__WEBPACK_IMPORTED_MODULE_2__["random"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "random_color", function() { return _misc__WEBPACK_IMPORTED_MODULE_2__["random_color"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "random_color_hue", function() { return _misc__WEBPACK_IMPORTED_MODULE_2__["random_color_hue"]; });
-
 /* harmony import */ var _parse_attr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parse_attr", function() { return _parse_attr__WEBPACK_IMPORTED_MODULE_3__["default"]; });
-
 /* harmony import */ var _get_attr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "get_attr", function() { return _get_attr__WEBPACK_IMPORTED_MODULE_4__["default"]; });
-
 /* harmony import */ var _symbols__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Symbols", function() { return _symbols__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
 
 
@@ -121,6 +105,51 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+function use({ Scene }, options = { container: '#stage', viewport: 'auto', resolution: 'flex' }) {
+  const { container, viewport, resolution } = options;
+  const scene = new Scene(container, {
+    viewport,
+    resolution
+  });
+  scene.layer('bglayer', { handleEvent: false });
+  const fglayer = scene.layer('fglayer');
+
+  function getClickHandler(signal) {
+    return function (evt) {
+      const { altKey, button, buttons, ctrlKey, shiftKey } = evt.originalEvent;
+      _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send(signal, { sender: scene }, {
+        target: evt.target,
+        offsetX: evt.offsetX,
+        offsetY: evt.offsetY,
+        layerX: evt.layerX,
+        layerY: evt.layerY,
+        altKey,
+        button,
+        buttons,
+        ctrlKey,
+        shiftKey
+      });
+    };
+  }
+
+  _signal__WEBPACK_IMPORTED_MODULE_0__["default"].listen('LAYER_CLICKED', fglayer);
+  fglayer.on('click', getClickHandler('LAYER_CLICKED'));
+
+  return scene;
+}
+
+const runtime = {
+  Signal: _signal__WEBPACK_IMPORTED_MODULE_0__["default"],
+  Symbols: _symbols__WEBPACK_IMPORTED_MODULE_5__["default"],
+  use,
+  parse_attr: _parse_attr__WEBPACK_IMPORTED_MODULE_3__["default"],
+  get_attr: _get_attr__WEBPACK_IMPORTED_MODULE_4__["default"],
+  wait: _misc__WEBPACK_IMPORTED_MODULE_2__["wait"],
+  random: _misc__WEBPACK_IMPORTED_MODULE_2__["random"],
+  random_color: _misc__WEBPACK_IMPORTED_MODULE_2__["random_color"],
+  random_color_hue: _misc__WEBPACK_IMPORTED_MODULE_2__["random_color_hue"],
+  ElementList: _element_list__WEBPACK_IMPORTED_MODULE_1__["default"]
+};
 
 
 
