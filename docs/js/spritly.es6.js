@@ -407,6 +407,7 @@ Msg.EVENT_ONMOUSEMOVE = '鼠标在元素内部移动';
 Msg.EVENT_ONMOUSEUP = '释放鼠标按键';
 Msg.EVENT_ONMOUSEENTER = '鼠标进入元素';
 Msg.EVENT_ONMOUSELEAVE = '鼠标离开元素';
+Msg.EVENT_ONCOLLISION = '与其他元素碰撞';
 
 Msg.SIGNAL_ONEVENT_SEND_MSG0 = '%1 %2 发送 %3 🚩';
 Msg.SIGNAL_ONEVENT_SEND_MSG1 = '包含消息 %1';
@@ -1303,7 +1304,6 @@ Blockly.Blocks.signal_do = {
         name: 'SIGNAL',
         options: listSignal('LAYER_CLICKED', 'ELEMENT_CREATED', 'ELEMENT_DESTROYED')
       }],
-      // message1: '(sender, receiver, data)',
       colour,
       nextStatement,
       tooltip: Msg.SIGNAL_DO_TOOLTIP
@@ -1431,7 +1431,7 @@ Blockly.JavaScript.get_store_data_prop = function (block) {
   return [`data[spritly.runtime.Symbols.${prop}]`, Blockly.JavaScript.ORDER_MEMBER];
 };
 
-const events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave'];
+const events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'oncollision'];
 
 Blockly.Blocks.signal_onevent_send = {
   init() {
@@ -1470,33 +1470,40 @@ Blockly.JavaScript.signal_onevent_send = function (block) {
   const signal = block.getFieldValue('SIGNAL');
   const data = Blockly.JavaScript.statementToCode(block, 'DATA');
 
-  if (event !== 'immediately') {
+  if (event !== 'immediately' && event !== 'oncollision') {
     const eventName = event.slice(2);
     return `${target}.on('${eventName}', 
   evt => {
     const {altKey, buttons, ctrlKey, shiftKey} = evt.originalEvent;
     const runtime = spritly.runtime;
-    runtime.Signal.send('${signal}', 
-      {
-        sender:${target},
-        data: Object.assign(
-          {
-            [runtime.Symbols.target]: evt.target,
-            [runtime.Symbols.offsetX]: evt.offsetX,
-            [runtime.Symbols.offsetY]: evt.offsetY,
-            [runtime.Symbols.layerX]: evt.layerX,
-            [runtime.Symbols.layerY]: evt.layerY,
-            [runtime.Symbols.altKey]: altKey,
-            [runtime.Symbols.buttons]: buttons,
-            [runtime.Symbols.ctrlKey]: ctrlKey,
-            [runtime.Symbols.shiftKey]: shiftKey,
-          },
-          {${data}},
-        ),
-      });
+    runtime.Signal.send('${signal}', ${target},
+      Object.assign(
+        {
+          [runtime.Symbols.target]: evt.target,
+          [runtime.Symbols.offsetX]: evt.offsetX,
+          [runtime.Symbols.offsetY]: evt.offsetY,
+          [runtime.Symbols.layerX]: evt.layerX,
+          [runtime.Symbols.layerY]: evt.layerY,
+          [runtime.Symbols.altKey]: altKey,
+          [runtime.Symbols.buttons]: buttons,
+          [runtime.Symbols.ctrlKey]: ctrlKey,
+          [runtime.Symbols.shiftKey]: shiftKey,
+        },
+        {${data}},
+      ));
   });`;
   }
-  return `spritly.runtime.Signal.send('${signal}', {sender:${target}, data: {${data}}});\n`;
+  if (event === 'oncollision') {
+    return `${target}.on('update', () => {
+  spritly.runtime.getCollisions(${target}).forEach((s) => {
+    spritly.runtime.Signal.send('${signal}', ${target}, {[spritly.runtime.Symbols.target]: s});      
+  });
+});
+${target}.forceUpdate();
+`;
+  }
+  return `spritly.runtime.Signal.send('${signal}', ${target}, {${data}});
+`;
 };
 
 /***/ }),
@@ -1750,7 +1757,6 @@ Blockly.Blocks.log_log = {
         type: 'input_value',
         name: 'MSG'
       }],
-      // message1: '(sender, receiver, data)',
       colour,
       previousStatement,
       nextStatement,
@@ -1773,7 +1779,6 @@ Blockly.Blocks.log_alert = {
         type: 'input_value',
         name: 'MSG'
       }],
-      // message1: '(sender, receiver, data)',
       colour,
       previousStatement,
       nextStatement,

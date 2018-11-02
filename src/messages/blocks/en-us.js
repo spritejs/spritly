@@ -225,6 +225,7 @@ Msg.EVENT_ONMOUSEMOVE = 'onmousemove';
 Msg.EVENT_ONMOUSEUP = 'onmouseup';
 Msg.EVENT_ONMOUSEENTER = 'onmouseenter';
 Msg.EVENT_ONMOUSELEAVE = 'onmouseleave';
+Msg.EVENT_ONCOLLISION = 'oncollision';
 
 Msg.SIGNAL_ONEVENT_SEND_MSG0 = '%1 %2 send %3 🚩';
 Msg.SIGNAL_ONEVENT_SEND_MSG1 = 'with data %1';

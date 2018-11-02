@@ -33,7 +33,6 @@ Blockly.Blocks.signal_do = {
           options: listSignal('LAYER_CLICKED', 'ELEMENT_CREATED', 'ELEMENT_DESTROYED'),
         },
       ],
-      // message1: '(sender, receiver, data)',
       colour,
       nextStatement,
       tooltip: Msg.SIGNAL_DO_TOOLTIP,
@@ -185,7 +184,7 @@ Blockly.JavaScript.get_store_data_prop = function (block) {
 };
 
 const events = ['immediately', 'onclick', 'ondblclick',
-  'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave'];
+  'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'oncollision'];
 
 Blockly.Blocks.signal_onevent_send = {
   init() {
@@ -226,31 +225,38 @@ Blockly.JavaScript.signal_onevent_send = function (block) {
   const signal = block.getFieldValue('SIGNAL');
   const data = Blockly.JavaScript.statementToCode(block, 'DATA');
 
-  if(event !== 'immediately') {
+  if(event !== 'immediately' && event !== 'oncollision') {
     const eventName = event.slice(2);
     return `${target}.on('${eventName}', 
   evt => {
     const {altKey, buttons, ctrlKey, shiftKey} = evt.originalEvent;
     const runtime = spritly.runtime;
-    runtime.Signal.send('${signal}', 
-      {
-        sender:${target},
-        data: Object.assign(
-          {
-            [runtime.Symbols.target]: evt.target,
-            [runtime.Symbols.offsetX]: evt.offsetX,
-            [runtime.Symbols.offsetY]: evt.offsetY,
-            [runtime.Symbols.layerX]: evt.layerX,
-            [runtime.Symbols.layerY]: evt.layerY,
-            [runtime.Symbols.altKey]: altKey,
-            [runtime.Symbols.buttons]: buttons,
-            [runtime.Symbols.ctrlKey]: ctrlKey,
-            [runtime.Symbols.shiftKey]: shiftKey,
-          },
-          {${data}},
-        ),
-      });
+    runtime.Signal.send('${signal}', ${target},
+      Object.assign(
+        {
+          [runtime.Symbols.target]: evt.target,
+          [runtime.Symbols.offsetX]: evt.offsetX,
+          [runtime.Symbols.offsetY]: evt.offsetY,
+          [runtime.Symbols.layerX]: evt.layerX,
+          [runtime.Symbols.layerY]: evt.layerY,
+          [runtime.Symbols.altKey]: altKey,
+          [runtime.Symbols.buttons]: buttons,
+          [runtime.Symbols.ctrlKey]: ctrlKey,
+          [runtime.Symbols.shiftKey]: shiftKey,
+        },
+        {${data}},
+      ));
   });`;
   }
-  return `spritly.runtime.Signal.send('${signal}', {sender:${target}, data: {${data}}});\n`;
+  if(event === 'oncollision') {
+    return `${target}.on('update', () => {
+  spritly.runtime.getCollisions(${target}).forEach((s) => {
+    spritly.runtime.Signal.send('${signal}', ${target}, {[spritly.runtime.Symbols.target]: s});      
+  });
+});
+${target}.forceUpdate();
+`;
+  }
+  return `spritly.runtime.Signal.send('${signal}', ${target}, {${data}});
+`;
 };

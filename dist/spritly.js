@@ -1068,36 +1068,119 @@ module.exports = function (exec, skipClosing) {
 
 
 /***/ }),
-/* 60 */
+/* 60 */,
+/* 61 */,
+/* 62 */,
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(61), __esModule: true };
+var META = __webpack_require__(46)('meta');
+var isObject = __webpack_require__(13);
+var has = __webpack_require__(20);
+var setDesc = __webpack_require__(11).f;
+var id = 0;
+var isExtensible = Object.isExtensible || function () {
+  return true;
+};
+var FREEZE = !__webpack_require__(16)(function () {
+  return isExtensible(Object.preventExtensions({}));
+});
+var setMeta = function (it) {
+  setDesc(it, META, { value: {
+    i: 'O' + ++id, // object ID
+    w: {}          // weak collections IDs
+  } });
+};
+var fastKey = function (it, create) {
+  // return primitive with prefix
+  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if (!has(it, META)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return 'F';
+    // not necessary to add metadata
+    if (!create) return 'E';
+    // add missing metadata
+    setMeta(it);
+  // return object ID
+  } return it[META].i;
+};
+var getWeak = function (it, create) {
+  if (!has(it, META)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return true;
+    // not necessary to add metadata
+    if (!create) return false;
+    // add missing metadata
+    setMeta(it);
+  // return hash weak collections IDs
+  } return it[META].w;
+};
+// add metadata on freeze-family methods calling
+var onFreeze = function (it) {
+  if (FREEZE && meta.NEED && isExtensible(it) && !has(it, META)) setMeta(it);
+  return it;
+};
+var meta = module.exports = {
+  KEY: META,
+  NEED: false,
+  fastKey: fastKey,
+  getWeak: getWeak,
+  onFreeze: onFreeze
+};
+
 
 /***/ }),
-/* 61 */
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(62);
-__webpack_require__(25);
-__webpack_require__(63);
-__webpack_require__(67);
-__webpack_require__(80);
-__webpack_require__(83);
-__webpack_require__(85);
-module.exports = __webpack_require__(7).Set;
+// 7.2.2 IsArray(argument)
+var cof = __webpack_require__(40);
+module.exports = Array.isArray || function isArray(arg) {
+  return cof(arg) == 'Array';
+};
 
 
 /***/ }),
-/* 62 */
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 63 */
+/* 74 */,
+/* 75 */,
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(64);
+module.exports = { "default": __webpack_require__(77), __esModule: true };
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(73);
+__webpack_require__(25);
+__webpack_require__(78);
+__webpack_require__(82);
+__webpack_require__(93);
+__webpack_require__(96);
+__webpack_require__(98);
+module.exports = __webpack_require__(7).Map;
+
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(79);
 var global = __webpack_require__(6);
 var hide = __webpack_require__(10);
 var Iterators = __webpack_require__(32);
@@ -1119,13 +1202,13 @@ for (var i = 0; i < DOMIterables.length; i++) {
 
 
 /***/ }),
-/* 64 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(65);
-var step = __webpack_require__(66);
+var addToUnscopables = __webpack_require__(80);
+var step = __webpack_require__(81);
 var Iterators = __webpack_require__(32);
 var toIObject = __webpack_require__(38);
 
@@ -1160,14 +1243,14 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 65 */
+/* 80 */
 /***/ (function(module, exports) {
 
 module.exports = function () { /* empty */ };
 
 
 /***/ }),
-/* 66 */
+/* 81 */
 /***/ (function(module, exports) {
 
 module.exports = function (done, value) {
@@ -1176,44 +1259,49 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 67 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var strong = __webpack_require__(68);
-var validate = __webpack_require__(74);
-var SET = 'Set';
+var strong = __webpack_require__(83);
+var validate = __webpack_require__(88);
+var MAP = 'Map';
 
-// 23.2 Set Objects
-module.exports = __webpack_require__(75)(SET, function (get) {
-  return function Set() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
+// 23.1 Map Objects
+module.exports = __webpack_require__(89)(MAP, function (get) {
+  return function Map() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
 }, {
-  // 23.2.3.1 Set.prototype.add(value)
-  add: function add(value) {
-    return strong.def(validate(this, SET), value = value === 0 ? 0 : value, value);
+  // 23.1.3.6 Map.prototype.get(key)
+  get: function get(key) {
+    var entry = strong.getEntry(validate(this, MAP), key);
+    return entry && entry.v;
+  },
+  // 23.1.3.9 Map.prototype.set(key, value)
+  set: function set(key, value) {
+    return strong.def(validate(this, MAP), key === 0 ? 0 : key, value);
   }
-}, strong);
+}, strong, true);
 
 
 /***/ }),
-/* 68 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var dP = __webpack_require__(11).f;
 var create = __webpack_require__(34);
-var redefineAll = __webpack_require__(69);
+var redefineAll = __webpack_require__(84);
 var ctx = __webpack_require__(8);
-var anInstance = __webpack_require__(70);
-var forOf = __webpack_require__(71);
+var anInstance = __webpack_require__(85);
+var forOf = __webpack_require__(86);
 var $iterDefine = __webpack_require__(29);
-var step = __webpack_require__(66);
-var setSpecies = __webpack_require__(72);
+var step = __webpack_require__(81);
+var setSpecies = __webpack_require__(87);
 var DESCRIPTORS = __webpack_require__(15);
-var fastKey = __webpack_require__(73).fastKey;
-var validate = __webpack_require__(74);
+var fastKey = __webpack_require__(63).fastKey;
+var validate = __webpack_require__(88);
 var SIZE = DESCRIPTORS ? '_s' : 'size';
 
 var getEntry = function (that, key) {
@@ -1348,7 +1436,7 @@ module.exports = {
 
 
 /***/ }),
-/* 69 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var hide = __webpack_require__(10);
@@ -1361,7 +1449,7 @@ module.exports = function (target, src, safe) {
 
 
 /***/ }),
-/* 70 */
+/* 85 */
 /***/ (function(module, exports) {
 
 module.exports = function (it, Constructor, name, forbiddenField) {
@@ -1372,7 +1460,7 @@ module.exports = function (it, Constructor, name, forbiddenField) {
 
 
 /***/ }),
-/* 71 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(8);
@@ -1403,7 +1491,7 @@ exports.RETURN = RETURN;
 
 
 /***/ }),
-/* 72 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1424,66 +1512,7 @@ module.exports = function (KEY) {
 
 
 /***/ }),
-/* 73 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var META = __webpack_require__(46)('meta');
-var isObject = __webpack_require__(13);
-var has = __webpack_require__(20);
-var setDesc = __webpack_require__(11).f;
-var id = 0;
-var isExtensible = Object.isExtensible || function () {
-  return true;
-};
-var FREEZE = !__webpack_require__(16)(function () {
-  return isExtensible(Object.preventExtensions({}));
-});
-var setMeta = function (it) {
-  setDesc(it, META, { value: {
-    i: 'O' + ++id, // object ID
-    w: {}          // weak collections IDs
-  } });
-};
-var fastKey = function (it, create) {
-  // return primitive with prefix
-  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
-  if (!has(it, META)) {
-    // can't set metadata to uncaught frozen object
-    if (!isExtensible(it)) return 'F';
-    // not necessary to add metadata
-    if (!create) return 'E';
-    // add missing metadata
-    setMeta(it);
-  // return object ID
-  } return it[META].i;
-};
-var getWeak = function (it, create) {
-  if (!has(it, META)) {
-    // can't set metadata to uncaught frozen object
-    if (!isExtensible(it)) return true;
-    // not necessary to add metadata
-    if (!create) return false;
-    // add missing metadata
-    setMeta(it);
-  // return hash weak collections IDs
-  } return it[META].w;
-};
-// add metadata on freeze-family methods calling
-var onFreeze = function (it) {
-  if (FREEZE && meta.NEED && isExtensible(it) && !has(it, META)) setMeta(it);
-  return it;
-};
-var meta = module.exports = {
-  KEY: META,
-  NEED: false,
-  fastKey: fastKey,
-  getWeak: getWeak,
-  onFreeze: onFreeze
-};
-
-
-/***/ }),
-/* 74 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(13);
@@ -1494,23 +1523,23 @@ module.exports = function (it, TYPE) {
 
 
 /***/ }),
-/* 75 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var global = __webpack_require__(6);
 var $export = __webpack_require__(5);
-var meta = __webpack_require__(73);
+var meta = __webpack_require__(63);
 var fails = __webpack_require__(16);
 var hide = __webpack_require__(10);
-var redefineAll = __webpack_require__(69);
-var forOf = __webpack_require__(71);
-var anInstance = __webpack_require__(70);
+var redefineAll = __webpack_require__(84);
+var forOf = __webpack_require__(86);
+var anInstance = __webpack_require__(85);
 var isObject = __webpack_require__(13);
 var setToStringTag = __webpack_require__(49);
 var dP = __webpack_require__(11).f;
-var each = __webpack_require__(76)(0);
+var each = __webpack_require__(90)(0);
 var DESCRIPTORS = __webpack_require__(15);
 
 module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
@@ -1560,7 +1589,7 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 
 
 /***/ }),
-/* 76 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 0 -> Array#forEach
@@ -1574,7 +1603,7 @@ var ctx = __webpack_require__(8);
 var IObject = __webpack_require__(39);
 var toObject = __webpack_require__(52);
 var toLength = __webpack_require__(42);
-var asc = __webpack_require__(77);
+var asc = __webpack_require__(91);
 module.exports = function (TYPE, $create) {
   var IS_MAP = TYPE == 1;
   var IS_FILTER = TYPE == 2;
@@ -1610,11 +1639,11 @@ module.exports = function (TYPE, $create) {
 
 
 /***/ }),
-/* 77 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__(78);
+var speciesConstructor = __webpack_require__(92);
 
 module.exports = function (original, length) {
   return new (speciesConstructor(original))(length);
@@ -1622,11 +1651,11 @@ module.exports = function (original, length) {
 
 
 /***/ }),
-/* 78 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isObject = __webpack_require__(13);
-var isArray = __webpack_require__(79);
+var isArray = __webpack_require__(69);
 var SPECIES = __webpack_require__(50)('species');
 
 module.exports = function (original) {
@@ -1644,33 +1673,22 @@ module.exports = function (original) {
 
 
 /***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// 7.2.2 IsArray(argument)
-var cof = __webpack_require__(40);
-module.exports = Array.isArray || function isArray(arg) {
-  return cof(arg) == 'Array';
-};
-
-
-/***/ }),
-/* 80 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var $export = __webpack_require__(5);
 
-$export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(81)('Set') });
+$export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(94)('Map') });
 
 
 /***/ }),
-/* 81 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var classof = __webpack_require__(58);
-var from = __webpack_require__(82);
+var from = __webpack_require__(95);
 module.exports = function (NAME) {
   return function toJSON() {
     if (classof(this) != NAME) throw TypeError(NAME + "#toJSON isn't generic");
@@ -1680,10 +1698,10 @@ module.exports = function (NAME) {
 
 
 /***/ }),
-/* 82 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var forOf = __webpack_require__(71);
+var forOf = __webpack_require__(86);
 
 module.exports = function (iter, ITERATOR) {
   var result = [];
@@ -1693,15 +1711,15 @@ module.exports = function (iter, ITERATOR) {
 
 
 /***/ }),
-/* 83 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// https://tc39.github.io/proposal-setmap-offrom/#sec-set.of
-__webpack_require__(84)('Set');
+// https://tc39.github.io/proposal-setmap-offrom/#sec-map.of
+__webpack_require__(97)('Map');
 
 
 /***/ }),
-/* 84 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1720,15 +1738,15 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 85 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
-__webpack_require__(86)('Set');
+// https://tc39.github.io/proposal-setmap-offrom/#sec-map.from
+__webpack_require__(99)('Map');
 
 
 /***/ }),
-/* 86 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1737,7 +1755,7 @@ __webpack_require__(86)('Set');
 var $export = __webpack_require__(5);
 var aFunction = __webpack_require__(9);
 var ctx = __webpack_require__(8);
-var forOf = __webpack_require__(71);
+var forOf = __webpack_require__(86);
 
 module.exports = function (COLLECTION) {
   $export($export.S, COLLECTION, { from: function from(source /* , mapFn, thisArg */) {
@@ -1763,92 +1781,74 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 87 */,
-/* 88 */,
-/* 89 */,
-/* 90 */,
-/* 91 */,
-/* 92 */,
-/* 93 */,
-/* 94 */,
-/* 95 */,
-/* 96 */,
-/* 97 */,
-/* 98 */,
-/* 99 */,
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(101), __esModule: true };
-
-/***/ }),
+/* 100 */,
 /* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(62);
-__webpack_require__(25);
-__webpack_require__(63);
-__webpack_require__(102);
-__webpack_require__(103);
-__webpack_require__(104);
-__webpack_require__(105);
-module.exports = __webpack_require__(7).Map;
-
+module.exports = { "default": __webpack_require__(102), __esModule: true };
 
 /***/ }),
 /* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-var strong = __webpack_require__(68);
-var validate = __webpack_require__(74);
-var MAP = 'Map';
-
-// 23.1 Map Objects
-module.exports = __webpack_require__(75)(MAP, function (get) {
-  return function Map() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
-}, {
-  // 23.1.3.6 Map.prototype.get(key)
-  get: function get(key) {
-    var entry = strong.getEntry(validate(this, MAP), key);
-    return entry && entry.v;
-  },
-  // 23.1.3.9 Map.prototype.set(key, value)
-  set: function set(key, value) {
-    return strong.def(validate(this, MAP), key === 0 ? 0 : key, value);
-  }
-}, strong, true);
+__webpack_require__(73);
+__webpack_require__(25);
+__webpack_require__(78);
+__webpack_require__(103);
+__webpack_require__(104);
+__webpack_require__(105);
+__webpack_require__(106);
+module.exports = __webpack_require__(7).Set;
 
 
 /***/ }),
 /* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var $export = __webpack_require__(5);
+"use strict";
 
-$export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(81)('Map') });
+var strong = __webpack_require__(83);
+var validate = __webpack_require__(88);
+var SET = 'Set';
+
+// 23.2 Set Objects
+module.exports = __webpack_require__(89)(SET, function (get) {
+  return function Set() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
+}, {
+  // 23.2.3.1 Set.prototype.add(value)
+  add: function add(value) {
+    return strong.def(validate(this, SET), value = value === 0 ? 0 : value, value);
+  }
+}, strong);
 
 
 /***/ }),
 /* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// https://tc39.github.io/proposal-setmap-offrom/#sec-map.of
-__webpack_require__(84)('Map');
+// https://github.com/DavidBruant/Map-Set.prototype.toJSON
+var $export = __webpack_require__(5);
+
+$export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(94)('Set') });
 
 
 /***/ }),
 /* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// https://tc39.github.io/proposal-setmap-offrom/#sec-map.from
-__webpack_require__(86)('Map');
+// https://tc39.github.io/proposal-setmap-offrom/#sec-set.of
+__webpack_require__(97)('Set');
 
 
 /***/ }),
-/* 106 */,
+/* 106 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
+__webpack_require__(99)('Set');
+
+
+/***/ }),
 /* 107 */,
 /* 108 */,
 /* 109 */,
@@ -2193,6 +2193,7 @@ Msg.EVENT_ONMOUSEMOVE = '鼠标在元素内部移动';
 Msg.EVENT_ONMOUSEUP = '释放鼠标按键';
 Msg.EVENT_ONMOUSEENTER = '鼠标进入元素';
 Msg.EVENT_ONMOUSELEAVE = '鼠标离开元素';
+Msg.EVENT_ONCOLLISION = '与其他元素碰撞';
 
 Msg.SIGNAL_ONEVENT_SEND_MSG0 = '%1 %2 发送 %3 🚩';
 Msg.SIGNAL_ONEVENT_SEND_MSG1 = '包含消息 %1';
@@ -3046,11 +3047,11 @@ var _toConsumableArray2 = __webpack_require__(22);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _set = __webpack_require__(60);
+var _set = __webpack_require__(101);
 
 var _set2 = _interopRequireDefault(_set);
 
-var _map = __webpack_require__(100);
+var _map = __webpack_require__(76);
 
 var _map2 = _interopRequireDefault(_map);
 
@@ -3223,7 +3224,6 @@ Blockly.Blocks.signal_do = {
         name: 'SIGNAL',
         options: listSignal('LAYER_CLICKED', 'ELEMENT_CREATED', 'ELEMENT_DESTROYED')
       }],
-      // message1: '(sender, receiver, data)',
       colour: colour,
       nextStatement: nextStatement,
       tooltip: Msg.SIGNAL_DO_TOOLTIP
@@ -3355,7 +3355,7 @@ Blockly.JavaScript.get_store_data_prop = function (block) {
   return ['data[spritly.runtime.Symbols.' + prop + ']', Blockly.JavaScript.ORDER_MEMBER];
 };
 
-var events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave'];
+var events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'oncollision'];
 
 Blockly.Blocks.signal_onevent_send = {
   init: function init() {
@@ -3396,11 +3396,14 @@ Blockly.JavaScript.signal_onevent_send = function (block) {
   var signal = block.getFieldValue('SIGNAL');
   var data = Blockly.JavaScript.statementToCode(block, 'DATA');
 
-  if (event !== 'immediately') {
+  if (event !== 'immediately' && event !== 'oncollision') {
     var eventName = event.slice(2);
-    return target + '.on(\'' + eventName + '\', \n  evt => {\n    const {altKey, buttons, ctrlKey, shiftKey} = evt.originalEvent;\n    const runtime = spritly.runtime;\n    runtime.Signal.send(\'' + signal + '\', \n      {\n        sender:' + target + ',\n        data: Object.assign(\n          {\n            [runtime.Symbols.target]: evt.target,\n            [runtime.Symbols.offsetX]: evt.offsetX,\n            [runtime.Symbols.offsetY]: evt.offsetY,\n            [runtime.Symbols.layerX]: evt.layerX,\n            [runtime.Symbols.layerY]: evt.layerY,\n            [runtime.Symbols.altKey]: altKey,\n            [runtime.Symbols.buttons]: buttons,\n            [runtime.Symbols.ctrlKey]: ctrlKey,\n            [runtime.Symbols.shiftKey]: shiftKey,\n          },\n          {' + data + '},\n        ),\n      });\n  });';
+    return target + '.on(\'' + eventName + '\', \n  evt => {\n    const {altKey, buttons, ctrlKey, shiftKey} = evt.originalEvent;\n    const runtime = spritly.runtime;\n    runtime.Signal.send(\'' + signal + '\', ' + target + ',\n      Object.assign(\n        {\n          [runtime.Symbols.target]: evt.target,\n          [runtime.Symbols.offsetX]: evt.offsetX,\n          [runtime.Symbols.offsetY]: evt.offsetY,\n          [runtime.Symbols.layerX]: evt.layerX,\n          [runtime.Symbols.layerY]: evt.layerY,\n          [runtime.Symbols.altKey]: altKey,\n          [runtime.Symbols.buttons]: buttons,\n          [runtime.Symbols.ctrlKey]: ctrlKey,\n          [runtime.Symbols.shiftKey]: shiftKey,\n        },\n        {' + data + '},\n      ));\n  });';
   }
-  return 'spritly.runtime.Signal.send(\'' + signal + '\', {sender:' + target + ', data: {' + data + '}});\n';
+  if (event === 'oncollision') {
+    return target + '.on(\'update\', () => {\n  spritly.runtime.getCollisions(' + target + ').forEach((s) => {\n    spritly.runtime.Signal.send(\'' + signal + '\', ' + target + ', {[spritly.runtime.Symbols.target]: s});      \n  });\n});\n' + target + '.forceUpdate();\n';
+  }
+  return 'spritly.runtime.Signal.send(\'' + signal + '\', ' + target + ', {' + data + '});\n';
 };
 
 /***/ }),
@@ -3667,7 +3670,6 @@ Blockly.Blocks.log_log = {
         type: 'input_value',
         name: 'MSG'
       }],
-      // message1: '(sender, receiver, data)',
       colour: colour,
       previousStatement: previousStatement,
       nextStatement: nextStatement,
@@ -3690,7 +3692,6 @@ Blockly.Blocks.log_alert = {
         type: 'input_value',
         name: 'MSG'
       }],
-      // message1: '(sender, receiver, data)',
       colour: colour,
       previousStatement: previousStatement,
       nextStatement: nextStatement,

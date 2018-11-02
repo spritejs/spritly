@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://unpkg.com/spritejs/dist/spritejs.min.js"></script>
+  <script src="/js/spritly-runtime.js"></script>
+  <div id="stage" style="width:100%;height:100%;"></div>
+  <script>
+  /* eslint-disable */
+
+spritly.runtime.use(spritejs);
+
+spritly.runtime.Signal.listen('START', {id: 'Sprite_75087', $$creator: 'Sprite'});
+
+
+spritly.runtime.Signal.listen('START', {id: 'Sprite_12862', $$creator: 'Sprite'});
+
+
+spritly.runtime.Signal.on('START', async function({signal, sender, receiver, data, target}){
+  if(receiver.id === 'Sprite_12862' || !'Sprite_12862' && receiver === spritly.runtime.Signal.DEFAULT_SIGNAL || target === receiver){
+    if(receiver.$$creator) {
+      receiver.$$target = spritejs.createElement(receiver.$$creator, {id: 'Sprite_12862'});
+      spritly.runtime.ElementList.add(receiver.$$target);
+      delete receiver.$$creator;
+    }
+    if(receiver.$$target) {
+      receiver = receiver.$$target;
+    }
+    if(data[spritly.runtime.Symbols.target] != null) {
+      target = data.target;
+    }
+    if(target == null) {
+      if(receiver && receiver !== spritly.runtime.Signal.DEFAULT_SIGNAL) target = receiver;
+      else target = sender;
+    }
+    receiver.attr(spritly.runtime.parse_attr({
+      'anchorX': 0.5,
+      'anchorY': 0.5,
+      'x': 100,
+      'y': 100,
+      'width': 100,
+      'height': 100,
+      'bgcolor': spritly.runtime.random_color_hue(100,50,1),
+    }));
+    spritly.runtime.scene.layer('fglayer').append(receiver);
+    if(!receiver.layer) console.error('receiver must append to layer before animated!');
+    await receiver.animate([{
+    },{
+      'x': 500,
+      'rotate': 720,
+    }], {duration: 3000, fill: 'forwards', easing: 'ease'}).finished;
+    spritly.runtime.Signal.listen('移动结束', receiver);
+    receiver.on('update', () => {
+      spritly.runtime.getCollisions(receiver).forEach((s) => {
+        spritly.runtime.Signal.listen('移动结束', s);
+        spritly.runtime.Signal.send('移动结束', {sender: receiver, data: {target: s}});
+      });
+    });
+    receiver.forceUpdate();
+  }
+});
+
+spritly.runtime.Signal.on('移动结束', async function({signal, sender, receiver, data, target}){
+  console.log(receiver)
+  if(receiver.id === 'Sprite_12862' || !'Sprite_12862' && receiver === spritly.runtime.Signal.DEFAULT_SIGNAL || target === receiver){
+    if(receiver.$$creator) {
+      receiver.$$target = spritejs.createElement(receiver.$$creator, {id: 'Sprite_12862'});
+      spritly.runtime.ElementList.add(receiver.$$target);
+      delete receiver.$$creator;
+    }
+    if(receiver.$$target) {
+      receiver = receiver.$$target;
+    }
+    if(data[spritly.runtime.Symbols.target] != null) {
+      target = data.target;
+    }
+    if(target == null) {
+      if(receiver && receiver !== spritly.runtime.Signal.DEFAULT_SIGNAL) target = receiver;
+      else target = sender;
+    }
+    alert();
+  }
+});
+
+spritly.runtime.Signal.on('START', async function({signal, sender, receiver, data, target}){
+  if(receiver.id === 'Sprite_75087' || !'Sprite_75087' && receiver === spritly.runtime.Signal.DEFAULT_SIGNAL || target === receiver){
+    if(receiver.$$creator) {
+      receiver.$$target = spritejs.createElement(receiver.$$creator, {id: 'Sprite_75087'});
+      spritly.runtime.ElementList.add(receiver.$$target);
+      delete receiver.$$creator;
+    }
+    if(receiver.$$target) {
+      receiver = receiver.$$target;
+    }
+    if(data[spritly.runtime.Symbols.target] != null) {
+      target = data.target;
+    }
+    if(target == null) {
+      if(receiver && receiver !== spritly.runtime.Signal.DEFAULT_SIGNAL) target = receiver;
+      else target = sender;
+    }
+    receiver.attr(spritly.runtime.parse_attr({
+      'anchorX': 0.5,
+      'anchorY': 0.5,
+      'x': 500,
+      'y': 100,
+      'width': 100,
+      'height': 100,
+      'bgcolor': spritly.runtime.random_color_hue(100,50,1),
+    }));
+    spritly.runtime.scene.layer('fglayer').append(receiver);
+  }
+});
+
+spritly.runtime.Signal.send('START');
+  </script>
+</body>
+</html>

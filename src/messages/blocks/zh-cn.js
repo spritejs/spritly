@@ -224,6 +224,7 @@ Msg.EVENT_ONMOUSEMOVE = '鼠标在元素内部移动';
 Msg.EVENT_ONMOUSEUP = '释放鼠标按键';
 Msg.EVENT_ONMOUSEENTER = '鼠标进入元素';
 Msg.EVENT_ONMOUSELEAVE = '鼠标离开元素';
+Msg.EVENT_ONCOLLISION = '与其他元素碰撞';
 
 Msg.SIGNAL_ONEVENT_SEND_MSG0 = '%1 %2 发送 %3 🚩';
 Msg.SIGNAL_ONEVENT_SEND_MSG1 = '包含消息 %1';

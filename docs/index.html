@@ -498,14 +498,13 @@
           xml.removeChild(block);
           if(type === 'signal_do') {
             const signal = block.querySelector('field').textContent || 'START';
-            topBlocks.unshift({block, type, signal, id: ''});
+            topBlocks.unshift({block, type, signal});
           } else if(type === 'signal_new_sprite_as_receiver') {
             const signal = block.querySelector('field[name="SIGNAL"]').textContent || 'START';
             const nodeType = block.querySelector('field[name="RECEIVER"]').textContent || 'Sprite';
             const id = block.querySelector('field[name="ID"]').textContent;
             Dropdown.set('Sprites', id);
-            allCode.push(`spritly.runtime.Signal.listen('${signal}', {id: '${id}', $$creator: '${nodeType}'});\n`);
-            topBlocks.unshift({block, type, signal, id});
+            topBlocks.unshift({block, type, signal, nodeType, id});
           } else if(type === 'signal_when_receiver_is') {
             const signal = block.querySelector('field[name="SIGNAL"]').textContent || 'START';
             const id = block.querySelector('field[name="ID"]').textContent;
@@ -518,38 +517,50 @@
       Blockly.JavaScript.INFINITE_LOOP_TRAP = `${Blockly.Generator.prototype.INDENT}if (--window.LoopTrap == 0) throw "Infinite loop.";\n`;
 
       for(let i = 0; i < topBlocks.length; i++) {
-        const {block, signal, id} = topBlocks[i];
+        const {block, type, signal} = topBlocks[i];
         const headless = new Blockly.Workspace();
         xml.appendChild(block);
         Blockly.Xml.domToWorkspace(xml, headless);
-        const indent = Blockly.Generator.prototype.INDENT + Blockly.Generator.prototype.INDENT;
-        const code = indent + Blockly.JavaScript.workspaceToCode(headless).split(/\n/g)
+        const indent = Blockly.Generator.prototype.INDENT;
+
+        let code = indent + Blockly.JavaScript.workspaceToCode(headless).split(/\n/g)
           .join(`\n${indent}`).trimRight();
-        allCode.push(`spritly.runtime.Signal.on('${signal}', async function({signal, sender, receiver, data, target}){
-  if(receiver.id === '${id}' || !'${id}' && receiver === spritly.runtime.Signal.DEFAULT_SIGNAL || target === receiver){
-    if(receiver.$$creator) {
-      receiver.$$target = spritejs.createElement(receiver.$$creator, {id: '${id}'});
-      spritly.runtime.ElementList.add(receiver.$$target);
-      delete receiver.$$creator;
-    }
-    if(receiver.$$target) {
-      receiver = receiver.$$target;
-    }
-    if(data[spritly.runtime.Symbols.target] != null) {
-      target = data.target;
-    }
-    if(target == null) {
-      if(receiver && receiver !== spritly.runtime.Signal.DEFAULT_SIGNAL) target = receiver;
-      else target = sender;
-    }
-${code}
+
+        const head = `spritly.runtime.Signal.on('${signal}', async function(sender, data){`;
+  
+        let receiver;
+        if(type === 'signal_new_sprite_as_receiver') {
+          const {nodeType, id} = topBlocks[i];
+          receiver = `  let receiver = spritly.runtime.ElementList.getElementById('${id}');
+  if(receiver == null){
+    receiver = spritejs.createElement('${nodeType}', {id: '${id}'});
+    spritly.runtime.ElementList.add(receiver);
+  }`;
+        } else if(type === 'signal_when_receiver_is') {
+          const {id} = topBlocks[i];
+          receiver = `const receiver = spritly.runtime.ElementList.getElementById('${id}');
+  if(receiver == null) return;`;
+        } else {
+          receiver = '  let receiver = null;';
+          code = `  if(target && receiver == null) {
+    receiver = target;
   }
+${code}`;
+        }
+
+        allCode.push(`${head}
+${receiver}
+  let target = data[spritly.runtime.Symbols.target];
+  if(target == null) {
+    target = receiver || sender;
+  }
+${code}
 });`);
         headless.dispose();
         xml.removeChild(block);
       }
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-      allCode.push("spritly.runtime.Signal.send('START');\n");
+      allCode.push("spritly.runtime.Signal.send('START', spritly.runtime.scene);\n");
       return allCode;
     }
 

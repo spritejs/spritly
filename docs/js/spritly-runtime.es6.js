@@ -120,7 +120,7 @@ function use({ Scene }, options = { container: '#stage', viewport: 'auto', resol
     return function (evt) {
       const { altKey, buttons, ctrlKey, shiftKey } = evt.originalEvent;
       const runtime = spritly.runtime;
-      _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send(signal, { sender: scene }, {
+      _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send(signal, scene, {
         [runtime.Symbols.target]: evt.target,
         [runtime.Symbols.offsetX]: evt.offsetX,
         [runtime.Symbols.offsetY]: evt.offsetY,
@@ -134,7 +134,6 @@ function use({ Scene }, options = { container: '#stage', viewport: 'auto', resol
     };
   }
 
-  _signal__WEBPACK_IMPORTED_MODULE_0__["default"].listen('LAYER_CLICKED', fglayer);
   fglayer.on('click', getClickHandler('LAYER_CLICKED'));
 
   this.scene = scene;
@@ -152,6 +151,7 @@ const runtime = {
   random: _misc__WEBPACK_IMPORTED_MODULE_2__["random"],
   random_color: _misc__WEBPACK_IMPORTED_MODULE_2__["random_color"],
   random_color_hue: _misc__WEBPACK_IMPORTED_MODULE_2__["random_color_hue"],
+  getCollisions: _misc__WEBPACK_IMPORTED_MODULE_2__["getCollisions"],
   ElementList: _element_list__WEBPACK_IMPORTED_MODULE_1__["default"],
   Store: _store__WEBPACK_IMPORTED_MODULE_6__["default"]
 };
@@ -167,31 +167,26 @@ __webpack_require__.r(__webpack_exports__);
 const signals = new Map();
 
 const Signal = {
-  DEFAULT_SIGNAL: { id: Symbol('default_signal') },
+  DEFAULT_RECEIVER: { id: Symbol('default_receiver') },
   on(signal, handler) {
-    const { receivers, handlers } = signals.get(signal) || { receivers: new Set(), handlers: [] };
+    const handlers = signals.get(signal) || [];
     handlers.push(handler);
-    signals.set(signal, { receivers, handlers });
+    signals.set(signal, handlers);
   },
-  listen(signal, receiver) {
-    const { receivers, handlers } = signals.get(signal) || { receivers: new Set(), handlers: [] };
-    receivers.add(receiver);
-    signals.set(signal, { receivers, handlers });
-  },
-  unlisten(signal, receiver) {
-    const { receivers, handlers } = signals.get(signal) || { receivers: new Set(), handlers: [] };
-    receivers.delete(receiver);
-    signals.set(signal, { receivers, handlers });
-  },
-  send(signal, { sender, data = {}, receiver } = {}) {
-    // console.log('send signal', signal);
-    const { receivers, handlers } = signals.get(signal) || { receivers: new Set(), handlers: [] };
-    [...receivers, Signal.DEFAULT_SIGNAL].forEach(_receiver => {
-      if (receiver == null || receiver === _receiver) {
-        handlers.forEach(handler => {
-          handler({ signal, sender, receiver: _receiver, data, target: receiver });
-        });
+  un(signal, handler) {
+    const handlers = signals.get(signal);
+    if (handlers) {
+      const idx = handlers.indexOf(handler);
+      if (idx >= 0) {
+        handlers.splice(idx, 1);
       }
+    }
+  },
+  send(signal, sender, data = {}) {
+    // console.log('send signal', signal);
+    const handlers = signals.get(signal) || [];
+    handlers.forEach(handler => {
+      handler(sender, data);
     });
   },
   get signals() {
@@ -219,22 +214,18 @@ const ElementList = {
     if (el.id) {
       elements_index[el.id] = el;
     }
-    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].listen('ELEMENT_CREATED', el);
-    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('ELEMENT_CREATED', { sender: el, receiver: el });
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('ELEMENT_CREATED', el);
     return el;
   },
   remove(el) {
     if (el.layer) {
       el.remove();
     }
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('ELEMENT_DESTROYED', el);
     if (el.id) {
       delete elements_index[el.id];
     }
     elements.delete(el);
-    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].signals.forEach(signal => {
-      _signal__WEBPACK_IMPORTED_MODULE_0__["default"].unlisten(signal, el);
-    });
-    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('ELEMENT_DESTROYED', { sender: el });
   },
   all() {
     return [...elements];
@@ -259,6 +250,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random", function() { return random; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random_color", function() { return random_color; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random_color_hue", function() { return random_color_hue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCollisions", function() { return getCollisions; });
 function wait(ms) {
   return new Promise(resolve => {
     setTimeout(resolve, ms);
@@ -282,6 +274,14 @@ function random_color_hue(s, l, a) {
   const h = Math.floor(Math.random() * 360);
 
   return `hsla(${h},${s}%,${l}%,${a})`;
+}
+
+function getCollisions(sprite) {
+  const layer = sprite.layer;
+  if (!layer) return [];
+  return layer.children.filter(s => {
+    return s !== sprite && s.OBBCollision(sprite);
+  });
 }
 
 /***/ }),
@@ -398,13 +398,10 @@ const store = new Map();
   set(key, value, operator = null) {
     const oldValue = store.get(key);
     store.set(key, value);
-    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('STORE_PROPERTY_UPDATE', {
-      sender: operator,
-      data: {
-        [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].property]: key,
-        [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].oldValue]: oldValue,
-        [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].newValue]: value
-      }
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('STORE_PROPERTY_UPDATE', operator, {
+      [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].property]: key,
+      [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].oldValue]: oldValue,
+      [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].newValue]: value
     });
   },
   get(key) {
@@ -413,12 +410,9 @@ const store = new Map();
   delete(key, operator = null) {
     const oldValue = store.get(key);
     store.delete(key);
-    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('STORE_PROPERTY_UPDATE', {
-      sender: operator,
-      data: {
-        [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].property]: key,
-        [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].oldValue]: oldValue
-      }
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('STORE_PROPERTY_UPDATE', operator, {
+      [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].property]: key,
+      [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].oldValue]: oldValue
     });
   }
 });
