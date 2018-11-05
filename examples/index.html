@@ -640,11 +640,24 @@ ${code}
     });
 
     workspace.addChangeListener((event) => {
-      if(event.type === Blockly.Events.CHANGE
+      if(event.type === Blockly.Events.CHANGE && event.element !== 'collapsed'
       || event.type === Blockly.Events.CREATE
       || event.type === Blockly.Events.DELETE
       || event.type === Blockly.Events.MOVE && event.oldParentId !== event.newParentId) {
         update();
+      }
+      if(event.type === Blockly.Events.CHANGE && event.element === 'collapsed') {
+        const block = workspace.getBlockById(event.blockId);
+        const parent = block.getParent();
+        if(!parent) {
+          const isCollapsed = event.newValue;
+          let nextBlock = block;
+
+          do {
+            nextBlock = nextBlock.getNextBlock();
+            if(nextBlock) nextBlock.setCollapsed(isCollapsed);
+          } while(nextBlock);
+        }
       }
     });
     update();
