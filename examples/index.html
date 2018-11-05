@@ -621,9 +621,26 @@ ${code}
     window.showCode = showCode;
     window.showXml = showXml;
 
+    function setCollapsedAll(block, isCollapsed) {
+      let nextBlock = block;
+
+      do {
+        nextBlock = nextBlock.getNextBlock();
+        if(nextBlock) nextBlock.setCollapsed(isCollapsed);
+      } while(nextBlock);
+    }
+
     const block = await loadStartBlocks();
     Blockly.Xml.domToWorkspace(block.documentElement,
       workspace);
+
+    workspace.getAllBlocks().forEach((block) => {
+      const parent = block.getParent();
+      if(!parent) { // is root block
+        const isCollapsed = block.isCollapsed();
+        if(isCollapsed) setCollapsedAll(block, true);
+      }
+    });
 
     function debounce(action, delay = 300) {
       let timer = null;
@@ -639,7 +656,22 @@ ${code}
       window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
     });
 
+    let lastClickedTime = null;
     workspace.addChangeListener((event) => {
+      if(event.type === Blockly.Events.UI && event.element === 'click') {
+        const clickedTime = Date.now();
+        if(lastClickedTime && clickedTime - lastClickedTime <= 300) {
+          lastClickedTime = null;
+          const block = workspace.getBlockById(event.blockId);
+          const isCollapsed = block.isCollapsed();
+          const parent = block.getParent();
+          if(!parent) {
+            setCollapsedAll(block, !isCollapsed);
+          }
+          block.setCollapsed(!isCollapsed);
+        }
+        lastClickedTime = clickedTime;
+      }
       if(event.type === Blockly.Events.CHANGE && event.element !== 'collapsed'
       || event.type === Blockly.Events.CREATE
       || event.type === Blockly.Events.DELETE
@@ -651,12 +683,7 @@ ${code}
         const parent = block.getParent();
         if(!parent) {
           const isCollapsed = event.newValue;
-          let nextBlock = block;
-
-          do {
-            nextBlock = nextBlock.getNextBlock();
-            if(nextBlock) nextBlock.setCollapsed(isCollapsed);
-          } while(nextBlock);
+          setCollapsedAll(block, isCollapsed);
         }
       }
     });
