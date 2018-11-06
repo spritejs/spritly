@@ -85,7 +85,11 @@ Msg.ATTR_LINEJOIN = 'lineJoin';
 Msg.ATTR_BOUNDING = 'bounding';
 Msg.ATTR_STROKECOLOR = 'strokeColor';
 Msg.ATTR_FILLCOLOR = 'fillColor';
+Msg.ATTR_CURSOR = 'cursor';
+Msg.ATTR_DRAGGABLE = 'draggable';
 
+Msg.ATTR_VALUE_YES = 'yes';
+Msg.ATTR_VALUE_NO = 'no';
 Msg.ATTR_VALUE_SOLID = 'solid';
 Msg.ATTR_VALUE_DASHED = 'dashed';
 Msg.ATTR_VALUE_NORMAL = 'normal';
@@ -104,6 +108,22 @@ Msg.ATTR_VALUE_MITER = 'miter';
 Msg.ATTR_VALUE_BEVEL = 'bevel';
 Msg.ATTR_VALUE_BOX = 'box';
 Msg.ATTR_VALUE_PATH = 'path';
+
+Msg.ATTR_VALUE_DEFAULT = 'default';
+Msg.ATTR_VALUE_CROSSHAIR = 'crosshair';
+Msg.ATTR_VALUE_POINTER = 'pointer';
+Msg.ATTR_VALUE_MOVE = 'move';
+Msg['ATTR_VALUE_E-RESIZE'] = 'e-resize';
+Msg['ATTR_VALUE_NE-RESIZE'] = 'ne-resize';
+Msg['ATTR_VALUE_SE-RESIZE'] = 'se-resize';
+Msg['ATTR_VALUE_W-RESIZE'] = 'w-resize';
+Msg['ATTR_VALUE_NW-RESIZE'] = 'nw-resize';
+Msg['ATTR_VALUE_SW-RESIZE'] = 'sw-resize';
+Msg['ATTR_VALUE_N-RESIZE'] = 'n-resize';
+Msg['ATTR_VALUE_S-RESIZE'] = 's-resize';
+Msg.ATTR_VALUE_TEXT = 'text';
+Msg.ATTR_VALUE_WAIT = 'wait';
+Msg.ATTR_VALUE_HELP = 'help';
 
 Msg.AWAIT_MSG0 = 'wait %1 millisec 🕙';
 Msg.AWAIT_TOOLTIP = 'Await %1 milliseconds.';
@@ -166,6 +186,8 @@ Msg.FIELD_ATTR_LINEJOIN_TOOLTIP = 'Set lineJoin of a path.';
 Msg.FIELD_ATTR_BOUNDING_TOOLTIP = 'Use bounding %1 to check collision.';
 Msg.FIELD_ATTR_STROKECOLOR_TOOLTIP = 'Set strokeColor of a path or label.';
 Msg.FIELD_ATTR_FILLCOLOR_TOOLTIP = 'Set fillColor of a path or label.';
+Msg.FIELD_ATTR_CURSOR_TOOLTIP = 'Set cursor shape.';
+Msg.FIELD_ATTR_DRAGGABLE_TOOLTIP = 'Set draggable.';
 
 Msg.RANDOM_STRING_MSG0 = '🎲 random string';
 Msg.RANDOM_STRING_TOOLTIP = 'Get a 11 bytes length random string.';

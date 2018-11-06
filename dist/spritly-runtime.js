@@ -3288,13 +3288,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _slicedToArray2 = __webpack_require__(126);
-
-var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-
-var _entries = __webpack_require__(133);
+var _entries = __webpack_require__(126);
 
 var _entries2 = _interopRequireDefault(_entries);
+
+var _slicedToArray2 = __webpack_require__(130);
+
+var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
 var _assign = __webpack_require__(1);
 
@@ -3338,6 +3338,9 @@ function projectionBorder(attrs) {
 }
 
 var _frameTimer = (0, _symbol2.default)('frameTimer');
+var _cursor = (0, _symbol2.default)('cursor');
+var _dragHandlers = (0, _symbol2.default)('dragHandlers');
+var _originalZIndex = (0, _symbol2.default)('originalZIndex');
 
 function parse_attr(sprite) {
   for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -3359,6 +3362,73 @@ function parse_attr(sprite) {
   projectionXY(attrs, 'translate', 0);
   projectionXY(attrs, 'skew', 0);
   projectionBorder(attrs);
+
+  if ('draggable' in attrs) {
+    var dragHandlers = sprite[_dragHandlers];
+    if (!attrs.draggable && dragHandlers) {
+      var _dragHandlers2 = (0, _slicedToArray3.default)(dragHandlers, 3),
+          dragstart = _dragHandlers2[0],
+          dragmove = _dragHandlers2[1],
+          dragend = _dragHandlers2[2];
+
+      sprite.off(['mousedown', 'touchstart'], dragstart);
+      sprite.off(['mouseup', 'touchend'], dragend);
+      sprite.off(['mousemove', 'touchmove'], dragmove);
+    } else if (attrs.draggable && !dragHandlers) {
+      var offsetX = 0,
+          offsetY = 0;
+      var _dragmove = function _dragmove(evt) {
+        var layerX = evt.layerX,
+            layerY = evt.layerY;
+
+        sprite.attr({
+          x: layerX - offsetX,
+          y: layerY - offsetY
+        });
+      };
+      var _dragstart = function _dragstart(evt) {
+        offsetX = evt.offsetX;
+        offsetY = evt.offsetY;
+        sprite[_originalZIndex] = sprite.attr('zIndex');
+        sprite.setMouseCapture();
+        sprite.attr({
+          shadow: {
+            color: '#333',
+            blur: 5,
+            offset: [10, 10]
+          },
+          zIndex: Infinity
+        });
+        sprite.on(['mousemove', 'touchmove'], _dragmove);
+      };
+      var _dragend = function _dragend(evt) {
+        sprite.releaseMouseCapture();
+        sprite.attr({
+          shadow: null,
+          zIndex: sprite[_originalZIndex]
+        });
+        sprite.off(['mousemove', 'touchmove'], _dragmove);
+      };
+      sprite[_dragHandlers] = [_dragstart, _dragend, _dragmove];
+      sprite.on(['mousedown', 'touchstart'], _dragstart);
+      sprite.on(['mouseup', 'touchend'], _dragend);
+    }
+    if (!('cursor' in attrs)) {
+      attrs.cursor = attrs.draggable ? 'move' : 'default';
+    }
+  }
+
+  if ('cursor' in attrs && sprite[_cursor] == null) {
+    sprite[_cursor] = 'auto';
+    sprite.on('mouseenter', function (evt) {
+      sprite[_cursor] = evt.originalEvent.target.style.cursor;
+      var cursor = sprite.attr('cursor');
+      evt.originalEvent.target.style.cursor = cursor;
+    });
+    sprite.on('mouseleave', function (evt) {
+      evt.originalEvent.target.style.cursor = sprite[_cursor];
+    });
+  }
 
   var textureFrames = (0, _entries2.default)(attrs).filter(function (_ref) {
     var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
@@ -3398,16 +3468,67 @@ function parse_attr(sprite) {
 /* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = { "default": __webpack_require__(127), __esModule: true };
+
+/***/ }),
+/* 127 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(128);
+module.exports = __webpack_require__(6).Object.entries;
+
+
+/***/ }),
+/* 128 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// https://github.com/tc39/proposal-object-values-entries
+var $export = __webpack_require__(4);
+var $entries = __webpack_require__(129)(true);
+
+$export($export.S, 'Object', {
+  entries: function entries(it) {
+    return $entries(it);
+  }
+});
+
+
+/***/ }),
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var getKeys = __webpack_require__(21);
+var toIObject = __webpack_require__(23);
+var isEnum = __webpack_require__(37).f;
+module.exports = function (isEntries) {
+  return function (it) {
+    var O = toIObject(it);
+    var keys = getKeys(O);
+    var length = keys.length;
+    var i = 0;
+    var result = [];
+    var key;
+    while (length > i) if (isEnum.call(O, key = keys[i++])) {
+      result.push(isEntries ? [key, O[key]] : O[key]);
+    } return result;
+  };
+};
+
+
+/***/ }),
+/* 130 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 exports.__esModule = true;
 
-var _isIterable2 = __webpack_require__(127);
+var _isIterable2 = __webpack_require__(131);
 
 var _isIterable3 = _interopRequireDefault(_isIterable2);
 
-var _getIterator2 = __webpack_require__(130);
+var _getIterator2 = __webpack_require__(134);
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
@@ -3452,22 +3573,22 @@ exports.default = function () {
 }();
 
 /***/ }),
-/* 127 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(128), __esModule: true };
+module.exports = { "default": __webpack_require__(132), __esModule: true };
 
 /***/ }),
-/* 128 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(82);
 __webpack_require__(47);
-module.exports = __webpack_require__(129);
+module.exports = __webpack_require__(133);
 
 
 /***/ }),
-/* 129 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof = __webpack_require__(64);
@@ -3483,22 +3604,22 @@ module.exports = __webpack_require__(6).isIterable = function (it) {
 
 
 /***/ }),
-/* 130 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(131), __esModule: true };
+module.exports = { "default": __webpack_require__(135), __esModule: true };
 
 /***/ }),
-/* 131 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(82);
 __webpack_require__(47);
-module.exports = __webpack_require__(132);
+module.exports = __webpack_require__(136);
 
 
 /***/ }),
-/* 132 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(11);
@@ -3507,57 +3628,6 @@ module.exports = __webpack_require__(6).getIterator = function (it) {
   var iterFn = get(it);
   if (typeof iterFn != 'function') throw TypeError(it + ' is not iterable!');
   return anObject(iterFn.call(it));
-};
-
-
-/***/ }),
-/* 133 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(134), __esModule: true };
-
-/***/ }),
-/* 134 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(135);
-module.exports = __webpack_require__(6).Object.entries;
-
-
-/***/ }),
-/* 135 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://github.com/tc39/proposal-object-values-entries
-var $export = __webpack_require__(4);
-var $entries = __webpack_require__(136)(true);
-
-$export($export.S, 'Object', {
-  entries: function entries(it) {
-    return $entries(it);
-  }
-});
-
-
-/***/ }),
-/* 136 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var getKeys = __webpack_require__(21);
-var toIObject = __webpack_require__(23);
-var isEnum = __webpack_require__(37).f;
-module.exports = function (isEntries) {
-  return function (it) {
-    var O = toIObject(it);
-    var keys = getKeys(O);
-    var length = keys.length;
-    var i = 0;
-    var result = [];
-    var key;
-    while (length > i) if (isEnum.call(O, key = keys[i++])) {
-      result.push(isEntries ? [key, O[key]] : O[key]);
-    } return result;
-  };
 };
 
 

@@ -344,6 +344,9 @@ function projectionBorder(attrs) {
 }
 
 const _frameTimer = Symbol('frameTimer');
+const _cursor = Symbol('cursor');
+const _dragHandlers = Symbol('dragHandlers');
+const _originalZIndex = Symbol('originalZIndex');
 
 function parse_attr(sprite, ...args) {
   const attrs = args.reduce((a, b) => Object.assign(a, b), {});
@@ -359,6 +362,67 @@ function parse_attr(sprite, ...args) {
   projectionXY(attrs, 'translate', 0);
   projectionXY(attrs, 'skew', 0);
   projectionBorder(attrs);
+
+  if ('draggable' in attrs) {
+    const dragHandlers = sprite[_dragHandlers];
+    if (!attrs.draggable && dragHandlers) {
+      const [dragstart, dragmove, dragend] = dragHandlers;
+      sprite.off(['mousedown', 'touchstart'], dragstart);
+      sprite.off(['mouseup', 'touchend'], dragend);
+      sprite.off(['mousemove', 'touchmove'], dragmove);
+    } else if (attrs.draggable && !dragHandlers) {
+      let offsetX = 0,
+          offsetY = 0;
+      const dragmove = evt => {
+        const { layerX, layerY } = evt;
+        sprite.attr({
+          x: layerX - offsetX,
+          y: layerY - offsetY
+        });
+      };
+      const dragstart = evt => {
+        offsetX = evt.offsetX;
+        offsetY = evt.offsetY;
+        sprite[_originalZIndex] = sprite.attr('zIndex');
+        sprite.setMouseCapture();
+        sprite.attr({
+          shadow: {
+            color: '#333',
+            blur: 5,
+            offset: [10, 10]
+          },
+          zIndex: Infinity
+        });
+        sprite.on(['mousemove', 'touchmove'], dragmove);
+      };
+      const dragend = evt => {
+        sprite.releaseMouseCapture();
+        sprite.attr({
+          shadow: null,
+          zIndex: sprite[_originalZIndex]
+        });
+        sprite.off(['mousemove', 'touchmove'], dragmove);
+      };
+      sprite[_dragHandlers] = [dragstart, dragend, dragmove];
+      sprite.on(['mousedown', 'touchstart'], dragstart);
+      sprite.on(['mouseup', 'touchend'], dragend);
+    }
+    if (!('cursor' in attrs)) {
+      attrs.cursor = attrs.draggable ? 'move' : 'default';
+    }
+  }
+
+  if ('cursor' in attrs && sprite[_cursor] == null) {
+    sprite[_cursor] = 'auto';
+    sprite.on('mouseenter', evt => {
+      sprite[_cursor] = evt.originalEvent.target.style.cursor;
+      const cursor = sprite.attr('cursor');
+      evt.originalEvent.target.style.cursor = cursor;
+    });
+    sprite.on('mouseleave', evt => {
+      evt.originalEvent.target.style.cursor = sprite[_cursor];
+    });
+  }
 
   const textureFrames = Object.entries(attrs).filter(([key, value]) => {
     if (key.indexOf('textureFrame$') === 0) {

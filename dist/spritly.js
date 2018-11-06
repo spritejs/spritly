@@ -2066,7 +2066,11 @@ Msg.ATTR_LINEJOIN = '连线样式';
 Msg.ATTR_BOUNDING = '碰撞边界';
 Msg.ATTR_STROKECOLOR = '描线颜色';
 Msg.ATTR_FILLCOLOR = '填充颜色';
+Msg.ATTR_CURSOR = '鼠标样式';
+Msg.ATTR_DRAGGABLE = '可拖拽？';
 
+Msg.ATTR_VALUE_YES = '是';
+Msg.ATTR_VALUE_NO = '否';
 Msg.ATTR_VALUE_SOLID = '实线';
 Msg.ATTR_VALUE_DASHED = '虚线';
 Msg.ATTR_VALUE_NORMAL = '常规';
@@ -2085,6 +2089,22 @@ Msg.ATTR_VALUE_MITER = '尖角';
 Msg.ATTR_VALUE_BEVEL = '斜角';
 Msg.ATTR_VALUE_BOX = '基于盒子';
 Msg.ATTR_VALUE_PATH = '基于路径';
+
+Msg.ATTR_VALUE_DEFAULT = '默认';
+Msg.ATTR_VALUE_CROSSHAIR = '十字线';
+Msg.ATTR_VALUE_POINTER = '手形';
+Msg.ATTR_VALUE_MOVE = '可被移动';
+Msg['ATTR_VALUE_E-RESIZE'] = '可右移';
+Msg['ATTR_VALUE_NE-RESIZE'] = '可右上移';
+Msg['ATTR_VALUE_SE-RESIZE'] = '可右下移';
+Msg['ATTR_VALUE_W-RESIZE'] = '可左移';
+Msg['ATTR_VALUE_NW-RESIZE'] = '可左上移';
+Msg['ATTR_VALUE_SW-RESIZE'] = '可左下移';
+Msg['ATTR_VALUE_N-RESIZE'] = '可上移';
+Msg['ATTR_VALUE_S-RESIZE'] = '可下移';
+Msg.ATTR_VALUE_TEXT = '文本';
+Msg.ATTR_VALUE_WAIT = '等待';
+Msg.ATTR_VALUE_HELP = '帮助';
 
 Msg.AWAIT_MSG0 = '等待 %1 毫秒 🕙';
 Msg.AWAIT_TOOLTIP = '等待 %1 毫秒后继续执行后续操作。';
@@ -2147,6 +2167,8 @@ Msg.FIELD_ATTR_LINEJOIN_TOOLTIP = '设置矢量元素的连线样式。';
 Msg.FIELD_ATTR_BOUNDING_TOOLTIP = '使用%1的边界方式来检测碰撞。';
 Msg.FIELD_ATTR_STROKECOLOR_TOOLTIP = '设置一个矢量元素或文本元素的描线颜色。';
 Msg.FIELD_ATTR_FILLCOLOR_TOOLTIP = '设置一个矢量元素或文本元素的填充颜色。';
+Msg.FIELD_ATTR_CURSOR_TOOLTIP = '设置光标形状。';
+Msg.FIELD_ATTR_DRAGGABLE_TOOLTIP = '可拖拽？';
 
 Msg.RANDOM_STRING_MSG0 = '🎲 随机字符串';
 Msg.RANDOM_STRING_TOOLTIP = '获得一个11个字符长度的随机字符串。';
@@ -2204,8 +2226,8 @@ Msg.GET_DATA_PROP_OPTION_PROP_OLDVALUE = '属性原值';
 Msg.GET_DATA_PROP_OPTION_PROP_NEWVALUE = '属性新值';
 
 Msg.EVENT_IMMEDIATELY = '立即';
-Msg.EVENT_ONCLICK = '当被鼠标单击';
-Msg.EVENT_ONDBLCLICK = '被鼠标双击';
+Msg.EVENT_ONCLICK = '元素被单击';
+Msg.EVENT_ONDBLCLICK = '元素被双击';
 Msg.EVENT_ONMOUSEDOWN = '按下鼠标按键';
 Msg.EVENT_ONMOUSEMOVE = '鼠标在元素内部移动';
 Msg.EVENT_ONMOUSEUP = '释放鼠标按键';
@@ -2625,6 +2647,26 @@ Blockly.Blocks.field_attr_fillColour = {
   init: function init() {
     this.jsonInit(createKVConf('fillColor', 'Colour', Blockly.Msg.ATTRS_PATH_HUE));
     this.setTooltip(Msg.FIELD_ATTR_FILLCOLOR_TOOLTIP);
+  }
+};
+
+Blockly.Blocks.field_attr_cursor = {
+  init: function init() {
+    this.jsonInit(createKVConf({
+      prop: 'cursor',
+      options: ['default', 'crosshair', 'pointer', 'move', 'e-resize', 'ne-resize', 'nw-resize', 'n-resize', 'se-resize', 'sw-resize', 's-resize', 'w-resize', 'text', 'wait', 'help']
+    }, 'String', Blockly.Msg.ATTRS_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_CURSOR_TOOLTIP);
+  }
+};
+
+Blockly.Blocks.field_attr_draggable = {
+  init: function init() {
+    this.jsonInit(createKVConf({
+      prop: 'draggable',
+      options: ['yes', 'no']
+    }, 'String', Blockly.Msg.ATTRS_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_DRAGGABLE_TOOLTIP);
   }
 };
 

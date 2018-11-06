@@ -297,6 +297,29 @@ Blockly.Blocks.field_attr_fillColour = {
   },
 };
 
+Blockly.Blocks.field_attr_cursor = {
+  init() {
+    this.jsonInit(createKVConf({
+      prop: 'cursor',
+      options: ['default', 'crosshair', 'pointer', 'move',
+        'e-resize', 'ne-resize', 'nw-resize', 'n-resize',
+        'se-resize', 'sw-resize', 's-resize', 'w-resize',
+        'text', 'wait', 'help'],
+    }, 'String', Blockly.Msg.ATTRS_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_CURSOR_TOOLTIP);
+  },
+};
+
+Blockly.Blocks.field_attr_draggable = {
+  init() {
+    this.jsonInit(createKVConf({
+      prop: 'draggable',
+      options: ['yes', 'no'],
+    }, 'String', Blockly.Msg.ATTRS_HUE));
+    this.setTooltip(Msg.FIELD_ATTR_DRAGGABLE_TOOLTIP);
+  },
+};
+
 Blockly.Blocks.field_attr_textureFrame = {
   init() {
     this.jsonInit({

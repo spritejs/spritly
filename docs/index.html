@@ -11,7 +11,7 @@
   <style>
     html, body {
       width: 100%;
-      min-width: 1000px;
+      min-width: 600px;
       height: 100%;
       padding: 0;
       margin: 0;
@@ -28,10 +28,12 @@
       top: 10px;
       z-index: 9999;
     }
+    #controls button {
+      cursor: pointer;
+    }
     #blocklyDiv {
       height: 100%;
       width: 62%;
-      min-width: 560px;
       border: none;
     }
     #displayDiv {
@@ -205,6 +207,8 @@
                   </block>
               </value>             
           </block>
+          <block type="field_attr_cursor"></block>
+          <block type="field_attr_draggable"></block>
       </category>
       <category name="%{BKY_CATEGORY_ATTRIBUTES_SPRITE}" colour="%{BKY_ATTRS_SPRITE_HUE}">
           <block type="field_attr_texture">
