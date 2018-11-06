@@ -41,7 +41,7 @@
             <field name="KEY">y</field>
             <value name="VALUE">
               <block type="number">
-                <field name="NUM">100</field>
+                <field name="NUM">300</field>
               </block>                  
             </value>
           <next><block type="field_attr_size">
