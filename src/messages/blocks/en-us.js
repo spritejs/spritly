@@ -252,6 +252,8 @@ Msg.EVENT_ONMOUSEMOVE = 'onmousemove';
 Msg.EVENT_ONMOUSEUP = 'onmouseup';
 Msg.EVENT_ONMOUSEENTER = 'onmouseenter';
 Msg.EVENT_ONMOUSELEAVE = 'onmouseleave';
+Msg.EVENT_ONDRAGGED = 'ondragged';
+Msg.EVENT_ONDRAGGEDONTO = 'ondraggedonto';
 Msg.EVENT_ONCOLLISION = 'oncollision';
 
 Msg.SIGNAL_ONEVENT_SEND_MSG0 = '%1 %2 send %3 🚩';

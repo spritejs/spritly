@@ -35,8 +35,6 @@ app/
 lib/
 cache/
 
-runtime/
-
 frames/
 ffmpeg.sh
 

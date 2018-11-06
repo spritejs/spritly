@@ -8,7 +8,13 @@ const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
 function listSignal(...extras) {
-  const signals = ['START', 'STORE_PROPERTY_UPDATE', 'LAYER_CLICKED', 'KEYDOWN', 'KEYUP', 'ELEMENT_CREATED', 'ELEMENT_DESTROYED'];
+  const signals = [
+    'START',
+    'STORE_PROPERTY_UPDATE',
+    'LAYER_CLICKED', 'KEYDOWN',
+    'KEYUP',
+    'ELEMENT_CREATED',
+    'ELEMENT_DESTROYED'];
   return () => {
     return [...signals, ...extras, ...Dropdown.get('Signals')].map(s => [Msg.$(s, 'SIGNAL_DO_OPTION_SIGNAL'), s]);
   };
@@ -186,7 +192,7 @@ Blockly.JavaScript.get_store_data_prop = function (block) {
 };
 
 const events = ['immediately', 'onclick', 'ondblclick',
-  'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'oncollision'];
+  'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'ondragged', 'ondraggedonto', 'oncollision'];
 
 Blockly.Blocks.signal_onevent_send = {
   init() {
