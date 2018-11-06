@@ -82,7 +82,7 @@ module.exports =
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -95,23 +95,24 @@ module.exports =
 /* 6 */,
 /* 7 */,
 /* 8 */,
-/* 9 */
+/* 9 */,
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Blockly", function() { return Blockly; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initWorkspace", function() { return initWorkspace; });
-/* harmony import */ var _messages__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(10);
-/* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
+/* harmony import */ var _messages__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+/* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(19);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Dropdown", function() { return _dropdown__WEBPACK_IMPORTED_MODULE_2__["Dropdown"]; });
 
 
 
 
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 Blockly.BlockSvg.START_HAT = true;
 
 Blockly.Field.prototype.maxDisplayLength = 20;
@@ -127,19 +128,19 @@ function initWorkspace(el, options) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
+/* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
 /* harmony import */ var _colors__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_colors__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
+/* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
 /* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_blocks__WEBPACK_IMPORTED_MODULE_1__);
 
 
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const { Msg } = Blockly;
 
@@ -150,10 +151,10 @@ Msg.$ = (key, prefix = 'COMMON') => {
 };
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const { Msg } = Blockly;
 
@@ -174,16 +175,16 @@ Msg.LOG_HUE = 310;
 Msg.SOUND_HUE = 45;
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("Blockly");
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const { Msg } = Blockly;
 
@@ -429,13 +430,15 @@ Msg.GET_DATA_PROP_OPTION_PROP_OLDVALUE = '属性原值';
 Msg.GET_DATA_PROP_OPTION_PROP_NEWVALUE = '属性新值';
 
 Msg.EVENT_IMMEDIATELY = '立即';
-Msg.EVENT_ONCLICK = '元素被单击';
-Msg.EVENT_ONDBLCLICK = '元素被双击';
+Msg.EVENT_ONCLICK = '被单击';
+Msg.EVENT_ONDBLCLICK = '被双击';
 Msg.EVENT_ONMOUSEDOWN = '按下鼠标按键';
-Msg.EVENT_ONMOUSEMOVE = '鼠标在元素内部移动';
+Msg.EVENT_ONMOUSEMOVE = '鼠标在它内部移动';
 Msg.EVENT_ONMOUSEUP = '释放鼠标按键';
-Msg.EVENT_ONMOUSEENTER = '鼠标进入元素';
-Msg.EVENT_ONMOUSELEAVE = '鼠标离开元素';
+Msg.EVENT_ONMOUSEENTER = '鼠标进入它';
+Msg.EVENT_ONMOUSELEAVE = '鼠标离开它';
+Msg.EVENT_ONDRAGGED = '被拖拽';
+Msg.EVENT_ONDRAGGEDONTO = '其它元素拖拽入';
 Msg.EVENT_ONCOLLISION = '与其他元素碰撞';
 
 Msg.SIGNAL_ONEVENT_SEND_MSG0 = '%1 %2 发送 %3 🚩';
@@ -498,31 +501,31 @@ Msg.SOUND_PLAY_MSG0 = '🔔 %1';
 Msg.SOUND_PLAY_TOOLTIP = '播放声音。';
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+/* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
 /* harmony import */ var _attr__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_attr__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _animate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(16);
+/* harmony import */ var _animate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
 /* harmony import */ var _animate__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_animate__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _flow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
-/* harmony import */ var _literal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
+/* harmony import */ var _flow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
+/* harmony import */ var _literal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
 /* harmony import */ var _literal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_literal__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _signals__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(20);
-/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(21);
-/* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(23);
+/* harmony import */ var _signals__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(21);
+/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(22);
+/* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(24);
 /* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_log__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(24);
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(25);
 /* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_math__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(25);
+/* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(26);
 /* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_lists__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _getter_setter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(26);
+/* harmony import */ var _getter_setter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(27);
 /* harmony import */ var _getter_setter__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_getter_setter__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(27);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(28);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_store__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _sound__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(28);
+/* harmony import */ var _sound__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(29);
 /* harmony import */ var _sound__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_sound__WEBPACK_IMPORTED_MODULE_11__);
 
 
@@ -538,10 +541,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 const Msg = Blockly.Msg;
 
 Blockly.Blocks.field_attr_inc = {
@@ -880,10 +883,10 @@ Object.keys(Blockly.Blocks).forEach(key => {
 });
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 const Msg = Blockly.Msg;
 
 const colour = Msg.ANIMATE_HUE;
@@ -1050,14 +1053,14 @@ Blockly.JavaScript.bezier_easing = function (block) {
 };
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const Msg = Blockly.Msg;
 const controls_if_init = Blockly.Blocks.controls_if.init;
@@ -1242,7 +1245,7 @@ Blockly.JavaScript.list_item = function (block) {
 };
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1266,10 +1269,10 @@ const Dropdown = {
 };
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const Msg = Blockly.Msg;
 
@@ -1355,15 +1358,15 @@ Blockly.JavaScript.loop_get_index = function (block) {
 };
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
 
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const Msg = Blockly.Msg;
 const colour = Blockly.Msg.SIGNALS_HUE;
@@ -1521,7 +1524,7 @@ Blockly.JavaScript.get_store_data_prop = function (block) {
   return [`data[spritly.runtime.Symbols.${prop}]`, Blockly.JavaScript.ORDER_MEMBER];
 };
 
-const events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'oncollision'];
+const events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'ondragged', 'ondraggedonto', 'oncollision'];
 
 Blockly.Blocks.signal_onevent_send = {
   init() {
@@ -1597,17 +1600,17 @@ ${target}.forceUpdate();
 };
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(22);
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
 
 
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const Msg = Blockly.Msg;
 const colour = Blockly.Msg.SPRITE_HUE;
@@ -1812,16 +1815,16 @@ Blockly.JavaScript.sprite_get_attr = function (block) {
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "spriteOptions", function() { return spriteOptions; });
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(18);
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
 
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 const Msg = Blockly.Msg;
 
 function spriteOptions() {
@@ -1830,10 +1833,10 @@ function spriteOptions() {
 }
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const Msg = Blockly.Msg;
 const colour = Blockly.Msg.LOG_HUE;
@@ -1888,10 +1891,10 @@ Blockly.JavaScript.log_alert = function (block) {
 };
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const Msg = Blockly.Msg;
 const colour = Blockly.Msg.MATH_HUE;
@@ -1961,10 +1964,10 @@ Blockly.JavaScript.random_colour_hue = function (block) {
 };
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const Msg = Blockly.Msg;
 const colour = Msg.LISTS_HUE;
@@ -1999,10 +2002,10 @@ Blockly.JavaScript.lists_create_range = function (block) {
 };
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const Msg = Blockly.Msg;
 
@@ -2060,10 +2063,10 @@ Blockly.JavaScript.object_get_prop = function (block) {
 };
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 
 const Msg = Blockly.Msg;
 const colour = Msg.STORE_HUE;
@@ -2139,10 +2142,10 @@ Blockly.JavaScript.store_delete = function (block) {
 };
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Blockly = __webpack_require__(12);
+const Blockly = __webpack_require__(13);
 const Msg = Blockly.Msg;
 
 const colour = Msg.SOUND_HUE;

@@ -95,11 +95,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _signal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 /* harmony import */ var _element_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2);
 /* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(3);
-/* harmony import */ var _parse_attr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
-/* harmony import */ var _get_attr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
-/* harmony import */ var _symbols__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
-/* harmony import */ var _audio__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
+/* harmony import */ var _event__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(4);
+/* harmony import */ var _parse_attr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
+/* harmony import */ var _get_attr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(7);
+/* harmony import */ var _symbols__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(5);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
+/* harmony import */ var _audio__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(9);
+
 
 
 
@@ -119,7 +121,7 @@ function use({ Scene }, options = { container: '#stage', viewport: 'auto', resol
   const fglayer = scene.layer('fglayer');
 
   fglayer.on('click', evt => {
-    dispatchEvent('LAYER_CLICKED', scene, evt);
+    Object(_event__WEBPACK_IMPORTED_MODULE_3__["dispatchEvent"])('LAYER_CLICKED', scene, evt);
   });
 
   document.addEventListener('keydown', evt => {
@@ -135,52 +137,21 @@ function use({ Scene }, options = { container: '#stage', viewport: 'auto', resol
   return scene;
 }
 
-function dispatchEvent(signal, sender, event) {
-  const evt = event.originalEvent || event;
-  const { altKey, buttons, ctrlKey, shiftKey, key, keyCode } = evt;
-  const data = {
-    [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].target]: evt.target,
-    [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].altKey]: altKey,
-    [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].ctrlKey]: ctrlKey,
-    [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].shiftKey]: shiftKey
-  };
-  if (key != null) {
-    Object.assign(data, {
-      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].key]: key,
-      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].keyCode]: keyCode
-    });
-  }
-  if (buttons != null) {
-    Object.assign(data, {
-      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].buttons]: buttons
-    });
-  }
-  if (event.originalEvent && evt.offsetX != null) {
-    Object.assign(data, {
-      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].offsetX]: evt.offsetX,
-      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].offsetY]: evt.offsetY,
-      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].layerX]: evt.layerX,
-      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].layerY]: evt.layerY
-    });
-  }
-  _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send(signal, sender, data);
-}
-
 const runtime = {
   Signal: _signal__WEBPACK_IMPORTED_MODULE_0__["default"],
-  Symbols: _symbols__WEBPACK_IMPORTED_MODULE_5__["default"],
+  Symbols: _symbols__WEBPACK_IMPORTED_MODULE_6__["default"],
   use,
-  dispatchEvent,
-  parse_attr: _parse_attr__WEBPACK_IMPORTED_MODULE_3__["default"],
-  get_attr: _get_attr__WEBPACK_IMPORTED_MODULE_4__["default"],
+  dispatchEvent: _event__WEBPACK_IMPORTED_MODULE_3__["dispatchEvent"],
+  parse_attr: _parse_attr__WEBPACK_IMPORTED_MODULE_4__["default"],
+  get_attr: _get_attr__WEBPACK_IMPORTED_MODULE_5__["default"],
   wait: _misc__WEBPACK_IMPORTED_MODULE_2__["wait"],
   random: _misc__WEBPACK_IMPORTED_MODULE_2__["random"],
   random_color: _misc__WEBPACK_IMPORTED_MODULE_2__["random_color"],
   random_color_hue: _misc__WEBPACK_IMPORTED_MODULE_2__["random_color_hue"],
   getCollisions: _misc__WEBPACK_IMPORTED_MODULE_2__["getCollisions"],
   ElementList: _element_list__WEBPACK_IMPORTED_MODULE_1__["default"],
-  Store: _store__WEBPACK_IMPORTED_MODULE_6__["default"],
-  Audio: _audio__WEBPACK_IMPORTED_MODULE_7__["default"]
+  Store: _store__WEBPACK_IMPORTED_MODULE_7__["default"],
+  Audio: _audio__WEBPACK_IMPORTED_MODULE_8__["default"]
 };
 
 
@@ -318,7 +289,69 @@ function getCollisions(sprite) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dispatchEvent", function() { return dispatchEvent; });
+/* harmony import */ var _symbols__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5);
+/* harmony import */ var _signal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1);
+
+
+
+function dispatchEvent(signal, sender, event) {
+  const evt = event.originalEvent || event;
+  const { altKey, buttons, ctrlKey, shiftKey, key, keyCode } = evt;
+  const data = {
+    [_symbols__WEBPACK_IMPORTED_MODULE_0__["default"].target]: evt.target,
+    [_symbols__WEBPACK_IMPORTED_MODULE_0__["default"].altKey]: altKey,
+    [_symbols__WEBPACK_IMPORTED_MODULE_0__["default"].ctrlKey]: ctrlKey,
+    [_symbols__WEBPACK_IMPORTED_MODULE_0__["default"].shiftKey]: shiftKey
+  };
+  if (key != null) {
+    Object.assign(data, {
+      [_symbols__WEBPACK_IMPORTED_MODULE_0__["default"].key]: key,
+      [_symbols__WEBPACK_IMPORTED_MODULE_0__["default"].keyCode]: keyCode
+    });
+  }
+  if (buttons != null) {
+    Object.assign(data, {
+      [_symbols__WEBPACK_IMPORTED_MODULE_0__["default"].buttons]: buttons
+    });
+  }
+  if (event.originalEvent && evt.offsetX != null) {
+    Object.assign(data, {
+      [_symbols__WEBPACK_IMPORTED_MODULE_0__["default"].offsetX]: evt.offsetX,
+      [_symbols__WEBPACK_IMPORTED_MODULE_0__["default"].offsetY]: evt.offsetY,
+      [_symbols__WEBPACK_IMPORTED_MODULE_0__["default"].layerX]: evt.layerX,
+      [_symbols__WEBPACK_IMPORTED_MODULE_0__["default"].layerY]: evt.layerY
+    });
+  }
+  _signal__WEBPACK_IMPORTED_MODULE_1__["default"].send(signal, sender, data);
+}
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function createSymbols(...keys) {
+  const ret = {};
+  keys.forEach(key => {
+    ret[key] = Symbol(key);
+  });
+  return ret;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (createSymbols('target', 'offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'buttons', 'key', 'keyCode', 'property', 'oldValue', 'newValue'));
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return parse_attr; });
+/* harmony import */ var _misc__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
+
+
 function projectionXY(attrs, attrName, defaultValue = 0) {
   const attrX = `${attrName}X`;
   const attrY = `${attrName}Y`;
@@ -365,12 +398,12 @@ function parse_attr(sprite, ...args) {
 
   if ('draggable' in attrs) {
     const dragHandlers = sprite[_dragHandlers];
-    if (!attrs.draggable && dragHandlers) {
+    if (attrs.draggable === 'no' && dragHandlers) {
       const [dragstart, dragmove, dragend] = dragHandlers;
       sprite.off(['mousedown', 'touchstart'], dragstart);
       sprite.off(['mouseup', 'touchend'], dragend);
       sprite.off(['mousemove', 'touchmove'], dragmove);
-    } else if (attrs.draggable && !dragHandlers) {
+    } else if (attrs.draggable === 'yes' && !dragHandlers) {
       let offsetX = 0,
           offsetY = 0;
       const dragmove = evt => {
@@ -402,13 +435,17 @@ function parse_attr(sprite, ...args) {
           zIndex: sprite[_originalZIndex]
         });
         sprite.off(['mousemove', 'touchmove'], dragmove);
+        sprite.dispatchEvent('dragged', evt, true, true);
+        Object(_misc__WEBPACK_IMPORTED_MODULE_0__["getCollisions"])(sprite).forEach(s => {
+          s.dispatchEvent('draggedonto', evt, true, true);
+        });
       };
       sprite[_dragHandlers] = [dragstart, dragend, dragmove];
       sprite.on(['mousedown', 'touchstart'], dragstart);
       sprite.on(['mouseup', 'touchend'], dragend);
     }
     if (!('cursor' in attrs)) {
-      attrs.cursor = attrs.draggable ? 'move' : 'default';
+      attrs.cursor = attrs.draggable === 'yes' ? 'move' : 'default';
     }
   }
 
@@ -453,7 +490,7 @@ function parse_attr(sprite, ...args) {
 }
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -487,29 +524,13 @@ function get_attr(el, attr) {
 }
 
 /***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-function createSymbols(...keys) {
-  const ret = {};
-  keys.forEach(key => {
-    ret[key] = Symbol(key);
-  });
-  return ret;
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (createSymbols('target', 'offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'buttons', 'key', 'keyCode', 'property', 'oldValue', 'newValue'));
-
-/***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _signal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-/* harmony import */ var _symbols__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6);
+/* harmony import */ var _symbols__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
 
 
 const store = new Map();
@@ -538,7 +559,7 @@ const store = new Map();
 });
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
