@@ -1,4 +1,12 @@
 <xml>
+  <preload>
+    <resource type="texture_packer"
+      texture="https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png"
+      data="https://s5.ssl.qhres.com/static/5f6911b7b91c88da.json"
+    >
+    </resource>
+    <resource type="image" src="https://p0.ssl.qhimg.com/t01a72262146b87165f.png" id="robot"></resource>
+  </preload>
   <block type="signal_new_sprite_as_receiver">
     <field name="SIGNAL">START</field>
     <next>

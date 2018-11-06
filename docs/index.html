@@ -214,6 +214,18 @@
                 </block>
             </value>              
           </block>
+          <block type="field_attr_textureFrame">
+            <value name="FRAME">
+              <block type="string">
+                <field name="TEXT">bird1.png</field>
+              </block>              
+            </value>
+            <value name="DURATION">
+              <block type="number">
+                <field name="NUM">0.5</field>
+              </block>               
+            </value>
+          </block>
       </category>
       <category name="%{BKY_CATEGORY_ATTRIBUTES_LABEL}" colour="%{BKY_ATTRS_LABEL_HUE}">
         <block type="field_attr_text">
@@ -322,18 +334,11 @@
       <block type="easing"></block>
       <block type="bezier_easing"></block>
     </category>
-    <category name="%{BKY_CATEGORY_GETTER_SETTER}" colour="%{BKY_GETTER_SETTER_HUE}">
-      <block type="key_value">
-        <value name="KEY">
+    <category name="%{BKY_CATEGORY_SOUND}" colour="%{BKY_SOUND_HUE}">
+      <block type="sound_play">
+        <value name="SOUND">
           <block type="string">
-            <field name="TEXT">key</field>
-          </block>
-        </value>
-      </block>
-      <block type="object_get_prop">
-        <value name="PROP">
-          <block type="string">
-            <field name="TEXT">key</field>
+            <field name="TEXT">https://s4.ssl.qhres.com/static/8f62fc6120bce97f.ogg</field>
           </block>
         </value>
       </block>
@@ -359,6 +364,22 @@
             <field name="TEXT">key</field>
           </block>
         </value>        
+      </block>
+    </category>
+    <category name="%{BKY_CATEGORY_GETTER_SETTER}" colour="%{BKY_GETTER_SETTER_HUE}">
+      <block type="key_value">
+        <value name="KEY">
+          <block type="string">
+            <field name="TEXT">key</field>
+          </block>
+        </value>
+      </block>
+      <block type="object_get_prop">
+        <value name="PROP">
+          <block type="string">
+            <field name="TEXT">key</field>
+          </block>
+        </value>
       </block>
     </category>
     <category name="%{BKY_CATEGORY_LITERALS}" colour="%{BKY_LITERAL_HUE}">
@@ -468,6 +489,7 @@
 
     window.workspace = workspace;
 
+    let preload_res = null;
     function getCode() {
       const xml = Blockly.Xml.workspaceToDom(workspace);
       // Add each top block one by one and generate code.
@@ -560,24 +582,44 @@ ${code}
         xml.removeChild(block);
       }
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-      allCode.push("spritly.runtime.Signal.send('START', spritly.runtime.scene);\n");
+      if(preload_res) {
+        allCode.push(`spritly.runtime.scene.preload(...${JSON.stringify(preload_res)})
+  .then(() => spritly.runtime.Signal.send('START', spritly.runtime.scene));
+`);
+      } else {
+        allCode.push("spritly.runtime.Signal.send('START', spritly.runtime.scene);\n");
+      }
       return allCode;
     }
 
     function showXml() {
       const xml = Blockly.Xml.workspaceToDom(workspace);
-      const code = xml.outerHTML;
+      let code = xml.innerHTML;
+      if(preload_res) {
+        const resources = [];
+        preload_res.forEach((res) => {
+          if(Array.isArray(res)) {
+            resources.push(`<resource type="texture_packer" texture="${res[0]}" data="${res[1]}"/>`);
+          } else if(res.id === res.src) {
+            resources.push(`<resource type="image" src="${res.src}"/>`);
+          } else {
+            resources.push(`<resource type="image" src="${res.src}" id="${res.id}"/>`);
+          }
+        });
+        code = `<preload>${resources.join('')}</preload>${code}`;
+      }
+      code = `<xml>${code}</xml>`;
       let indent = 0;
       let code2 = code.replace(/></g, '>\n<');
       code2 = code2.split(/\n/g).map((line) => {
-        let ret = '';
+        let ret = line;
         if(/^<\//.test(line)) {
           indent -= 2;
         }
         if(indent > 0) {
           ret = `${(new Array(indent + 1)).join(' ')}${line}`;
         }
-        if(!(/<\/\w+>$/.test(line))) {
+        if(!(/(<\/\w+>|\/>)$/.test(line))) {
           indent += 2;
         }
         return ret;
@@ -629,10 +671,6 @@ ${code}
         if(nextBlock) nextBlock.setCollapsed(isCollapsed);
       } while(nextBlock);
     }
-
-    const block = await loadStartBlocks();
-    Blockly.Xml.domToWorkspace(block.documentElement,
-      workspace);
 
     workspace.getAllBlocks().forEach((block) => {
       const parent = block.getParent();
@@ -687,7 +725,6 @@ ${code}
         }
       }
     });
-    update();
 
     const links = document.getElementById('links');
     links.addEventListener('click', async (evt) => {
@@ -699,6 +736,37 @@ ${code}
         workspace.clear();
         Blockly.Xml.domToWorkspace(block.documentElement,
           workspace);
+      }
+    });
+
+    const blockXml = await loadStartBlocks();
+    preload_res = Array.from(blockXml.querySelectorAll('preload resource')).map((res) => {
+      const type = res.getAttribute('type');
+      if(type === 'texture_packer') {
+        const texture = res.getAttribute('texture');
+        const data = res.getAttribute('data');
+        return [texture, data];
+      }
+
+      const src = res.getAttribute('src');
+      const id = res.getAttribute('id') || src;
+      return {id, src};
+    });
+    Blockly.Xml.domToWorkspace(blockXml.documentElement,
+      workspace);
+    update();
+
+    document.addEventListener('keydown', (evt) => {
+      const sendbox = window.frames[0];
+      if(sendbox.spritly) {
+        sendbox.spritly.runtime.dispatchEvent('KEYDOWN', document, evt);
+      }
+    });
+  
+    document.addEventListener('keyup', (evt) => {
+      const sendbox = window.frames[0];
+      if(sendbox.spritly) {
+        sendbox.spritly.runtime.dispatchEvent('KEYUP', document, evt);
       }
     });
   }());

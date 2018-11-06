@@ -99,6 +99,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _get_attr__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(5);
 /* harmony import */ var _symbols__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(6);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
+/* harmony import */ var _audio__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(8);
+
 
 
 
@@ -116,35 +118,59 @@ function use({ Scene }, options = { container: '#stage', viewport: 'auto', resol
   scene.layer('bglayer', { handleEvent: false });
   const fglayer = scene.layer('fglayer');
 
-  function getClickHandler(signal) {
-    return function (evt) {
-      const { altKey, buttons, ctrlKey, shiftKey } = evt.originalEvent;
-      const runtime = spritly.runtime;
-      _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send(signal, scene, {
-        [runtime.Symbols.target]: evt.target,
-        [runtime.Symbols.offsetX]: evt.offsetX,
-        [runtime.Symbols.offsetY]: evt.offsetY,
-        [runtime.Symbols.layerX]: evt.layerX,
-        [runtime.Symbols.layerY]: evt.layerY,
-        [runtime.Symbols.altKey]: altKey,
-        [runtime.Symbols.buttons]: buttons,
-        [runtime.Symbols.ctrlKey]: ctrlKey,
-        [runtime.Symbols.shiftKey]: shiftKey
-      });
-    };
-  }
+  fglayer.on('click', evt => {
+    dispatchEvent('LAYER_CLICKED', scene, evt);
+  });
 
-  fglayer.on('click', getClickHandler('LAYER_CLICKED'));
+  document.addEventListener('keydown', evt => {
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('KEYDOWN', document, evt);
+  });
+
+  document.addEventListener('keyup', evt => {
+    _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('KEYUP', document, evt);
+  });
 
   this.scene = scene;
 
   return scene;
 }
 
+function dispatchEvent(signal, sender, event) {
+  const evt = event.originalEvent || event;
+  const { altKey, buttons, ctrlKey, shiftKey, key, keyCode } = evt;
+  const data = {
+    [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].target]: evt.target,
+    [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].altKey]: altKey,
+    [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].ctrlKey]: ctrlKey,
+    [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].shiftKey]: shiftKey
+  };
+  if (key != null) {
+    Object.assign(data, {
+      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].key]: key,
+      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].keyCode]: keyCode
+    });
+  }
+  if (buttons != null) {
+    Object.assign(data, {
+      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].buttons]: buttons
+    });
+  }
+  if (event.originalEvent && evt.offsetX != null) {
+    Object.assign(data, {
+      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].offsetX]: evt.offsetX,
+      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].offsetY]: evt.offsetY,
+      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].layerX]: evt.layerX,
+      [_symbols__WEBPACK_IMPORTED_MODULE_5__["default"].layerY]: evt.layerY
+    });
+  }
+  _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send(signal, sender, data);
+}
+
 const runtime = {
   Signal: _signal__WEBPACK_IMPORTED_MODULE_0__["default"],
   Symbols: _symbols__WEBPACK_IMPORTED_MODULE_5__["default"],
   use,
+  dispatchEvent,
   parse_attr: _parse_attr__WEBPACK_IMPORTED_MODULE_3__["default"],
   get_attr: _get_attr__WEBPACK_IMPORTED_MODULE_4__["default"],
   wait: _misc__WEBPACK_IMPORTED_MODULE_2__["wait"],
@@ -153,7 +179,8 @@ const runtime = {
   random_color_hue: _misc__WEBPACK_IMPORTED_MODULE_2__["random_color_hue"],
   getCollisions: _misc__WEBPACK_IMPORTED_MODULE_2__["getCollisions"],
   ElementList: _element_list__WEBPACK_IMPORTED_MODULE_1__["default"],
-  Store: _store__WEBPACK_IMPORTED_MODULE_6__["default"]
+  Store: _store__WEBPACK_IMPORTED_MODULE_6__["default"],
+  Audio: _audio__WEBPACK_IMPORTED_MODULE_7__["default"]
 };
 
 
@@ -225,6 +252,7 @@ const ElementList = {
     if (el.id) {
       delete elements_index[el.id];
     }
+    el.$$deleted = true;
     elements.delete(el);
   },
   all() {
@@ -315,7 +343,9 @@ function projectionBorder(attrs) {
   }
 }
 
-function parse_attr(...args) {
+const _frameTimer = Symbol('frameTimer');
+
+function parse_attr(sprite, ...args) {
   const attrs = args.reduce((a, b) => Object.assign(a, b), {});
   if ('texture' in attrs) {
     attrs.textures = [attrs.texture];
@@ -329,6 +359,32 @@ function parse_attr(...args) {
   projectionXY(attrs, 'translate', 0);
   projectionXY(attrs, 'skew', 0);
   projectionBorder(attrs);
+
+  const textureFrames = Object.entries(attrs).filter(([key, value]) => {
+    if (key.indexOf('textureFrame$') === 0) {
+      delete attrs[key];
+      return true;
+    }
+    return false;
+  }).map(s => s[1]);
+
+  const len = textureFrames.length;
+
+  if (len > 0 && !sprite.$$deleted) {
+    let idx = 0;
+    const frameTimer = sprite[_frameTimer];
+    if (frameTimer) {
+      clearTimeout(frameTimer);
+    }
+    sprite.attr({ textures: textureFrames[idx][0] });
+    sprite[_frameTimer] = setTimeout(function f() {
+      sprite.attr({ textures: textureFrames[idx][0] });
+      if (!sprite.$$deleted) sprite[_frameTimer] = setTimeout(f, textureFrames[idx][1] * 1000);
+      idx = (idx + 1) % len;
+    }, textureFrames[idx][1] * 1000);
+    idx = (idx + 1) % len;
+  }
+
   return attrs;
 }
 
@@ -380,7 +436,7 @@ function createSymbols(...keys) {
   return ret;
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (createSymbols('target', 'offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'buttons', 'property', 'oldValue', 'newValue'));
+/* harmony default export */ __webpack_exports__["default"] = (createSymbols('target', 'offsetX', 'offsetY', 'layerX', 'layerY', 'altKey', 'ctrlKey', 'shiftKey', 'buttons', 'key', 'keyCode', 'property', 'oldValue', 'newValue'));
 
 /***/ }),
 /* 7 */
@@ -414,6 +470,42 @@ const store = new Map();
       [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].property]: key,
       [_symbols__WEBPACK_IMPORTED_MODULE_1__["default"].oldValue]: oldValue
     });
+  }
+});
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const audioCache = new Map();
+const testAudio = new Audio();
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  canplay(src) {
+    return testAudio.canPlayType(src);
+  },
+  load(res) {
+    if (typeof res === 'string') {
+      res = { id: res, src: res };
+    }
+
+    let promise = audioCache.get(res.id);
+    if (promise) return promise;
+
+    const sound = new Audio(res.src);
+    promise = new Promise(resolve => {
+      sound.oncanplaythrough = () => {
+        resolve(sound);
+      };
+    });
+    audioCache.set(res.id, promise);
+
+    return promise;
+  },
+  play(res) {
+    this.load(res).then(sound => sound.play());
   }
 });
 

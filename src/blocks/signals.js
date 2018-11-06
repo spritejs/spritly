@@ -8,7 +8,7 @@ const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
 function listSignal(...extras) {
-  const signals = ['START', 'STORE_PROPERTY_UPDATE'];
+  const signals = ['START', 'STORE_PROPERTY_UPDATE', 'LAYER_CLICKED', 'KEYDOWN', 'KEYUP', 'ELEMENT_CREATED', 'ELEMENT_DESTROYED'];
   return () => {
     return [...signals, ...extras, ...Dropdown.get('Signals')].map(s => [Msg.$(s, 'SIGNAL_DO_OPTION_SIGNAL'), s]);
   };
@@ -30,7 +30,7 @@ Blockly.Blocks.signal_do = {
         {
           type: 'field_dropdown',
           name: 'SIGNAL',
-          options: listSignal('LAYER_CLICKED', 'ELEMENT_CREATED', 'ELEMENT_DESTROYED'),
+          options: listSignal(),
         },
       ],
       colour,
@@ -144,10 +144,12 @@ Blockly.Blocks.get_data_prop = {
           'ctrlKey',
           'shiftKey',
           'buttons',
+          'key',
+          'keyCode',
         ].map(s => [Msg.$(s, 'GET_DATA_PROP_OPTION_PROP'), s]),
       }],
       colour,
-      output: ['Number', 'Boolean'],
+      output: ['Number', 'String', 'Boolean'],
       tooltip: Msg.GET_DATA_PROP_TOOLTIP,
     });
   },

@@ -297,6 +297,41 @@ Blockly.Blocks.field_attr_fillColour = {
   },
 };
 
+Blockly.Blocks.field_attr_textureFrame = {
+  init() {
+    this.jsonInit({
+      message0: Msg.FIELD_ATTR_TEXTUREFRAME_MSG0,
+      args0: [
+        {
+          type: 'input_value',
+          name: 'FRAME',
+          check: 'String',
+        },
+      ],
+      message1: Msg.FIELD_ATTR_TEXTUREFRAME_MSG1,
+      args1: [
+        {
+          type: 'input_value',
+          name: 'DURATION',
+          check: 'Number',
+        },
+      ],
+      nextStatement: 'KeyValue',
+      previousStatement: 'KeyValue',
+      colour: Blockly.Msg.ATTRS_SPRITE_HUE,
+      tooltip: Msg.FIELD_ATTR_TEXTUREFRAME_TOOLTIP,
+    });
+  },
+};
+
+Blockly.JavaScript.field_attr_textureFrame = function (block) {
+  const key = `textureFrame$${Math.random().toString(16).slice(2)}`;
+  const frame = Blockly.JavaScript.valueToCode(block, 'FRAME', Blockly.JavaScript.ORDER_NONE) || 'null';
+  const duration = Blockly.JavaScript.valueToCode(block, 'DURATION', Blockly.JavaScript.ORDER_NONE) || '100';
+  const value = `[${frame}, ${duration}]`;
+  return `\n'${key}': ${value},`;
+};
+
 function gencode(block) {
   const key = block.getFieldValue('KEY');
   const value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE)
@@ -305,7 +340,7 @@ function gencode(block) {
 }
 
 Object.keys(Blockly.Blocks).forEach((key) => {
-  if(key.indexOf('field_attr') === 0 && key !== 'field_attr_inc') {
+  if(key.indexOf('field_attr') === 0 && !Blockly.JavaScript[key]) {
     Blockly.JavaScript[key] = gencode;
   }
 });

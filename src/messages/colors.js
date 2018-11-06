@@ -16,3 +16,4 @@ Msg.STORE_HUE = 70;
 Msg.FLOWS_HUE = 220;
 Msg.MATH_HUE = 270;
 Msg.LOG_HUE = 310;
+Msg.SOUND_HUE = 45;
