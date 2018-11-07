@@ -12,6 +12,12 @@
     <block type="get_data_prop"></block>
     <block type="get_store_data_prop"></block>
   </category>
+  <category name="%{BKY_CATEGORY_PROCEDURE}" colour="%{BKY_PROCEDURE_HUE}">
+    <block type="procedures_defreturn">
+      <field name="NAME">myfunc</field>
+    </block>
+    <block type="procedures_ifreturn"></block>
+  </category>
   <category name="%{BKY_CATEGORY_SPRITES}" colour="%{BKY_SPRITE_HUE}">
     <block type="sprite"></block>
     <block type="sprite_attrs">

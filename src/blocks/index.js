@@ -10,3 +10,4 @@ import './lists';
 import './getter_setter';
 import './store';
 import './sound';
+import './procedure';

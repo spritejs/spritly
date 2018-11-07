@@ -12,6 +12,7 @@ Msg.COMMON_LABEL = 'Label';
 Msg.COMMON_PATH = 'Path';
 
 Msg.CATEGORY_SIGNALS = 'Signals';
+Msg.CATEGORY_PROCEDURE = 'Procedure';
 Msg.CATEGORY_SPRITES = 'Sprites';
 Msg.CATEGORY_ATTRIBUTES = 'Attributes';
 Msg.CATEGORY_ATTRIBUTES_COMMON = 'Common';
