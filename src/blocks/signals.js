@@ -44,6 +44,15 @@ Blockly.Blocks.signal_do = {
       tooltip: Msg.SIGNAL_DO_TOOLTIP,
     });
   },
+  scope(code) {
+    const signal = this.getFieldValue('SIGNAL');
+    return `spritly.runtime.Signal.on('${signal}', async function(sender, data){
+  let target = data[spritly.runtime.Symbols.target] || sender;
+  let receiver = target;
+
+${code}
+});`;
+  },
 };
 
 Blockly.JavaScript.signal_do = function (block) {
@@ -52,6 +61,7 @@ Blockly.JavaScript.signal_do = function (block) {
 
 Blockly.Blocks.signal_new_sprite_as_receiver = {
   init() {
+    const id = `Sprite_${Math.random().toString().slice(2, 7)}`;
     this.jsonInit({
       message0: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG0,
       args0: [
@@ -64,7 +74,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       message1: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG1,
       args1: [{
         type: 'field_dropdown',
-        name: 'RECEIVER',
+        name: 'TYPE',
         options: [
           [Msg.COMMON_SPRITE, 'Sprite'],
           [Msg.COMMON_LABEL, 'Label'],
@@ -75,13 +85,27 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       args2: [{
         type: 'field_input',
         name: 'ID',
-        check: 'String',
-        text: `Sprite_${Math.random().toString().slice(2, 7)}`,
+        text: id,
       }],
       colour,
       nextStatement,
       tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP,
     });
+  },
+  scope(code) {
+    const signal = this.getFieldValue('SIGNAL');
+    const id = this.getFieldValue('ID');
+    const nodeType = this.getFieldValue('TYPE');
+    return `spritly.runtime.Signal.on('${signal}', async function(sender, data){
+  let receiver = spritly.runtime.ElementList.getElementById('${id}');
+  if(receiver == null){
+    receiver = spritejs.createElement('${nodeType}', {id: '${id}'});
+    spritly.runtime.ElementList.add(receiver);
+  }
+  let target = data[spritly.runtime.Symbols.target] || receiver;
+
+${code}
+});`;
   },
 };
 
@@ -112,6 +136,17 @@ Blockly.Blocks.signal_when_receiver_is = {
       nextStatement,
       tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP,
     });
+  },
+  scope(code) {
+    const signal = this.getFieldValue('SIGNAL');
+    const id = this.getFieldValue('ID');
+
+    return `spritly.runtime.Signal.on('${signal}', async function(sender, data){
+  const receiver = spritly.runtime.ElementList.getElementById('${id}');
+  let target = data[spritly.runtime.Symbols.target] || receiver;
+
+${code};
+});`;
   },
 };
 

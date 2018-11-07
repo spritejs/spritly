@@ -177,7 +177,6 @@
       const xml = Blockly.Xml.workspaceToDom(workspace);
       // Add each top block one by one and generate code.
       const allCode = [];
-      let procedures = '';
 
       const signal_lists = xml.querySelectorAll('block[type="signal_onevent_send"] > field[name="SIGNAL"]');
       signal_lists.forEach((sig) => {
@@ -194,86 +193,31 @@
         Dropdown.set('ListItems', name.textContent);
       });
 
-      // Find and remove all top blocks.
-      const topBlocks = [];
-      for(let i = xml.childNodes.length - 1; i >= 0; i--) {
-        const block = xml.childNodes[i];
-        // console.log(block.lastChild);
-        if(block.tagName === 'BLOCK') {
-          const type = block.getAttribute('type');
-          xml.removeChild(block);
-          if(type === 'signal_do') {
-            const signal = block.querySelector('field').textContent || 'START';
-            topBlocks.unshift({block, type, signal});
-          } else if(type === 'signal_new_sprite_as_receiver') {
-            const signal = block.querySelector('field[name="SIGNAL"]').textContent || 'START';
-            const nodeType = block.querySelector('field[name="RECEIVER"]').textContent || 'Sprite';
-            const id = block.querySelector('field[name="ID"]').textContent;
-            Dropdown.set('Sprites', id);
-            topBlocks.unshift({block, type, signal, nodeType, id});
-          } else if(type === 'signal_when_receiver_is') {
-            const signal = block.querySelector('field[name="SIGNAL"]').textContent || 'START';
-            const id = block.querySelector('field[name="ID"]').textContent;
-            topBlocks.unshift({block, type, signal, id});
-          } else if(type === 'procedures_defreturn') {
-            topBlocks.unshift({block, type});
-          }
-        }
-      }
+      const sprite_id_list = xml.querySelectorAll('block[type="signal_new_sprite_as_receiver"] > field[name="ID"]');
+      sprite_id_list.forEach((s) => {
+        Dropdown.set('Sprites', s.textContent);
+      });
+
+      const topBlocks = workspace.getTopBlocks(true);
+
       // Generate JavaScript code and run it.
       window.LoopTrap = 1e7;
       Blockly.JavaScript.INFINITE_LOOP_TRAP = `${Blockly.Generator.prototype.INDENT}if (--window.LoopTrap == 0) throw "Infinite loop.";\n`;
 
+      const hoists = [];
       for(let i = 0; i < topBlocks.length; i++) {
-        const {block, type, signal} = topBlocks[i];
-        const headless = new Blockly.Workspace();
-        xml.appendChild(block);
-        Blockly.Xml.domToWorkspace(xml, headless);
-        const indent = Blockly.Generator.prototype.INDENT;
-
-        let code = Blockly.JavaScript.workspaceToCode(headless);
-
-        if(type === 'procedures_defreturn') {
-          procedures = code;
-          continue; // eslint-disable-line
+        const topBlock = topBlocks[i];
+        if(topBlock.scope) {
+          const indent = Blockly.Generator.prototype.INDENT;
+          let code = Blockly.JavaScript.blockToCode(topBlock);
+          code = indent + code.split(/\n/g)
+            .join(`\n${indent}`).trimRight();
+          code = topBlock.scope(code);
+          if(topBlock.hoist) hoists.push(code);
+          else allCode.push(code);
         }
-
-        code = indent + code.split(/\n/g)
-          .join(`\n${indent}`).trimRight();
-
-        const head = `spritly.runtime.Signal.on('${signal}', async function(sender, data){`;
-  
-        let receiver;
-        if(type === 'signal_new_sprite_as_receiver') {
-          const {nodeType, id} = topBlocks[i];
-          receiver = `${Blockly.Generator.prototype.INDENT}let receiver = spritly.runtime.ElementList.getElementById('${id}');
-  if(receiver == null){
-    receiver = spritejs.createElement('${nodeType}', {id: '${id}'});
-    spritly.runtime.ElementList.add(receiver);
-  }`;
-        } else if(type === 'signal_when_receiver_is') {
-          const {id} = topBlocks[i];
-          receiver = `const receiver = spritly.runtime.ElementList.getElementById('${id}');
-  if(receiver == null) return;`;
-        } else {
-          receiver = '  let receiver = null;';
-          code = `  if(target && receiver == null) {
-    receiver = target;
-  }
-${code}`;
-        }
-
-        allCode.push(`${head}
-${receiver}
-  let target = data[spritly.runtime.Symbols.target];
-  if(target == null) {
-    target = receiver || sender;
-  }
-${code}
-});`);
-        headless.dispose();
-        xml.removeChild(block);
       }
+
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
       if(preload_res) {
         allCode.push(`spritly.runtime.scene.preload(...${JSON.stringify(preload_res)})
@@ -282,10 +226,7 @@ ${code}
       } else {
         allCode.push("spritly.runtime.Signal.send('START', spritly.runtime.scene);\n");
       }
-      if(procedures) {
-        return [procedures.replace(/^var\s.*\n/img, ''), ...allCode];
-      }
-      return allCode;
+      return [...hoists, ...allCode];
     }
 
     function showXml() {

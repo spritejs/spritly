@@ -2,6 +2,19 @@ const Blockly = require('blockly');
 
 const Msg = Blockly.Msg;
 
+Blockly.Blocks.procedures_defreturn.hoist = true;
+Blockly.Blocks.procedures_defreturn.scope = function (code) {
+  const indent = Blockly.Generator.prototype.INDENT;
+  let lines = code.split(/\n/g);
+  lines = lines.map((line) => {
+    if(/^\s*var\s/.test(line)) {
+      return '';
+    }
+    return line.replace(indent, '');
+  }).filter(line => line);
+  return lines.join('\n');
+};
+
 /* eslint-disable */
 Blockly.Blocks.procedures_defreturn.updateVarName = function (variable) {
   var newName = variable.name;
