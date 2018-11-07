@@ -1,4 +1,4 @@
-<xml>
+<xml toolbox="/toolboxs/default.xml">
   <preload>
     <resource type="texture_packer"
       texture="https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png"

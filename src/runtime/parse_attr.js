@@ -54,6 +54,7 @@ export default function parse_attr(sprite, ...args) {
       sprite.off(['mousedown', 'touchstart'], dragstart);
       sprite.off(['mouseup', 'touchend'], dragend);
       sprite.off(['mousemove', 'touchmove'], dragmove);
+      delete sprite[_dragHandlers];
     } else if(attrs.draggable === 'yes' && !dragHandlers) {
       let offsetX = 0,
         offsetY = 0;

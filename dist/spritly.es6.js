@@ -437,6 +437,8 @@ Msg.EVENT_ONMOUSEMOVE = '鼠标在它内部移动';
 Msg.EVENT_ONMOUSEUP = '释放鼠标按键';
 Msg.EVENT_ONMOUSEENTER = '鼠标进入它';
 Msg.EVENT_ONMOUSELEAVE = '鼠标离开它';
+Msg.EVENT_ONTAP = '触屏短按';
+Msg.EVENT_ONLONGTAP = '触屏长按';
 Msg.EVENT_ONDRAGGED = '被拖拽';
 Msg.EVENT_ONDRAGGEDONTO = '其它元素拖拽入';
 Msg.EVENT_ONCOLLISION = '与其他元素碰撞';
@@ -1524,7 +1526,7 @@ Blockly.JavaScript.get_store_data_prop = function (block) {
   return [`data[spritly.runtime.Symbols.${prop}]`, Blockly.JavaScript.ORDER_MEMBER];
 };
 
-const events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'ondragged', 'ondraggedonto', 'oncollision'];
+const events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'ontap', 'onlongtap', 'ondragged', 'ondraggedonto', 'oncollision'];
 
 Blockly.Blocks.signal_onevent_send = {
   init() {

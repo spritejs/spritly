@@ -192,7 +192,9 @@ Blockly.JavaScript.get_store_data_prop = function (block) {
 };
 
 const events = ['immediately', 'onclick', 'ondblclick',
-  'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'ondragged', 'ondraggedonto', 'oncollision'];
+  'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave',
+  'ontap', 'onlongtap',
+  'ondragged', 'ondraggedonto', 'oncollision'];
 
 Blockly.Blocks.signal_onevent_send = {
   init() {

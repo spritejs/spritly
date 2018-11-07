@@ -1778,27 +1778,34 @@ module.exports = function (COLLECTION) {
 
 /***/ }),
 /* 96 */,
-/* 97 */
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(98), __esModule: true };
+module.exports = { "default": __webpack_require__(105), __esModule: true };
 
 /***/ }),
-/* 98 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(69);
 __webpack_require__(5);
 __webpack_require__(74);
-__webpack_require__(99);
-__webpack_require__(100);
-__webpack_require__(101);
-__webpack_require__(102);
+__webpack_require__(106);
+__webpack_require__(107);
+__webpack_require__(108);
+__webpack_require__(109);
 module.exports = __webpack_require__(13).Set;
 
 
 /***/ }),
-/* 99 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1819,7 +1826,7 @@ module.exports = __webpack_require__(85)(SET, function (get) {
 
 
 /***/ }),
-/* 100 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
@@ -1829,7 +1836,7 @@ $export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(90)('Set') }
 
 
 /***/ }),
-/* 101 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-set.of
@@ -1837,7 +1844,7 @@ __webpack_require__(93)('Set');
 
 
 /***/ }),
-/* 102 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
@@ -1845,13 +1852,6 @@ __webpack_require__(95)('Set');
 
 
 /***/ }),
-/* 103 */,
-/* 104 */,
-/* 105 */,
-/* 106 */,
-/* 107 */,
-/* 108 */,
-/* 109 */,
 /* 110 */,
 /* 111 */,
 /* 112 */,
@@ -2234,6 +2234,8 @@ Msg.EVENT_ONMOUSEMOVE = '鼠标在它内部移动';
 Msg.EVENT_ONMOUSEUP = '释放鼠标按键';
 Msg.EVENT_ONMOUSEENTER = '鼠标进入它';
 Msg.EVENT_ONMOUSELEAVE = '鼠标离开它';
+Msg.EVENT_ONTAP = '触屏短按';
+Msg.EVENT_ONLONGTAP = '触屏长按';
 Msg.EVENT_ONDRAGGED = '被拖拽';
 Msg.EVENT_ONDRAGGEDONTO = '其它元素拖拽入';
 Msg.EVENT_ONCOLLISION = '与其他元素碰撞';
@@ -3150,7 +3152,7 @@ var _toConsumableArray2 = __webpack_require__(2);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _set = __webpack_require__(97);
+var _set = __webpack_require__(104);
 
 var _set2 = _interopRequireDefault(_set);
 
@@ -3458,7 +3460,7 @@ Blockly.JavaScript.get_store_data_prop = function (block) {
   return ['data[spritly.runtime.Symbols.' + prop + ']', Blockly.JavaScript.ORDER_MEMBER];
 };
 
-var events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'ondragged', 'ondraggedonto', 'oncollision'];
+var events = ['immediately', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseup', 'onmouseenter', 'onmouseleave', 'ontap', 'onlongtap', 'ondragged', 'ondraggedonto', 'oncollision'];
 
 Blockly.Blocks.signal_onevent_send = {
   init: function init() {
