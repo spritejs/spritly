@@ -17,6 +17,7 @@
       <field name="NAME">myfunc</field>
     </block>
     <block type="procedures_ifreturn"></block>
+    <block type="procedures_await"></block>
   </category>
   <category name="%{BKY_CATEGORY_SPRITES}" colour="%{BKY_SPRITE_HUE}">
     <block type="sprite"></block>

@@ -282,7 +282,10 @@ ${code}
       } else {
         allCode.push("spritly.runtime.Signal.send('START', spritly.runtime.scene);\n");
       }
-      return [procedures.replace(/^var\s.*\n/img, ''), ...allCode];
+      if(procedures) {
+        return [procedures.replace(/^var\s.*\n/img, ''), ...allCode];
+      }
+      return allCode;
     }
 
     function showXml() {

@@ -5,6 +5,17 @@ const colour = Msg.ANIMATE_HUE;
 const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
+function detectAsync(block) {
+  let parent = block.getParent();
+  while(parent != null) {
+    if(parent.type === 'procedures_defreturn') {
+      parent.isAsync_ = true;
+      break;
+    }
+    parent = parent.getParent();
+  }
+}
+
 Blockly.Blocks.await = {
   init() {
     this.jsonInit({
@@ -22,7 +33,7 @@ Blockly.Blocks.await = {
 
 Blockly.JavaScript.await = function (block) {
   const ms = parseInt(block.getFieldValue('MILLISEC'), 10);
-
+  detectAsync(block);
   return `await spritly.runtime.wait(${ms});\n`;
 };
 
@@ -49,6 +60,7 @@ Blockly.Blocks.await_frame = {
 
 Blockly.JavaScript.await_frame = function (block) {
   const layerName = block.getFieldValue('LAYER');
+  detectAsync(block);
   return `await spritly.runtime.scene.layer('${layerName}').prepareRender();\n`;
 };
 
@@ -118,6 +130,7 @@ Blockly.JavaScript.sprite_animate = function (block) {
 },{${to}
 }], {duration: ${duration * 1000}, fill: 'forwards', easing: ${easing}})`;
   if(isAsync) {
+    detectAsync(block);
     code = `if(!${sprite}.layer) console.error('${sprite} must append to layer before animated!'); 
 await ${code}.finished`;
   }
