@@ -21,7 +21,7 @@ module.exports = function (env = {}) {
   const output = {
     path: path.resolve(__dirname, 'dist'),
     filename: env.esnext ? '[name].es6' : '[name]',
-    publicPath: '/js/',
+    publicPath: '/dist/',
     library: 'spritly',
     libraryTarget: env.esnext ? 'commonjs2' : 'umd',
   };
@@ -73,7 +73,7 @@ module.exports = function (env = {}) {
     // lets you precisely control what bundle information gets displayed
 
     devServer: {
-      contentBase: path.join(__dirname, 'examples'),
+      contentBase: path.join(__dirname, ''),
       compress: true,
       port: 9090,
       // ...
