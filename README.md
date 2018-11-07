@@ -1,3 +1,4 @@
 # Spritly
 
-Blockly spritejs.
+Blockly spritejs. https://spritly.spritejs.org
+
