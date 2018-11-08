@@ -178,25 +178,7 @@
       // Add each top block one by one and generate code.
       const allCode = [];
 
-      const signal_lists = xml.querySelectorAll('block[type="signal_onevent_send"] > field[name="SIGNAL"]');
-      signal_lists.forEach((sig) => {
-        Dropdown.set('Signals', sig.textContent);
-      });
-
-      const sprite_name_lists = xml.querySelectorAll('block[type="sprite_create_attrs"] > field[name="NAME"]');
-      sprite_name_lists.forEach((name) => {
-        Dropdown.set('SpriteNames', name.textContent);
-      });
-
-      const foreach_items = xml.querySelectorAll('block[type="list_foreach"] > field[name="ITEM"]');
-      foreach_items.forEach((name) => {
-        Dropdown.set('ListItems', name.textContent);
-      });
-
-      const sprite_id_list = xml.querySelectorAll('block[type="signal_new_sprite_as_receiver"] > field[name="ID"]');
-      sprite_id_list.forEach((s) => {
-        Dropdown.set('Sprites', s.textContent);
-      });
+      Dropdown.createFromBlockFields(xml);
 
       const topBlocks = workspace.getTopBlocks(true);
 

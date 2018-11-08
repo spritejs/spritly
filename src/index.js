@@ -15,6 +15,11 @@ function initWorkspace(el, options) {
   return workspace;
 }
 
+Dropdown.addBlockFields('Signals', 'signal_onevent_send', 'SIGNAL');
+Dropdown.addBlockFields('SpriteNames', 'sprite_create_attrs', 'NAME');
+Dropdown.addBlockFields('ListItems', 'list_foreach', 'ITEM');
+Dropdown.addBlockFields('Sprites', 'signal_new_sprite_as_receiver', 'ID');
+
 export {
   Blockly,
   initWorkspace,
