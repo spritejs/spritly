@@ -136,7 +136,7 @@ Blockly.JavaScript.sprite_create_attrs = function (block) {
   const name = block.getFieldValue('NAME');
   const attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
   return `spritly.runtime.ElementList.add(() => {
-  const sprite = spritejs.createElement('${type}');
+  const sprite = spritly.runtime.spritejs.createElement('${type}');
   sprite.attr(spritly.runtime.parse_attr(sprite, {name: '${name}'}, {${attrs.split(/\n/g).join(`\n${Blockly.Generator.prototype.INDENT}`)}
   }));
   return sprite;

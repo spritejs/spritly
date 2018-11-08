@@ -78,7 +78,9 @@
 
     let preload_res = null,
       workspace = null,
-      toolbox = null;
+      toolbox = null,
+      scriptsBefore,
+      scriptsAfter;
 
     const update = debounce(() => {
       window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
@@ -111,6 +113,24 @@
         const id = res.getAttribute('id') || src;
         return {id, src};
       });
+
+      scriptsBefore = [];
+      scriptsAfter = [];
+      let scripts = scriptsBefore;
+      const children = blockXml.documentElement.children;
+      for(let i = 0; i < children.length; i++) {
+        const child = children[i];
+        if(child.tagName.toLowerCase() === 'script') {
+          const scriptLink = child.getAttribute('src');
+          if(scriptLink) {
+            const code = await fetch(scriptLink)  // eslint-disable-line
+              .then(res => res.text());
+            scripts.push(code);
+          }
+        } else if(child.tagName.toLowerCase() === 'block') {
+          scripts = scriptsAfter;
+        }
+      }
 
       workspace = initWorkspace('blocklyDiv',
         {
@@ -259,9 +279,15 @@
   <script src="https://unpkg.com/spritly/dist/spritly-runtime.min.js"><\/script>
   <div id="stage" style="width:100%;height:100%;"></div>
 */`; /* eslint-enable */
-      const code = [comment, 'spritly.runtime.use(spritejs);', ...getCode()].join('\n\n');
+      let code = [comment, 'spritly.runtime.use(spritejs);', ...getCode()];
+      if(scriptsBefore.length) {
+        code = ['/* -- external scripts start -- */', ...scriptsBefore, '/* -- external scripts end -- */', ...code];
+      }
+      if(scriptsAfter.length) {
+        code = [...code, '/* -- external scripts start -- */', ...scriptsAfter, '/* -- external scripts end -- */'];
+      }
       const wnd = window.open('', '__blank', '');
-      wnd.document.write(`<pre class="prettyprint" lang-js>${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
+      wnd.document.write(`<pre class="prettyprint" lang-js>${code.join('\n\n').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
       wnd.document.write('<script>var sel = document.createElement("script"); sel.src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"; window.onload = function(){document.body.appendChild(sel)};<\/script>'); // eslint-disable-line
       wnd.document.close();
     }
@@ -269,7 +295,7 @@
     function runCode() {
       try {
         Dropdown.clear();
-        const codes = getCode();
+        const codes = [...scriptsBefore, ...getCode(), ...scriptsAfter];
         const code = codes.join('');
         window.frames[0].exec(code);
       } catch (e) {

@@ -1,4 +1,5 @@
 <xml toolbox="/toolboxs/default.xml">
+  <script src="/extends/test.js"></script>
   <preload>
     <resource type="texture_packer"
       texture="https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png"
@@ -120,4 +121,5 @@
       </block>
     </next>
   </block>
+  <script src="/extends/test.js"></script>
 </xml>

@@ -8,9 +8,9 @@ import Symbols from './symbols';
 import Store from './store';
 import Audio from './audio';
 
-function use({Scene}, options = {container: '#stage', viewport: 'auto', resolution: 'flex'}) {
+function use(spritejs, options = {container: '#stage', viewport: 'auto', resolution: 'flex'}) {
   const {container, viewport, resolution} = options;
-  const scene = new Scene(container, {
+  const scene = new spritejs.Scene(container, {
     viewport,
     resolution,
   });
@@ -30,6 +30,7 @@ function use({Scene}, options = {container: '#stage', viewport: 'auto', resoluti
   });
 
   this.scene = scene;
+  this.spritejs = spritejs;
 
   return scene;
 }

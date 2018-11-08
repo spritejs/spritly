@@ -99,7 +99,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
     return `spritly.runtime.Signal.on('${signal}', async function(sender, data){
   let receiver = spritly.runtime.ElementList.getElementById('${id}');
   if(receiver == null){
-    receiver = spritejs.createElement('${nodeType}', {id: '${id}'});
+    receiver = spritly.runtime.spritejs.createElement('${nodeType}', {id: '${id}'});
     spritly.runtime.ElementList.add(receiver);
   }
   let target = data[spritly.runtime.Symbols.target] || receiver;
