@@ -247,6 +247,12 @@
         });
         code = `<preload>${resources.join('')}</preload>${code}`;
       }
+      if(scriptsBefore) {
+        code = `${scriptsBefore.map(s => `<script src="${s}"/>`).join('')}${code}`;
+      }
+      if(scriptsAfter) {
+        code = `${code}${scriptsAfter.map(s => `<script src="${s}"/>`).join('')}`;
+      }
       code = `<xml toolbox="${toolbox}">${code}</xml>`;
       let indent = 0;
       let code2 = code.replace(/></g, '>\n<');
