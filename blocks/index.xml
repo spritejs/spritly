@@ -1,125 +1,139 @@
 <xml toolbox="/toolboxs/default.xml">
   <script src="/extends/test.js"/>
   <preload>
-    <resource type="texture_packer"
-      texture="https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png"
-      data="https://s5.ssl.qhres.com/static/5f6911b7b91c88da.json"
-    >
-    </resource>
-    <resource type="image" src="https://p0.ssl.qhimg.com/t01a72262146b87165f.png" id="robot"></resource>
+    <resource type="texture_packer" texture="https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png" data="https://s5.ssl.qhres.com/static/5f6911b7b91c88da.json"/>
+    <resource type="image" src="https://p0.ssl.qhimg.com/t01a72262146b87165f.png" id="robot"/>
   </preload>
-  <block type="signal_new_sprite_as_receiver">
-    <field name="SIGNAL">START</field>
-    <next>
-      <block type="sprite_attrs">
-        <value name="SPRITE">
-          <block type="sprite">
-            <field name="SPRITE">receiver</field>
-          </block>
-        </value>
-        <value name="ATTRS">
-          <block type="field_attr_anchor">
+  <blocks>
+    <block type="signal_new_sprite_as_receiver" id="ff9UTS-+SZ`yAQ(pN.)8" x="10" y="10">
+      <field name="SIGNAL">START</field>
+      <field name="TYPE">Sprite</field>
+      <field name="ID">Sprite_70778</field>
+    </block>
+    <block type="sprite_attrs" id="kTg$(i0%M-T-O`qkNRTE">
+      <value name="SPRITE">
+        <block type="sprite" id=")~B1;.;UWJ0B2~.I?XW,">
+          <field name="SPRITE">receiver</field>
+        </block>
+      </value>
+      <statement name="ATTRS">
+        <blocks>
+          <block type="field_attr_anchor" id="#{L^)]+@0MOA!irV)nAK">
             <field name="KEY">anchorX</field>
             <value name="VALUE">
-              <block type="number">
+              <block type="number" id="f6y0mIJ:hKi%)Da3kYIn">
                 <field name="NUM">0.5</field>
-              </block>                  
+              </block>
             </value>
-          <next><block type="field_attr_anchor">
+          </block>
+          <block type="field_attr_anchor" id="6(:n,4+tg4t$imnH73.*">
             <field name="KEY">anchorY</field>
             <value name="VALUE">
-              <block type="number">
+              <block type="number" id="R(MQ|+J3s(rHFX7}4wSC">
                 <field name="NUM">0.5</field>
-              </block>                  
+              </block>
             </value>
-          <next><block type="field_attr_xy">
+          </block>
+          <block type="field_attr_xy" id="t8?^]=@9ZK!PTc(rcj]%">
+            <field name="KEY">x</field>
             <value name="VALUE">
-              <block type="number">
+              <block type="number" id=":O:g0v*On3[t)dhro+Qq">
                 <field name="NUM">100</field>
-              </block>                  
+              </block>
             </value>
-          <next><block type="field_attr_xy">
+          </block>
+          <block type="field_attr_xy" id="`$zIOrtRMu4|%pu!43%I">
             <field name="KEY">y</field>
             <value name="VALUE">
-              <block type="number">
+              <block type="number" id=")%mS9C$47#Y`IxUY!370">
                 <field name="NUM">300</field>
-              </block>                  
+              </block>
             </value>
-          <next><block type="field_attr_size">
+          </block>
+          <block type="field_attr_size" id="K{zQ4C11@57p/CEs9]84">
             <field name="KEY">width</field>
             <value name="VALUE">
-              <block type="number">
+              <block type="number" id="E-bH6%k/6,Bq8Iomq480">
                 <field name="NUM">100</field>
-              </block>                  
+              </block>
             </value>
-          <next><block type="field_attr_size">
+          </block>
+          <block type="field_attr_size" id="=-ozd!fSFM*(V;9zFoBK">
             <field name="KEY">height</field>
             <value name="VALUE">
-              <block type="number">
+              <block type="number" id="x%T_=@P#nlfB%JvAWo{c">
                 <field name="NUM">100</field>
-              </block>                  
+              </block>
             </value>
-          <next><block type="field_attr_bgcolor">
+          </block>
+          <block type="field_attr_bgcolor" id="?bIwn+[dcJ}k2{%,*i+:">
+            <field name="KEY">bgcolor</field>
             <value name="VALUE">
-              <block type="random_colour_hue"></block>                  
+              <block type="random_colour_hue" id="Nk~5D+u}lN,-t.7!O|J7">
+                <field name="S">100</field>
+                <field name="L">50</field>
+                <field name="A">1</field>
+              </block>
             </value>
-          </block></next>
-          </block></next>
-          </block></next>
-          </block></next>        
-          </block></next>
-          </block></next>
-          </block>     
-        </value>
-        <next><block type="sprite_append_to">
-          <value name="SPRITE">
-            <block type="sprite">
-              <field name="SPRITE">receiver</field>
-            </block>
-          </value>
-        <next><block type="sprite_animate">
-          <value name="SPRITE">
-            <block type="sprite">
-              <field name="SPRITE">receiver</field>
-            </block>
-          </value> 
-          <field name="ASYNC?">await</field>
-          <value name="DURATION">
-            <block type="number">
-              <field name="NUM">3</field>
-            </block>
-          </value>
-          <value name="TO_ATTRS">
-            <block type="field_attr_xy">
-              <value name="VALUE">
-                <block type="number">
-                  <field name="NUM">500</field>
-                </block>                  
-              </value>
-              <next><block type="field_attr_rotate">
-                <value name="VALUE">
-                  <block type="number">
-                    <field name="NUM">720</field>
-                  </block>                  
-                </value>
-              </block></next>
-            </block>
-          </value>
-          <value name="EASING">
-            <block type="easing"></block>
-          </value>
-        <next><block type="signal_onevent_send">
-          <value name="SPRITE">
-            <block type="sprite">
-              <field name="SPRITE">receiver</field>
-            </block>
-          </value>  
-          <field name="SIGNAL">移动结束</field>
-        </block></next>
-        </block></next>
-        </block></next>
-      </block>
-    </next>
-  </block>
+          </block>
+        </blocks>
+      </statement>
+    </block>
+    <block type="sprite_append_to" id="si}P5Es:pD/CDs`hQU!v">
+      <field name="LAYER">fglayer</field>
+      <value name="SPRITE">
+        <block type="sprite" id="8R:M):$)gkW%s$eS?zZj">
+          <field name="SPRITE">receiver</field>
+        </block>
+      </value>
+    </block>
+    <block type="sprite_animate" id="86*[g)]9ohT@$n6Y39HZ">
+      <field name="ASYNC?">await</field>
+      <value name="SPRITE">
+        <block type="sprite" id="(Zy)R#l8f=vxvJYZKd6i">
+          <field name="SPRITE">receiver</field>
+        </block>
+      </value>
+      <value name="DURATION">
+        <block type="number" id="2:XoV,RhN4FhHTnN;G)|">
+          <field name="NUM">3</field>
+        </block>
+      </value>
+      <statement name="TO_ATTRS">
+        <blocks>
+          <block type="field_attr_xy" id="p]cOC{S@O_pmv],XW5#V">
+            <field name="KEY">x</field>
+            <value name="VALUE">
+              <block type="number" id="i+{ep+!uSd%/vS{ImHUC">
+                <field name="NUM">500</field>
+              </block>
+            </value>
+          </block>
+          <block type="field_attr_rotate" id="cVXk_k?bxp9TRlC;I_rs">
+            <field name="KEY">rotate</field>
+            <value name="VALUE">
+              <block type="number" id="H?%dKd,NUPLwZOVuG,!e">
+                <field name="NUM">720</field>
+              </block>
+            </value>
+          </block>
+        </blocks>
+      </statement>
+      <value name="EASING">
+        <block type="easing" id="}(pGtj^]J+9x,h7eB,e[">
+          <field name="EASING">ease</field>
+        </block>
+      </value>
+    </block>
+    <block type="signal_onevent_send" id="1|g:QRm[Ai?T(e[ULF;M">
+      <field name="EVENT">immediately</field>
+      <field name="SIGNAL">移动结束</field>
+      <value name="SPRITE">
+        <block type="sprite" id="?68R`:+`0TW_PfQcCk7G">
+          <field name="SPRITE">receiver</field>
+        </block>
+      </value>
+    </block>
+  </blocks>
   <script src="/extends/test.js"/>
 </xml>

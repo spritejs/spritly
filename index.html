@@ -125,7 +125,7 @@
           if(scriptLink) {
             const code = await fetch(scriptLink)  // eslint-disable-line
               .then(res => res.text());
-            scripts.push(code);
+            scripts.push({code, src: scriptLink});
           }
         } else if(child.tagName.toLowerCase() === 'block') {
           scripts = scriptsAfter;
@@ -146,7 +146,8 @@
             wheel: true,
           },
         });
-
+  
+      spritly.unpack(blockXml);
       Blockly.Xml.domToWorkspace(blockXml.documentElement,
         workspace);
 
@@ -233,6 +234,7 @@
 
     function showXml() {
       const xml = Blockly.Xml.workspaceToDom(workspace);
+      spritly.pack(xml);
       let code = xml.innerHTML;
       if(preload_res) {
         const resources = [];
@@ -248,10 +250,10 @@
         code = `<preload>${resources.join('')}</preload>${code}`;
       }
       if(scriptsBefore) {
-        code = `${scriptsBefore.map(s => `<script src="${s}"/>`).join('')}${code}`;
+        code = `${scriptsBefore.map(({src}) => `<script src="${src}"/>`).join('')}${code}`;
       }
       if(scriptsAfter) {
-        code = `${code}${scriptsAfter.map(s => `<script src="${s}"/>`).join('')}`;
+        code = `${code}${scriptsAfter.map(({src}) => `<script src="${src}"/>`).join('')}`;
       }
       code = `<xml toolbox="${toolbox}">${code}</xml>`;
       let indent = 0;
@@ -287,10 +289,10 @@
 */`; /* eslint-enable */
       let code = [comment, 'spritly.runtime.use(spritejs);', ...getCode()];
       if(scriptsBefore.length) {
-        code = ['/* -- external scripts start -- */', ...scriptsBefore, '/* -- external scripts end -- */', ...code];
+        code = ['/* -- external scripts start -- */', ...scriptsBefore.map(({code}) => code), '/* -- external scripts end -- */', ...code];
       }
       if(scriptsAfter.length) {
-        code = [...code, '/* -- external scripts start -- */', ...scriptsAfter, '/* -- external scripts end -- */'];
+        code = [...code, '/* -- external scripts start -- */', ...scriptsAfter.map(({code}) => code), '/* -- external scripts end -- */'];
       }
       const wnd = window.open('', '__blank', '');
       wnd.document.write(`<pre class="prettyprint" lang-js>${code.join('\n\n').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
@@ -301,7 +303,7 @@
     function runCode() {
       try {
         Dropdown.clear();
-        const codes = [...scriptsBefore, ...getCode(), ...scriptsAfter];
+        const codes = [...scriptsBefore.map(({code}) => code), ...getCode(), ...scriptsAfter.map(({code}) => code)];
         const code = codes.join('');
         window.frames[0].exec(code);
       } catch (e) {
