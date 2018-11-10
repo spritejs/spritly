@@ -117,7 +117,7 @@
 
       const externalBlocks = toolboxXml.querySelectorAll('externals module');
       await Promise.all([...externalBlocks].map((eb) => {
-        return loadExternalBlocks(eb.getAttribute('href'));
+        return loadExternalBlocks(eb.getAttribute('src'));
       }));
 
       preload_res = Array.from(blockXml.querySelectorAll('preload resource')).map((res) => {

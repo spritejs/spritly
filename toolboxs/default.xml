@@ -1,6 +1,6 @@
 <xml>
   <externals>
-    <module href="test.js"></block>
+    <module src="test.js"></block>
   </externals>
   <category name="%{BKY_CATEGORY_SIGNALS}" colour="%{BKY_SIGNALS_HUE}">
     <block type="signal_do"></block>
