@@ -1,4 +1,7 @@
 <xml>
+  <externals>
+    <module href="test.js"></block>
+  </externals>
   <category name="%{BKY_CATEGORY_SIGNALS}" colour="%{BKY_SIGNALS_HUE}">
     <block type="signal_do"></block>
     <block type="signal_new_sprite_as_receiver"></block>

@@ -86,6 +86,18 @@
       window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
     });
 
+    function loadExternalBlocks(module) {
+      const script = document.createElement('script');
+      const promise = new Promise((resolve) => {
+        script.onload = () => {
+          resolve(script);
+        };
+      });
+      script.src = `/toolboxs/blocks/${module}`;
+      document.body.appendChild(script);
+      return promise;
+    }
+
     async function loadStartBlocks() {
       if(workspace) workspace.dispose();
 
@@ -100,6 +112,13 @@
       const toolboxXml = await fetch(toolbox)
         .then(res => res.text())
         .then(str => (new DOMParser()).parseFromString(str, 'text/xml'));
+
+      spritly.unpack(toolboxXml);
+
+      const externalBlocks = toolboxXml.querySelectorAll('externals module');
+      await Promise.all([...externalBlocks].map((eb) => {
+        return loadExternalBlocks(eb.getAttribute('href'));
+      }));
 
       preload_res = Array.from(blockXml.querySelectorAll('preload resource')).map((res) => {
         const type = res.getAttribute('type');
