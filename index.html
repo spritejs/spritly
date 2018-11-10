@@ -201,25 +201,13 @@
 
       Dropdown.createFromBlockFields(xml);
 
-      const topBlocks = workspace.getTopBlocks(true);
-
       // Generate JavaScript code and run it.
       window.LoopTrap = 1e7;
       Blockly.JavaScript.INFINITE_LOOP_TRAP = `${Blockly.Generator.prototype.INDENT}if (--window.LoopTrap == 0) throw "Infinite loop.";\n`;
 
-      const hoists = [];
-      for(let i = 0; i < topBlocks.length; i++) {
-        const topBlock = topBlocks[i];
-        if(topBlock.scope) {
-          const indent = Blockly.Generator.prototype.INDENT;
-          let code = Blockly.JavaScript.blockToCode(topBlock);
-          code = indent + code.split(/\n/g)
-            .join(`\n${indent}`).trimRight();
-          code = topBlock.scope(code);
-          if(topBlock.hoist) hoists.push(code);
-          else allCode.push(code);
-        }
-      }
+      Blockly.JavaScript.init(workspace);
+      const code = Blockly.JavaScript.workspaceToCode(workspace);
+      allCode.push(code);
 
       Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
       if(preload_res) {
@@ -229,7 +217,7 @@
       } else {
         allCode.push("spritly.runtime.Signal.send('START', spritly.runtime.scene);\n");
       }
-      return [...hoists, ...allCode];
+      return allCode;
     }
 
     function showXml() {

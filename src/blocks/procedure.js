@@ -2,17 +2,26 @@ const Blockly = require('blockly');
 
 const Msg = Blockly.Msg;
 
-Blockly.Blocks.procedures_defreturn.hoist = true;
-Blockly.Blocks.procedures_defreturn.scope = function (code) {
-  const indent = Blockly.Generator.prototype.INDENT;
-  let lines = code.split(/\n/g);
-  lines = lines.map((line) => {
-    if(/^\s*var\s/.test(line)) {
-      return '';
+Blockly.Blocks.procedures_defreturn.scope = true;
+
+Blockly.Blocks.procedures_mutatorarg.validator_ = function (varName) {
+  const outerWs = Blockly.Mutator.findParentWs(this.sourceBlock_.workspace);
+  varName = varName.replace(/[\s\xa0]+/g, ' ').replace(/^ | $/g, '');
+  if(!varName) {
+    return null;
+  }
+  let model = outerWs.getVariable(varName, '');
+  if(model && model.name !== varName) {
+    // Rename the variable (case change)
+    outerWs.renameVarById(model.getId(), varName);
+  }
+  if(!model) {
+    model = outerWs.createVariable(varName, null, `ARGS$$${Math.random().toString(36).slice(2)}`);
+    if(model && this.createdVariables_) {
+      this.createdVariables_.push(model);
     }
-    return line.replace(indent, '');
-  }).filter(line => line);
-  return lines.join('\n');
+  }
+  return varName;
 };
 
 /* eslint-disable */
@@ -165,7 +174,7 @@ Blockly.JavaScript.procedures_defreturn = function(block) {
 Blockly.Blocks.procedures_await = {
   init() {
     this.jsonInit({
-      message0: '⌛️ await %1',
+      message0: Msg.PROCEDURES_AWAIT_MSG0,
       args0: [
         {
           type: 'input_value',
@@ -174,6 +183,7 @@ Blockly.Blocks.procedures_await = {
       ],
       colour: Msg.PROCEDURE_HUE,
       output: null,
+      tooltip: Msg.PROCEDURES_AWAIT_TOOLTIP,
     });
   },
 };
@@ -181,4 +191,34 @@ Blockly.Blocks.procedures_await = {
 Blockly.JavaScript.procedures_await = function (block) {
   const promise = Blockly.JavaScript.valueToCode(block, 'PROMISE', Blockly.JavaScript.ORDER_NONE) || 'null';
   return [`(await ${promise})`, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.Blocks.procedures_call = {
+  init() {
+    this.jsonInit({
+      message0: '%1 %2',
+      args0: [
+        {
+          type: 'field_dropdown',
+          name: 'CALLTYPE',
+          options: [
+            [Msg.SPRITE_ANIMATE_OPTION_ASYNC_DEFAULT, 'void'],
+            [Msg.SPRITE_ANIMATE_OPTION_ASYNC_AWAIT, 'await'],
+          ],
+        }, {
+          type: 'input_value',
+          name: 'PROC',
+        },
+      ],
+      colour: Msg.PROCEDURE_HUE,
+      nextStatement: 'Statement',
+      previousStatement: 'Statement',
+    });
+  },
+};
+
+Blockly.JavaScript.procedures_call = function (block) {
+  const type = block.getFieldValue('CALLTYPE');
+  const funcall = Blockly.JavaScript.valueToCode(block, 'PROC', Blockly.JavaScript.ORDER_NONE) || 'null';
+  return `${type} ${funcall};\n`;
 };

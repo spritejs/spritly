@@ -111,9 +111,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-function use({ Scene }, options = { container: '#stage', viewport: 'auto', resolution: 'flex' }) {
+function use(spritejs, options = { container: '#stage', viewport: 'auto', resolution: 'flex' }) {
   const { container, viewport, resolution } = options;
-  const scene = new Scene(container, {
+  const scene = new spritejs.Scene(container, {
     viewport,
     resolution
   });
@@ -133,6 +133,7 @@ function use({ Scene }, options = { container: '#stage', viewport: 'auto', resol
   });
 
   this.scene = scene;
+  this.spritejs = spritejs;
 
   return scene;
 }

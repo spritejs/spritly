@@ -140,14 +140,13 @@ var _audio2 = _interopRequireDefault(_audio);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function use(_ref) {
-  var Scene = _ref.Scene;
+function use(spritejs) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { container: '#stage', viewport: 'auto', resolution: 'flex' };
   var container = options.container,
       viewport = options.viewport,
       resolution = options.resolution;
 
-  var scene = new Scene(container, {
+  var scene = new spritejs.Scene(container, {
     viewport: viewport,
     resolution: resolution
   });
@@ -167,6 +166,7 @@ function use(_ref) {
   });
 
   this.scene = scene;
+  this.spritejs = spritejs;
 
   return scene;
 }

@@ -1,5 +1,4 @@
 <xml toolbox="/toolboxs/default.xml">
-  <script src="/extends/test.js"/>
   <preload>
     <resource type="texture_packer" texture="https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png" data="https://s5.ssl.qhres.com/static/5f6911b7b91c88da.json"/>
     <resource type="image" src="https://p0.ssl.qhimg.com/t01a72262146b87165f.png" id="robot"/>
@@ -135,5 +134,4 @@
       </value>
     </block>
   </blocks>
-  <script src="/extends/test.js"/>
 </xml>

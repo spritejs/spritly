@@ -44,14 +44,13 @@ Blockly.Blocks.signal_do = {
       tooltip: Msg.SIGNAL_DO_TOOLTIP,
     });
   },
-  scope(code) {
+  scope(generator, code) {
     const signal = this.getFieldValue('SIGNAL');
     return `spritly.runtime.Signal.on('${signal}', async function(sender, data){
   let target = data[spritly.runtime.Symbols.target] || sender;
   let receiver = target;
 
-${code}
-});`;
+${generator.indent(code)}});`;
   },
 };
 
@@ -92,7 +91,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP,
     });
   },
-  scope(code) {
+  scope(generator, code) {
     const signal = this.getFieldValue('SIGNAL');
     const id = this.getFieldValue('ID');
     const nodeType = this.getFieldValue('TYPE');
@@ -104,8 +103,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
   }
   let target = data[spritly.runtime.Symbols.target] || receiver;
 
-${code}
-});`;
+${generator.indent(code)}});`;
   },
 };
 
@@ -137,7 +135,7 @@ Blockly.Blocks.signal_when_receiver_is = {
       tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP,
     });
   },
-  scope(code) {
+  scope(generator, code) {
     const signal = this.getFieldValue('SIGNAL');
     const id = this.getFieldValue('ID');
 
@@ -145,8 +143,7 @@ Blockly.Blocks.signal_when_receiver_is = {
   const receiver = spritly.runtime.ElementList.getElementById('${id}');
   let target = data[spritly.runtime.Symbols.target] || receiver;
 
-${code};
-});`;
+${generator.indent(code)};});`;
   },
 };
 

@@ -1,5 +1,6 @@
 import './messages';
 import './blocks';
+import './generator';
 import {Dropdown} from './dropdown';
 
 const Blockly = require('blockly');

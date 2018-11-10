@@ -348,7 +348,7 @@ Blockly.Blocks.field_attr_textureFrame = {
 };
 
 Blockly.JavaScript.field_attr_textureFrame = function (block) {
-  const key = `textureFrame$${Math.random().toString(16).slice(2)}`;
+  const key = `textureFrame$${Math.random().toString(36).slice(2)}`;
   const frame = Blockly.JavaScript.valueToCode(block, 'FRAME', Blockly.JavaScript.ORDER_NONE) || 'null';
   const duration = Blockly.JavaScript.valueToCode(block, 'DURATION', Blockly.JavaScript.ORDER_NONE) || '100';
   const value = `[${frame}, ${duration}]`;
