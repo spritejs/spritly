@@ -91,6 +91,40 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP,
     });
   },
+  onchange(event) {
+    if(event instanceof Blockly.Events.Change
+      && event.element === 'field'
+      && event.name === 'ID'
+      && event.blockId === this.id) {
+      if(!this.oldValue_) {
+        this.oldValue_ = event.oldValue;
+      }
+      clearTimeout(this.changeIdTimer_);
+      this.changeIdTimer_ = setTimeout(() => {
+        const oldID = this.oldValue_;
+        delete this.oldValue_;
+        const newID = this.getFieldValue('ID');
+        const sprites = this.workspace.getBlocksByType('sprite');
+        sprites.forEach((sprite) => {
+          const key = sprite.getFieldValue('SPRITE');
+          if(key === oldID) {
+            sprite.setFieldValue(newID, 'SPRITE');
+          }
+        });
+      }, 500);
+    }
+  },
+  ondelete() {
+    const id = this.getFieldValue('ID');
+    const sprites = this.workspace.getBlocksByType('sprite');
+    sprites.forEach((sprite) => {
+      const key = sprite.getFieldValue('SPRITE');
+      if(key === id) {
+        sprite.setDisabled(true);
+        sprite.setWarningText(Blockly.Msg.SPRITE_DELETED);
+      }
+    });
+  },
   scope(generator, code) {
     const signal = this.getFieldValue('SIGNAL');
     const id = this.getFieldValue('ID');

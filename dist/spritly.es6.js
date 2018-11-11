@@ -190,6 +190,18 @@ _dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"].addBlockFields('SpriteNames',
 _dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"].addBlockFields('ListItems', 'list_foreach', 'ITEM');
 _dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"].addBlockFields('Sprites', 'signal_new_sprite_as_receiver', 'ID');
 
+const _dispose = Blockly.Block.prototype.dispose;
+Blockly.Block.prototype.dispose = function (...args) {
+  if (this.ondelete) {
+    this.ondelete();
+  }
+  return _dispose.apply(this, args);
+};
+
+Blockly.Workspace.prototype.getBlocksByType = function (type) {
+  return this.getAllBlocks().filter(b => b.type === type);
+};
+
 
 
 /***/ }),
@@ -577,6 +589,8 @@ Msg.PROCEDURES_CALL_BEFORE_PARAMS = '令：';
 
 Msg.PROCEDURES_AWAIT_MSG0 = '⌛️ 得到异步执行结果 %1';
 Msg.PROCEDURES_AWAIT_TOOLTIP = '等待直到得到异步执行结果。';
+
+Msg.SPRITE_DELETED = '该元素已被删除。';
 
 /***/ }),
 /* 15 */
@@ -1555,6 +1569,37 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP
     });
   },
+  onchange(event) {
+    if (event instanceof Blockly.Events.Change && event.element === 'field' && event.name === 'ID' && event.blockId === this.id) {
+      if (!this.oldValue_) {
+        this.oldValue_ = event.oldValue;
+      }
+      clearTimeout(this.changeIdTimer_);
+      this.changeIdTimer_ = setTimeout(() => {
+        const oldID = this.oldValue_;
+        delete this.oldValue_;
+        const newID = this.getFieldValue('ID');
+        const sprites = this.workspace.getBlocksByType('sprite');
+        sprites.forEach(sprite => {
+          const key = sprite.getFieldValue('SPRITE');
+          if (key === oldID) {
+            sprite.setFieldValue(newID, 'SPRITE');
+          }
+        });
+      }, 500);
+    }
+  },
+  ondelete() {
+    const id = this.getFieldValue('ID');
+    const sprites = this.workspace.getBlocksByType('sprite');
+    sprites.forEach(sprite => {
+      const key = sprite.getFieldValue('SPRITE');
+      if (key === id) {
+        sprite.setDisabled(true);
+        sprite.setWarningText(Blockly.Msg.SPRITE_DELETED);
+      }
+    });
+  },
   scope(generator, code) {
     const signal = this.getFieldValue('SIGNAL');
     const id = this.getFieldValue('ID');
@@ -1776,6 +1821,12 @@ Blockly.Blocks.sprite = {
       output: 'Sprite',
       tooltip: Msg.SPRITE_MSG0_TOOLTIP
     });
+  },
+  onchange(event) {
+    if (event instanceof Blockly.Events.Change && event.element === 'field' && event.name === 'SPRITE') {
+      this.setWarningText(null);
+      this.setDisabled(false);
+    }
   }
 };
 
@@ -2324,8 +2375,6 @@ const Blockly = __webpack_require__(13);
 
 const Msg = Blockly.Msg;
 
-Blockly.Blocks.procedures_defreturn.scope = true;
-
 Blockly.Blocks.procedures_mutatorarg.validator_ = function (varName) {
   const outerWs = Blockly.Mutator.findParentWs(this.sourceBlock_.workspace);
   varName = varName.replace(/[\s\xa0]+/g, ' ').replace(/^ | $/g, '');
@@ -2586,30 +2635,33 @@ Blockly.Generator.prototype.workspaceToCode = function (workspace) {
   let code = [];
   this.init(workspace);
 
-  let blocks = workspace.getTopBlocks(true);
-  blocks = blocks.filter(block => block.scope);
+  const blocks = workspace.getTopBlocks(true);
 
   for (let i = 0; i < blocks.length; i++) {
     const block = blocks[i];
     let line = this.blockToCode(block);
-    if (Array.isArray(line)) {
-      // Value blocks return tuples of code and operator order.
-      // Top-level blocks don't care about operator order.
-      line = line[0];
-    }
-    if (line) {
-      if (block.outputConnection) {
-        // This block is a naked value.  Ask the language's code generator if
-        // it wants to append a semicolon, or something.
-        line = this.scrubNakedValue(line);
+    if (!block.disabled && block.scope) {
+      if (Array.isArray(line)) {
+        // Value blocks return tuples of code and operator order.
+        // Top-level blocks don't care about operator order.
+        line = line[0];
       }
-      if (typeof block.scope === 'function') {
-        line = block.scope(this, line);
+      if (line != null) {
+        if (line === '') line = 'void(0);\n';
+        if (block.outputConnection) {
+          // This block is a naked value.  Ask the language's code generator if
+          // it wants to append a semicolon, or something.
+          line = this.scrubNakedValue(line);
+        }
+        if (typeof block.scope === 'function') {
+          line = block.scope(this, line);
+        }
+        code.push(line);
+        code.push('\n');
       }
-      code.push(line);
     }
   }
-  code = code.join('\n'); // Blank line between each section.
+  code = code.slice(0, -1).join('\n'); // Blank line between each section.
   code = this.finish(code);
   // Final scrubbing of whitespace.
   code = code.replace(/^\s+\n/, '');

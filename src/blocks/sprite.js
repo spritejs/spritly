@@ -26,6 +26,12 @@ Blockly.Blocks.sprite = {
       tooltip: Msg.SPRITE_MSG0_TOOLTIP,
     });
   },
+  onchange(event) {
+    if(event instanceof Blockly.Events.Change && event.element === 'field' && event.name === 'SPRITE') {
+      this.setWarningText(null);
+      this.setDisabled(false);
+    }
+  },
 };
 
 Blockly.JavaScript.sprite = function (block) {

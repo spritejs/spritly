@@ -1988,6 +1988,25 @@ _dropdown.Dropdown.addBlockFields('SpriteNames', 'sprite_create_attrs', 'NAME');
 _dropdown.Dropdown.addBlockFields('ListItems', 'list_foreach', 'ITEM');
 _dropdown.Dropdown.addBlockFields('Sprites', 'signal_new_sprite_as_receiver', 'ID');
 
+var _dispose = Blockly.Block.prototype.dispose;
+Blockly.Block.prototype.dispose = function () {
+  if (this.ondelete) {
+    this.ondelete();
+  }
+
+  for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  return _dispose.apply(this, args);
+};
+
+Blockly.Workspace.prototype.getBlocksByType = function (type) {
+  return this.getAllBlocks().filter(function (b) {
+    return b.type === type;
+  });
+};
+
 exports.Blockly = Blockly;
 exports.initWorkspace = initWorkspace;
 exports.pack = pack;
@@ -2385,6 +2404,8 @@ Msg.PROCEDURES_CALL_BEFORE_PARAMS = '令：';
 
 Msg.PROCEDURES_AWAIT_MSG0 = '⌛️ 得到异步执行结果 %1';
 Msg.PROCEDURES_AWAIT_TOOLTIP = '等待直到得到异步执行结果。';
+
+Msg.SPRITE_DELETED = '该元素已被删除。';
 
 /***/ }),
 /* 147 */
@@ -3494,6 +3515,39 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP
     });
   },
+  onchange: function onchange(event) {
+    var _this = this;
+
+    if (event instanceof Blockly.Events.Change && event.element === 'field' && event.name === 'ID' && event.blockId === this.id) {
+      if (!this.oldValue_) {
+        this.oldValue_ = event.oldValue;
+      }
+      clearTimeout(this.changeIdTimer_);
+      this.changeIdTimer_ = setTimeout(function () {
+        var oldID = _this.oldValue_;
+        delete _this.oldValue_;
+        var newID = _this.getFieldValue('ID');
+        var sprites = _this.workspace.getBlocksByType('sprite');
+        sprites.forEach(function (sprite) {
+          var key = sprite.getFieldValue('SPRITE');
+          if (key === oldID) {
+            sprite.setFieldValue(newID, 'SPRITE');
+          }
+        });
+      }, 500);
+    }
+  },
+  ondelete: function ondelete() {
+    var id = this.getFieldValue('ID');
+    var sprites = this.workspace.getBlocksByType('sprite');
+    sprites.forEach(function (sprite) {
+      var key = sprite.getFieldValue('SPRITE');
+      if (key === id) {
+        sprite.setDisabled(true);
+        sprite.setWarningText(Blockly.Msg.SPRITE_DELETED);
+      }
+    });
+  },
   scope: function scope(generator, code) {
     var signal = this.getFieldValue('SIGNAL');
     var id = this.getFieldValue('ID');
@@ -3683,6 +3737,12 @@ Blockly.Blocks.sprite = {
       output: 'Sprite',
       tooltip: Msg.SPRITE_MSG0_TOOLTIP
     });
+  },
+  onchange: function onchange(event) {
+    if (event instanceof Blockly.Events.Change && event.element === 'field' && event.name === 'SPRITE') {
+      this.setWarningText(null);
+      this.setDisabled(false);
+    }
   }
 };
 
@@ -4257,8 +4317,6 @@ var Blockly = __webpack_require__(145);
 
 var Msg = Blockly.Msg;
 
-Blockly.Blocks.procedures_defreturn.scope = true;
-
 Blockly.Blocks.procedures_mutatorarg.validator_ = function (varName) {
   var outerWs = Blockly.Mutator.findParentWs(this.sourceBlock_.workspace);
   varName = varName.replace(/[\s\xa0]+/g, ' ').replace(/^ | $/g, '');
@@ -4530,31 +4588,32 @@ Blockly.Generator.prototype.workspaceToCode = function (workspace) {
   this.init(workspace);
 
   var blocks = workspace.getTopBlocks(true);
-  blocks = blocks.filter(function (block) {
-    return block.scope;
-  });
 
   for (var i = 0; i < blocks.length; i++) {
     var block = blocks[i];
     var line = this.blockToCode(block);
-    if (Array.isArray(line)) {
-      // Value blocks return tuples of code and operator order.
-      // Top-level blocks don't care about operator order.
-      line = line[0];
-    }
-    if (line) {
-      if (block.outputConnection) {
-        // This block is a naked value.  Ask the language's code generator if
-        // it wants to append a semicolon, or something.
-        line = this.scrubNakedValue(line);
+    if (!block.disabled && block.scope) {
+      if (Array.isArray(line)) {
+        // Value blocks return tuples of code and operator order.
+        // Top-level blocks don't care about operator order.
+        line = line[0];
       }
-      if (typeof block.scope === 'function') {
-        line = block.scope(this, line);
+      if (line != null) {
+        if (line === '') line = 'void(0);\n';
+        if (block.outputConnection) {
+          // This block is a naked value.  Ask the language's code generator if
+          // it wants to append a semicolon, or something.
+          line = this.scrubNakedValue(line);
+        }
+        if (typeof block.scope === 'function') {
+          line = block.scope(this, line);
+        }
+        code.push(line);
+        code.push('\n');
       }
-      code.push(line);
     }
   }
-  code = code.join('\n'); // Blank line between each section.
+  code = code.slice(0, -1).join('\n'); // Blank line between each section.
   code = this.finish(code);
   // Final scrubbing of whitespace.
   code = code.replace(/^\s+\n/, '');

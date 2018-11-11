@@ -319,3 +319,5 @@ Msg.SOUND_PLAY_MSG0 = '🔔 %1';
 Msg.SOUND_PLAY_TOOLTIP = 'Play sound.';
 Msg.PROCEDURES_AWAIT_MSG0 = '⌛️ await %1';
 Msg.PROCEDURES_AWAIT_TOOLTIP = 'Await and get the returnValue.';
+
+Msg.SPRITE_DELETED = 'The sprite has been deleted.';

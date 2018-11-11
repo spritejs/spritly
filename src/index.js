@@ -76,6 +76,18 @@ Dropdown.addBlockFields('SpriteNames', 'sprite_create_attrs', 'NAME');
 Dropdown.addBlockFields('ListItems', 'list_foreach', 'ITEM');
 Dropdown.addBlockFields('Sprites', 'signal_new_sprite_as_receiver', 'ID');
 
+const _dispose = Blockly.Block.prototype.dispose;
+Blockly.Block.prototype.dispose = function (...args) {
+  if(this.ondelete) {
+    this.ondelete();
+  }
+  return _dispose.apply(this, args);
+};
+
+Blockly.Workspace.prototype.getBlocksByType = function (type) {
+  return this.getAllBlocks().filter(b => b.type === type);
+};
+
 export {
   Blockly,
   initWorkspace,

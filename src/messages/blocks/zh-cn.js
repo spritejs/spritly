@@ -325,3 +325,5 @@ Msg.PROCEDURES_CALL_BEFORE_PARAMS = '令：';
 
 Msg.PROCEDURES_AWAIT_MSG0 = '⌛️ 得到异步执行结果 %1';
 Msg.PROCEDURES_AWAIT_TOOLTIP = '等待直到得到异步执行结果。';
+
+Msg.SPRITE_DELETED = '该元素已被删除。';

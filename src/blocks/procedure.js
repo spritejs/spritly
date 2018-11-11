@@ -2,8 +2,6 @@ const Blockly = require('blockly');
 
 const Msg = Blockly.Msg;
 
-Blockly.Blocks.procedures_defreturn.scope = true;
-
 Blockly.Blocks.procedures_mutatorarg.validator_ = function (varName) {
   const outerWs = Blockly.Mutator.findParentWs(this.sourceBlock_.workspace);
   varName = varName.replace(/[\s\xa0]+/g, ' ').replace(/^ | $/g, '');

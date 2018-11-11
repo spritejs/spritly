@@ -54,30 +54,33 @@ Blockly.Generator.prototype.workspaceToCode = function (workspace) {
   let code = [];
   this.init(workspace);
 
-  let blocks = workspace.getTopBlocks(true);
-  blocks = blocks.filter(block => block.scope);
+  const blocks = workspace.getTopBlocks(true);
 
   for(let i = 0; i < blocks.length; i++) {
     const block = blocks[i];
     let line = this.blockToCode(block);
-    if(Array.isArray(line)) {
-      // Value blocks return tuples of code and operator order.
-      // Top-level blocks don't care about operator order.
-      line = line[0];
-    }
-    if(line) {
-      if(block.outputConnection) {
-        // This block is a naked value.  Ask the language's code generator if
-        // it wants to append a semicolon, or something.
-        line = this.scrubNakedValue(line);
+    if(!block.disabled && block.scope) {
+      if(Array.isArray(line)) {
+        // Value blocks return tuples of code and operator order.
+        // Top-level blocks don't care about operator order.
+        line = line[0];
       }
-      if(typeof block.scope === 'function') {
-        line = block.scope(this, line);
+      if(line != null) {
+        if(line === '') line = 'void(0);\n';
+        if(block.outputConnection) {
+          // This block is a naked value.  Ask the language's code generator if
+          // it wants to append a semicolon, or something.
+          line = this.scrubNakedValue(line);
+        }
+        if(typeof block.scope === 'function') {
+          line = block.scope(this, line);
+        }
+        code.push(line);
+        code.push('\n');
       }
-      code.push(line);
     }
   }
-  code = code.join('\n'); // Blank line between each section.
+  code = code.slice(0, -1).join('\n'); // Blank line between each section.
   code = this.finish(code);
   // Final scrubbing of whitespace.
   code = code.replace(/^\s+\n/, '');
