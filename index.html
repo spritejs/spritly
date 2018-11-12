@@ -73,264 +73,9 @@
   </div>
 
   <script>
+  /* global spritly */
   (async function () {
-    const {Blockly, initWorkspace, Dropdown} = spritly;
-
-    let preload_res = null,
-      workspace = null,
-      toolbox = null,
-      scriptsBefore,
-      scriptsAfter;
-
-    const update = debounce(() => {
-      window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
-    });
-
-    function loadExternalBlocks(module) {
-      const script = document.createElement('script');
-      const promise = new Promise((resolve) => {
-        script.onload = () => {
-          resolve(script);
-        };
-      });
-      script.src = `/toolboxs/blocks/${module}`;
-      document.body.appendChild(script);
-      return promise;
-    }
-
-    async function loadStartBlocks() {
-      if(workspace) workspace.dispose();
-
-      const hash = window.location.hash || '#';
-      const blockFile = hash.slice(1) || 'index';
-      const blockXml = await fetch(`blocks/${blockFile}.xml`)
-        .then(res => res.text())
-        .then(str => (new DOMParser()).parseFromString(str, 'text/xml'));
-
-      toolbox = blockXml.documentElement.getAttribute('toolbox') || 'toolboxs/default.xml';
-  
-      const toolboxXml = await fetch(toolbox)
-        .then(res => res.text())
-        .then(str => (new DOMParser()).parseFromString(str, 'text/xml'));
-
-      spritly.unpack(toolboxXml);
-
-      const externalBlocks = toolboxXml.querySelectorAll('externals module');
-      await Promise.all([...externalBlocks].map((eb) => {
-        return loadExternalBlocks(eb.getAttribute('src'));
-      }));
-
-      preload_res = Array.from(blockXml.querySelectorAll('preload resource')).map((res) => {
-        const type = res.getAttribute('type');
-        if(type === 'texture_packer') {
-          const texture = res.getAttribute('texture');
-          const data = res.getAttribute('data');
-          return [texture, data];
-        }
-
-        const src = res.getAttribute('src');
-        const id = res.getAttribute('id') || src;
-        return {id, src};
-      });
-
-      scriptsBefore = [];
-      scriptsAfter = [];
-      let scripts = scriptsBefore;
-      const children = blockXml.documentElement.children;
-      for(let i = 0; i < children.length; i++) {
-        const child = children[i];
-        if(child.tagName.toLowerCase() === 'script') {
-          const scriptLink = child.getAttribute('src');
-          if(scriptLink) {
-            const code = await fetch(scriptLink)  // eslint-disable-line
-              .then(res => res.text());
-            scripts.push({code, src: scriptLink});
-          }
-        } else if(child.tagName.toLowerCase() === 'block') {
-          scripts = scriptsAfter;
-        }
-      }
-
-      workspace = initWorkspace('blocklyDiv',
-        {
-          media: 'res/media/',
-          toolbox: toolboxXml.documentElement,
-          grid: {spacing: 25,
-            length: 3,
-            colour: '#ccc',
-            snap: true,
-          },
-          zoom: {
-            controls: true,
-            wheel: true,
-          },
-        });
-  
-      spritly.unpack(blockXml);
-      Blockly.Xml.domToWorkspace(blockXml.documentElement,
-        workspace);
-
-      workspace.getAllBlocks().forEach((block) => {
-        const parent = block.getParent();
-        if(!parent) { // is root block
-          const isCollapsed = block.isCollapsed();
-          if(isCollapsed) setCollapsedAll(block, true);
-        }
-      });
-
-      let lastClickedTime = null;
-      workspace.addChangeListener((event) => {
-        if(event.type === Blockly.Events.UI && event.element === 'click') {
-          const clickedTime = Date.now();
-          if(lastClickedTime && clickedTime - lastClickedTime <= 300) {
-            lastClickedTime = null;
-            const block = workspace.getBlockById(event.blockId);
-            const isCollapsed = block.isCollapsed();
-            const parent = block.getParent();
-            if(!parent) {
-              setCollapsedAll(block, !isCollapsed);
-            }
-            block.setCollapsed(!isCollapsed);
-          }
-          lastClickedTime = clickedTime;
-        }
-        if(event.type === Blockly.Events.CHANGE && event.element !== 'collapsed'
-        || event.type === Blockly.Events.CREATE
-        || event.type === Blockly.Events.DELETE
-        || event.type === Blockly.Events.MOVE && event.oldParentId !== event.newParentId) {
-          update();
-        }
-        if(event.type === Blockly.Events.CHANGE && event.element === 'collapsed') {
-          const block = workspace.getBlockById(event.blockId);
-          const parent = block.getParent();
-          if(!parent) {
-            const isCollapsed = event.newValue;
-            setCollapsedAll(block, isCollapsed);
-          }
-        }
-      });
-
-      window.workspace = workspace;
-    }
-
-    function getCode() {
-      const xml = Blockly.Xml.workspaceToDom(workspace);
-      // Add each top block one by one and generate code.
-      const allCode = [];
-
-      Dropdown.createFromBlockFields(xml);
-
-      // Generate JavaScript code and run it.
-      window.LoopTrap = 1e7;
-      Blockly.JavaScript.INFINITE_LOOP_TRAP = `${Blockly.Generator.prototype.INDENT}if (--window.LoopTrap == 0) throw "Infinite loop.";\n`;
-
-      Blockly.JavaScript.init(workspace);
-      const code = Blockly.JavaScript.workspaceToCode(workspace);
-      allCode.push(code);
-
-      Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-      if(preload_res) {
-        allCode.push(`spritly.runtime.scene.preload(...${JSON.stringify(preload_res)})
-  .then(() => spritly.runtime.Signal.send('START', spritly.runtime.scene));
-`);
-      } else {
-        allCode.push("spritly.runtime.Signal.send('START', spritly.runtime.scene);\n");
-      }
-      return allCode;
-    }
-
-    function showXml() {
-      const xml = Blockly.Xml.workspaceToDom(workspace);
-      spritly.pack(xml);
-      let code = xml.innerHTML;
-      if(preload_res) {
-        const resources = [];
-        preload_res.forEach((res) => {
-          if(Array.isArray(res)) {
-            resources.push(`<resource type="texture_packer" texture="${res[0]}" data="${res[1]}"/>`);
-          } else if(res.id === res.src) {
-            resources.push(`<resource type="image" src="${res.src}"/>`);
-          } else {
-            resources.push(`<resource type="image" src="${res.src}" id="${res.id}"/>`);
-          }
-        });
-        code = `<preload>${resources.join('')}</preload>${code}`;
-      }
-      if(scriptsBefore) {
-        code = `${scriptsBefore.map(({src}) => `<script src="${src}"/>`).join('')}${code}`;
-      }
-      if(scriptsAfter) {
-        code = `${code}${scriptsAfter.map(({src}) => `<script src="${src}"/>`).join('')}`;
-      }
-      code = `<xml toolbox="${toolbox}">${code}</xml>`;
-      let indent = 0;
-      let code2 = code.replace(/></g, '>\n<');
-      code2 = code2.split(/\n/g).map((line) => {
-        let ret = line;
-        if(/^<\//.test(line)) {
-          indent -= 2;
-        }
-        if(indent > 0) {
-          ret = `${(new Array(indent + 1)).join(' ')}${line}`;
-        }
-        if(!(/(<\/\w+>|\/>)$/.test(line))) {
-          indent += 2;
-        }
-        return ret;
-      }).join('\n');
-      const wnd = window.open('', '__blank', '');
-      wnd.document.write(`<pre class="prettyprint" lang-xml>${code2.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
-      wnd.document.write('<script>var sel = document.createElement("script"); sel.src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"; window.onload = function(){document.body.appendChild(sel)};<\/script>'); // eslint-disable-line
-      wnd.document.close();
-    }
-
-    function showCode() {
-      // Generate JavaScript code and display it.
-      /* eslint-disable */
-      const comment = `/** 
-  Generated by spritly ${(new Date()).toLocaleString()};
-  Usage: 
-  <script src="https://unpkg.com/spritejs/dist/spritejs.min.js"><\/script>
-  <script src="https://unpkg.com/spritly/dist/spritly-runtime.min.js"><\/script>
-  <div id="stage" style="width:100%;height:100%;"></div>
-*/`; /* eslint-enable */
-      let code = [comment, 'spritly.runtime.use(spritejs);', ...getCode()];
-      if(scriptsBefore.length) {
-        code = ['/* -- external scripts start -- */', ...scriptsBefore.map(({code}) => code), '/* -- external scripts end -- */', ...code];
-      }
-      if(scriptsAfter.length) {
-        code = [...code, '/* -- external scripts start -- */', ...scriptsAfter.map(({code}) => code), '/* -- external scripts end -- */'];
-      }
-      const wnd = window.open('', '__blank', '');
-      wnd.document.write(`<pre class="prettyprint" lang-js>${code.join('\n\n').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
-      wnd.document.write('<script>var sel = document.createElement("script"); sel.src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"; window.onload = function(){document.body.appendChild(sel)};<\/script>'); // eslint-disable-line
-      wnd.document.close();
-    }
-
-    function runCode() {
-      try {
-        Dropdown.clear();
-        const codes = [...scriptsBefore.map(({code}) => code), ...getCode(), ...scriptsAfter.map(({code}) => code)];
-        const code = codes.join('');
-        window.frames[0].exec(code);
-      } catch (e) {
-        console.error(e);
-        // alert(e);
-      }
-    }
-
-    window.runCode = runCode;
-    window.showCode = showCode;
-    window.showXml = showXml;
-
-    function setCollapsedAll(block, isCollapsed) {
-      let nextBlock = block;
-
-      do {
-        nextBlock = nextBlock.getNextBlock();
-        if(nextBlock) nextBlock.setCollapsed(isCollapsed);
-      } while(nextBlock);
-    }
+    const {Blockly, Dropdown, Application} = spritly;
 
     function debounce(action, delay = 300) {
       let timer = null;
@@ -341,6 +86,71 @@
         }, delay);
       };
     }
+
+    const update = debounce(() => {
+      window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
+    });
+
+    const app = new Application('blocklyDiv');
+
+    async function loadStartBlocks() {
+      const hash = window.location.hash || '#';
+      const blockFile = hash.slice(1) || 'index';
+
+      const workspace = await app.initWorkspace({
+        media: 'res/media/',
+        config: blockFile,
+        grid: {spacing: 25,
+          length: 3,
+          colour: '#ccc',
+          snap: true,
+        },
+        zoom: {
+          controls: true,
+          wheel: true,
+        },
+      });
+
+      workspace.addChangeListener((event) => {
+        if(event.type === Blockly.Events.CHANGE && event.element !== 'collapsed'
+        || event.type === Blockly.Events.CREATE
+        || event.type === Blockly.Events.DELETE
+        || event.type === Blockly.Events.MOVE && event.oldParentId !== event.newParentId) {
+          update();
+        }
+      });
+
+      window.workspace = workspace;
+    }
+
+    function showXml() {
+      const wnd = window.open('', '__blank', '');
+      wnd.document.write(`<pre class="prettyprint" lang-xml>${app.xml.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
+      wnd.document.write('<script>var sel = document.createElement("script"); sel.src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"; window.onload = function(){document.body.appendChild(sel)};<\/script>'); // eslint-disable-line
+      wnd.document.close();
+    }
+
+    function showCode() {
+      // Generate JavaScript code and display it.
+      const wnd = window.open('', '__blank', '');
+      wnd.document.write(`<pre class="prettyprint" lang-js>${app.code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>`);
+      wnd.document.write('<script>var sel = document.createElement("script"); sel.src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"; window.onload = function(){document.body.appendChild(sel)};<\/script>'); // eslint-disable-line
+      wnd.document.close();
+    }
+
+    function runCode() {
+      try {
+        Dropdown.clear();
+        window.frames[0].exec(app.code);
+      } catch (e) {
+        console.error(e);
+        // alert(e);
+      }
+    }
+
+    window.runCode = runCode;
+    window.showCode = showCode;
+    window.showXml = showXml;
 
     await loadStartBlocks();
     update();

@@ -37,6 +37,7 @@
   </div>
 
   <script>
+    /* global spritly */
     function exec(code) {
       const script = document.createElement('script');
       script.innerHTML = code;
@@ -83,12 +84,13 @@
     // });
 
     window.top.runCode();
-    document.addEventListener('mouseup', (event) => {
-      const gesture = window.top.workspace.currentGesture_;
-      if(gesture) {
-        gesture.handleUp(event);
-      }
-    });
+    // document.addEventListener('mouseup', (event) => {
+    //   const gesture = window.top.workspace.currentGesture_;
+    //   if(gesture && typeof MouseEvent !== 'undefined') {
+    //     // gesture.handleUp(event);
+    //     window.top.spritly.Blockly.Gesture.prototype.handleUp.call(gesture, event);
+    //   }
+    // });
   </script>
 </body>
 </html>
