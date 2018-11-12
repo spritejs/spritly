@@ -45,43 +45,40 @@
     }
     window.exec = exec;
 
-    const scene = spritly.runtime.use(spritejs);
-    const fglayer = scene.layer('fglayer');
+    spritly.runtime.ready((scene) => {
+      const fglayer = scene.layer('fglayer');
 
-    const label = new spritejs.Label('x=0, y=0');
-    label.attr({
-      font: '24px "宋体"',
-      fillColor: '#357',
-      anchor: [0, 1],
-      opacity: 0,
-    });
-    fglayer.appendChild(label);
-
-    fglayer.on('mousemove', (evt) => {
-      const {x, y} = evt;
+      const label = new spritejs.Label('x=0, y=0');
       label.attr({
-        pos: [x, y],
-        text: `x=${x}, y=${y}`,
-        zIndex: Infinity,
+        font: '24px "宋体"',
+        fillColor: '#357',
+        anchor: [0, 1],
+        opacity: 0,
+      });
+      fglayer.appendChild(label);
+
+      fglayer.on('mousemove', (evt) => {
+        const {x, y} = evt;
+        label.attr({
+          pos: [x, y],
+          text: `x=${x}, y=${y}`,
+          zIndex: Infinity,
+        });
+      });
+
+      fglayer.on('mousedown', (evt) => {
+        if(evt.originalEvent.buttons & 2) {
+          label.attr('opacity', 0.618);
+        }
+      });
+      fglayer.on('mouseup', (evt) => {
+        label.attr('opacity', 0);
       });
     });
-
-    fglayer.on('mousedown', (evt) => {
-      if(evt.originalEvent.buttons & 2) {
-        label.attr('opacity', 0.618);
-      }
-    });
-    fglayer.on('mouseup', (evt) => {
-      label.attr('opacity', 0);
-    });
-
+    
     document.addEventListener('contextmenu', (evt) => {
       evt.preventDefault();
     });
-
-    // bglayer.on('click', (evt) => {
-    //   console.log(evt);
-    // });
 
     window.top.runCode();
     // document.addEventListener('mouseup', (event) => {

@@ -52,6 +52,9 @@
       padding: 30px;
       display: flex;
     }
+    #links a {
+      margin-right: 20px;
+    }
   </style>
 </head>
 <body>
@@ -68,6 +71,7 @@
       </div>
       <div id="links">
         <a href="#index">index</a>
+        <a href="#bird_fly0">bird_fly demo 0</a>
       </div>
     </div>
   </div>
@@ -75,19 +79,9 @@
   <script>
   /* global spritly */
   (async function () {
-    const {Blockly, Dropdown, Application} = spritly;
+    const {Blockly, Dropdown, Application, utils} = spritly;
 
-    function debounce(action, delay = 300) {
-      let timer = null;
-      return function (...args) {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          action.apply(this, args);
-        }, delay);
-      };
-    }
-
-    const update = debounce(() => {
+    const update = utils.debounce(() => {
       window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
     });
 
@@ -110,6 +104,10 @@
           wheel: true,
         },
       });
+  
+      if(workspace.getAllBlocks().length <= 0) {
+        update();
+      }
 
       workspace.addChangeListener((event) => {
         if(event.type === Blockly.Events.CHANGE && event.element !== 'collapsed'

@@ -1,6 +1,7 @@
 import loadBlocks from './block';
 import {Dropdown} from './dropdown';
 import {pack} from './packer';
+import {debounce} from './utils';
 
 const Blockly = require('blockly');
 Blockly.BlockSvg.START_HAT = true;
@@ -24,7 +25,10 @@ class Application {
   }
 
   async initWorkspace(options) {
-    if(this.workspace) this.workspace.dispose();
+    if(this.workspace) {
+      this.workspace.dispose();
+    }
+
     const {config} = options;
     delete options.config;
 
@@ -75,6 +79,54 @@ class Application {
         }
       }
     });
+
+    const changedHandler = (event) => {
+      if(event instanceof Blockly.Events.Change) {
+        const id = event.blockId;
+        let block;
+        if(event.workspaceId === workspace.id) {
+          block = workspace.getBlockById(id);
+        } else if(workspace.toolboxWorkspace && event.workspaceId === workspace.toolboxWorkspace.id) {
+          block = workspace.toolboxWorkspace.getBlockById(id);
+        }
+        if(block && block.changed) {
+          if(!block.oldValue_) {
+            block.oldValue_ = event.oldValue;
+          }
+          clearTimeout(block.changeIdTimer_);
+          block.changeIdTimer_ = setTimeout(() => {
+            const oldValue = block.oldValue_;
+            delete block.oldValue_;
+            event.oldValue = oldValue;
+            block.changed(event);
+          }, 500);
+        }
+      } else if(event instanceof Blockly.Events.Create) {
+        const id = event.blockId;
+        let block;
+        if(event.workspaceId === workspace.id) {
+          block = workspace.getBlockById(id);
+        } else if(workspace.toolboxWorkspace && event.workspaceId === workspace.toolboxWorkspace.id) {
+          block = workspace.toolboxWorkspace.getBlockById(id);
+        }
+        if(block.created) {
+          block.created(event);
+        }
+        const blocks = block.getAllDescendants();
+        blocks.forEach((block) => {
+          if(block.created) {
+            block.created(event);
+          }
+        });
+      }
+    };
+
+    workspace.addChangeListener(changedHandler);
+
+    const toolboxWorkspace = workspace.toolboxWorkspace;
+    if(toolboxWorkspace) {
+      toolboxWorkspace.addChangeListener(changedHandler);
+    }
 
     this.workspace = workspace;
     return workspace;

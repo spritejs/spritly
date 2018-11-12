@@ -46,11 +46,32 @@ Blockly.JavaScript.number = Blockly.JavaScript.math_number;
 
 Blockly.Blocks.string = {
   init() {
-    Blockly.Blocks.text.init.call(this);
-    this.setColour(Blockly.Msg.LITERAL_HUE);
+    this.jsonInit({
+      message0: '%1 %2',
+      args0: [
+        {type: 'field_input', name: 'TEXT', text: ''},
+        {type: 'input_value', name: 'NEXT'},
+      ],
+      output: 'String',
+      colour: Blockly.Msg.LITERAL_HUE,
+      helpUrl: Blockly.Msg.TEXT_TEXT_HELPURL,
+      tooltip: Blockly.Msg.TEXT_TEXT_TOOLTIP,
+      extensions: [
+        'text_quotes',
+        'parent_tooltip_when_inline',
+      ],
+    });
   },
 };
-Blockly.JavaScript.string = Blockly.JavaScript.text;
+
+Blockly.JavaScript.string = function (block) {
+  const code = Blockly.JavaScript.text(block);
+  const next = Blockly.JavaScript.valueToCode(block, 'NEXT', Blockly.JavaScript.ORDER_ATOMIC);
+  if(next) {
+    return [`${code[0]} + ${next}`, code[1]];
+  }
+  return code;
+};
 
 Blockly.Blocks.object_create = {
   init() {

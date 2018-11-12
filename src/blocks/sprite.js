@@ -141,12 +141,12 @@ Blockly.JavaScript.sprite_create_attrs = function (block) {
   const type = block.getFieldValue('TYPE');
   const name = block.getFieldValue('NAME');
   const attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
-  return `spritly.runtime.ElementList.add(() => {
+  return `spritly.runtime.ElementList.add((function () {
   const sprite = spritly.runtime.spritejs.createElement('${type}');
   sprite.attr(spritly.runtime.parse_attr(sprite, {name: '${name}'}, {${attrs.split(/\n/g).join(`\n${Blockly.Generator.prototype.INDENT}`)}
   }));
   return sprite;
-});\n`;
+}()));\n`;
 };
 
 Blockly.Blocks.sprite_each_elements_named = {

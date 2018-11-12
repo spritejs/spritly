@@ -1,0 +1,11 @@
+<xml>
+  <externals>
+    <module src="blocks/birdfly.js"></module>
+  </externals>
+  <block type="signal_do"></block>
+  <block type="fly_proc_def"></block>
+  <block type="fly_forward"></block>
+  <block type="fly_turnleft"></block>
+  <block type="fly_turnright"></block>
+  <block type="fly_proc_call"></block>
+</xml>

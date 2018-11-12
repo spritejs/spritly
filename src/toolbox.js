@@ -1,19 +1,22 @@
 import {unpack} from './packer';
 
 function loadExternalModule(src) {
-  const script = document.createElement('script');
-  const promise = new Promise((resolve) => {
-    script.onload = () => {
-      resolve(script);
-    };
-  });
-  if(src.indexOf('/') === 0) {
-    script.src = src;
-  } else {
-    script.src = `/toolboxs/${src}`;
+  if(src.indexOf('/') !== 0) {
+    src = `/toolboxs/${src}`;
   }
-  document.body.appendChild(script);
-  return promise;
+  const script = document.querySelector(`script[src="${src}"]`);
+  if(!script) {
+    const script = document.createElement('script');
+    const promise = new Promise((resolve) => {
+      script.onload = () => {
+        resolve(script);
+      };
+    });
+    script.src = src;
+    document.body.appendChild(script);
+    return promise;
+  }
+  return Promise.resolve();
 }
 
 export default async function loadToolbox(src = 'toolboxs/default.xml') {

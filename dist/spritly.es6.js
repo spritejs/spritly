@@ -102,15 +102,19 @@ module.exports =
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Blockly", function() { return Blockly; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initWorkspace", function() { return initWorkspace; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pack", function() { return pack; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unpack", function() { return unpack; });
 /* harmony import */ var _messages__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
 /* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
 /* harmony import */ var _generator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
 /* harmony import */ var _generator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_generator__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Dropdown", function() { return _dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"]; });
+
+/* harmony import */ var _application__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(32);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return _application__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(36);
+/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "utils", function() { return _utils__WEBPACK_IMPORTED_MODULE_5__; });
+
 
 
 
@@ -122,69 +126,6 @@ Blockly.BlockSvg.START_HAT = true;
 
 Blockly.Field.prototype.maxDisplayLength = 20;
 
-function initWorkspace(el, options) {
-  const workspace = Blockly.inject(el, options);
-
-  // workspace.createVariable('sprite', '');
-
-  return workspace;
-}
-
-function pack(xml) {
-  const nexts = xml.querySelectorAll('next > block');
-  const allBlocks = [];
-
-  function getBlocksSet(block) {
-    for (let i = 0; i < allBlocks.length; i++) {
-      const blockSet = allBlocks[i];
-      if (blockSet.has(block)) return blockSet;
-    }
-    const blockSet = new Set();
-    blockSet.add(block);
-    allBlocks.push(blockSet);
-    return blockSet;
-  }
-
-  nexts.forEach(nextBlock => {
-    const parentBlock = nextBlock.parentNode.parentNode;
-    nextBlock.parentNode.remove();
-    nextBlock.remove();
-    const blockSet = getBlocksSet(parentBlock);
-    blockSet.add(nextBlock);
-  });
-
-  allBlocks.forEach(blockSet => {
-    const blocks = [...blockSet];
-    const parent = blocks[0].parentNode;
-    const blocksNode = document.createElement('blocks');
-    parent.insertBefore(blocksNode, blocks[0]);
-    blocks[0].remove();
-    blocks.forEach(block => blocksNode.appendChild(block));
-  });
-}
-
-function unpack(xml) {
-  const allBlocks = xml.querySelectorAll('blocks');
-  allBlocks.forEach(blocks => {
-    const root = blocks.children[0];
-    if (root) {
-      let parent = root;
-      const children = [...blocks.children];
-      for (let i = 1; i < children.length; i++) {
-        const block = children[i];
-        block.remove();
-        const next = document.createElement('next');
-        next.appendChild(block);
-        parent.appendChild(next);
-        parent = block;
-      }
-      root.remove();
-      blocks.parentNode.insertBefore(root, blocks);
-      blocks.remove();
-    }
-  });
-}
-
 _dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"].addBlockFields('Signals', 'signal_onevent_send', 'SIGNAL');
 _dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"].addBlockFields('SpriteNames', 'sprite_create_attrs', 'NAME');
 _dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"].addBlockFields('ListItems', 'list_foreach', 'ITEM');
@@ -192,14 +133,37 @@ _dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"].addBlockFields('Sprites', 'si
 
 const _dispose = Blockly.Block.prototype.dispose;
 Blockly.Block.prototype.dispose = function (...args) {
-  if (this.ondelete) {
-    this.ondelete();
+  if (this.destroyed) {
+    this.destroyed();
   }
   return _dispose.apply(this, args);
 };
 
 Blockly.Workspace.prototype.getBlocksByType = function (type) {
   return this.getAllBlocks().filter(b => b.type === type);
+};
+
+Object.defineProperty(Blockly.Workspace.prototype, 'toolboxWorkspace', {
+  get() {
+    const flyout = this.getFlyout_();
+    if (flyout) {
+      return flyout.workspace_;
+    }
+    return null;
+  }
+});
+
+Blockly.Block.prototype.getAllDescendants = function () {
+  function getDescendants(block) {
+    const children = block.getChildren();
+    if (children) {
+      return children.reduce((list, child) => {
+        return [...list, ...getDescendants(child)];
+      }, [block]);
+    }
+    return [block];
+  }
+  return getDescendants(this).slice(1);
 };
 
 
@@ -1441,11 +1405,26 @@ Blockly.JavaScript.number = Blockly.JavaScript.math_number;
 
 Blockly.Blocks.string = {
   init() {
-    Blockly.Blocks.text.init.call(this);
-    this.setColour(Blockly.Msg.LITERAL_HUE);
+    this.jsonInit({
+      message0: '%1 %2',
+      args0: [{ type: 'field_input', name: 'TEXT', text: '' }, { type: 'input_value', name: 'NEXT' }],
+      output: 'String',
+      colour: Blockly.Msg.LITERAL_HUE,
+      helpUrl: Blockly.Msg.TEXT_TEXT_HELPURL,
+      tooltip: Blockly.Msg.TEXT_TEXT_TOOLTIP,
+      extensions: ['text_quotes', 'parent_tooltip_when_inline']
+    });
   }
 };
-Blockly.JavaScript.string = Blockly.JavaScript.text;
+
+Blockly.JavaScript.string = function (block) {
+  const code = Blockly.JavaScript.text(block);
+  const next = Blockly.JavaScript.valueToCode(block, 'NEXT', Blockly.JavaScript.ORDER_ATOMIC);
+  if (next) {
+    return [`${code[0]} + ${next}`, code[1]];
+  }
+  return code;
+};
 
 Blockly.Blocks.object_create = {
   init() {
@@ -1589,7 +1568,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       }, 500);
     }
   },
-  ondelete() {
+  destroyed() {
     const id = this.getFieldValue('ID');
     const sprites = this.workspace.getBlocksByType('sprite');
     sprites.forEach(sprite => {
@@ -1921,12 +1900,12 @@ Blockly.JavaScript.sprite_create_attrs = function (block) {
   const type = block.getFieldValue('TYPE');
   const name = block.getFieldValue('NAME');
   const attrs = Blockly.JavaScript.statementToCode(block, 'ATTRS');
-  return `spritly.runtime.ElementList.add(() => {
+  return `spritly.runtime.ElementList.add((function () {
   const sprite = spritly.runtime.spritejs.createElement('${type}');
   sprite.attr(spritly.runtime.parse_attr(sprite, {name: '${name}'}, {${attrs.split(/\n/g).join(`\n${Blockly.Generator.prototype.INDENT}`)}
   }));
   return sprite;
-});\n`;
+}()));\n`;
 };
 
 Blockly.Blocks.sprite_each_elements_named = {
@@ -2669,6 +2648,427 @@ Blockly.Generator.prototype.workspaceToCode = function (workspace) {
   code = code.replace(/[ \t]+\n/g, '\n');
   return code;
 };
+
+/***/ }),
+/* 32 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _block__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(33);
+/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
+/* harmony import */ var _packer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(35);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(36);
+
+
+
+
+
+const Blockly = __webpack_require__(13);
+Blockly.BlockSvg.START_HAT = true;
+Blockly.Field.prototype.maxDisplayLength = 20;
+
+function setCollapsedAll(block, isCollapsed) {
+  let nextBlock = block;
+
+  do {
+    nextBlock = nextBlock.getNextBlock();
+    if (nextBlock) nextBlock.setCollapsed(isCollapsed);
+  } while (nextBlock);
+}
+
+class Application {
+  constructor(container) {
+    if (typeof container === 'string') {
+      container = document.getElementById(container) || document.querySelector(container);
+    }
+    this.container = container;
+  }
+
+  async initWorkspace(options) {
+    if (this.workspace) {
+      this.workspace.dispose();
+    }
+
+    const { config } = options;
+    delete options.config;
+
+    const { externals, toolbox, toolboxSrc, blockXml, preload_res, scriptsBefore, scriptsAfter } = await Object(_block__WEBPACK_IMPORTED_MODULE_0__["default"])(config);
+    options.toolbox = toolbox;
+
+    this.toolboxSrc = toolboxSrc;
+    this.preload_res = preload_res;
+    this.externals = externals;
+    this.scriptsBefore = scriptsBefore;
+    this.scriptsAfter = scriptsAfter;
+
+    const workspace = Blockly.inject(this.container, options);
+
+    Blockly.Xml.domToWorkspace(blockXml.documentElement, workspace);
+
+    workspace.getAllBlocks().forEach(block => {
+      const parent = block.getParent();
+      if (!parent) {
+        // is root block
+        const isCollapsed = block.isCollapsed();
+        if (isCollapsed) setCollapsedAll(block, true);
+      }
+    });
+
+    let lastClickedTime = null;
+    workspace.addChangeListener(event => {
+      if (event.type === Blockly.Events.UI && event.element === 'click') {
+        const clickedTime = Date.now();
+        if (lastClickedTime && clickedTime - lastClickedTime <= 300) {
+          lastClickedTime = null;
+          const block = workspace.getBlockById(event.blockId);
+          const isCollapsed = block.isCollapsed();
+          const parent = block.getParent();
+          if (!parent) {
+            setCollapsedAll(block, !isCollapsed);
+          }
+          block.setCollapsed(!isCollapsed);
+        }
+        lastClickedTime = clickedTime;
+      }
+      if (event.type === Blockly.Events.CHANGE && event.element === 'collapsed') {
+        const block = workspace.getBlockById(event.blockId);
+        const parent = block.getParent();
+        if (!parent) {
+          const isCollapsed = event.newValue;
+          setCollapsedAll(block, isCollapsed);
+        }
+      }
+    });
+
+    const changedHandler = event => {
+      if (event instanceof Blockly.Events.Change) {
+        const id = event.blockId;
+        let block;
+        if (event.workspaceId === workspace.id) {
+          block = workspace.getBlockById(id);
+        } else if (workspace.toolboxWorkspace && event.workspaceId === workspace.toolboxWorkspace.id) {
+          block = workspace.toolboxWorkspace.getBlockById(id);
+        }
+        if (block && block.changed) {
+          if (!block.oldValue_) {
+            block.oldValue_ = event.oldValue;
+          }
+          clearTimeout(block.changeIdTimer_);
+          block.changeIdTimer_ = setTimeout(() => {
+            const oldValue = block.oldValue_;
+            delete block.oldValue_;
+            event.oldValue = oldValue;
+            block.changed(event);
+          }, 500);
+        }
+      } else if (event instanceof Blockly.Events.Create) {
+        const id = event.blockId;
+        let block;
+        if (event.workspaceId === workspace.id) {
+          block = workspace.getBlockById(id);
+        } else if (workspace.toolboxWorkspace && event.workspaceId === workspace.toolboxWorkspace.id) {
+          block = workspace.toolboxWorkspace.getBlockById(id);
+        }
+        if (block.created) {
+          block.created(event);
+        }
+        const blocks = block.getAllDescendants();
+        blocks.forEach(block => {
+          if (block.created) {
+            block.created(event);
+          }
+        });
+      }
+    };
+
+    workspace.addChangeListener(changedHandler);
+
+    const toolboxWorkspace = workspace.toolboxWorkspace;
+    if (toolboxWorkspace) {
+      toolboxWorkspace.addChangeListener(changedHandler);
+    }
+
+    this.workspace = workspace;
+    return workspace;
+  }
+
+  get xml() {
+    if (!this.workspace) return '';
+    const { workspace, preload_res, scriptsBefore, scriptsAfter, toolboxSrc, externals } = this;
+    const xml = Blockly.Xml.workspaceToDom(workspace);
+    Object(_packer__WEBPACK_IMPORTED_MODULE_2__["pack"])(xml);
+    let code = xml.innerHTML;
+    if (preload_res) {
+      const resources = [];
+      preload_res.forEach(res => {
+        if (Array.isArray(res)) {
+          resources.push(`<resource type="texture_packer" texture="${res[0]}" data="${res[1]}"/>`);
+        } else if (res.id === res.src) {
+          resources.push(`<resource type="image" src="${res.src}"/>`);
+        } else {
+          resources.push(`<resource type="image" src="${res.src}" id="${res.id}"/>`);
+        }
+      });
+      code = `<preload>${resources.join('')}</preload>${code}`;
+    }
+    if (scriptsBefore) {
+      code = `${scriptsBefore.map(({ src }) => `<script src="${src}"/>`).join('')}${code}`;
+    }
+    if (scriptsAfter) {
+      code = `${code}${scriptsAfter.map(({ src }) => `<script src="${src}"/>`).join('')}`;
+    }
+    if (externals) {
+      const modules = externals.map(eb => {
+        return `<module src="${eb}"/>`;
+      });
+      code = `<externals>${modules.join('')}</externals>${code}`;
+    }
+    code = `<xml toolbox="${toolboxSrc}">${code}</xml>`;
+    let indent = 0;
+    return code.replace(/></g, '>\n<').split(/\n/g).map(line => {
+      let ret = line;
+      if (/^<\//.test(line)) {
+        indent -= 2;
+      }
+      if (indent > 0) {
+        ret = `${new Array(indent + 1).join(' ')}${line}`;
+      }
+      if (!/(<\/\w+>|\/>)$/.test(line)) {
+        indent += 2;
+      }
+      return ret;
+    }).join('\n');
+  }
+
+  get code() {
+    if (!this.workspace) return '';
+
+    const { workspace, preload_res, scriptsBefore, scriptsAfter } = this;
+    const xml = Blockly.Xml.workspaceToDom(workspace);
+    // Add each top block one by one and generate code.
+    const allCode = [];
+
+    _dropdown__WEBPACK_IMPORTED_MODULE_1__["Dropdown"].createFromBlockFields(xml);
+
+    // Generate JavaScript code and run it.
+    window.LoopTrap = 1e7;
+    Blockly.JavaScript.INFINITE_LOOP_TRAP = `${Blockly.Generator.prototype.INDENT}if (--window.LoopTrap == 0) throw "Infinite loop.";\n`;
+
+    Blockly.JavaScript.init(workspace);
+    const code = Blockly.JavaScript.workspaceToCode(workspace);
+    allCode.push(code);
+
+    Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+    if (preload_res) {
+      allCode.push(`spritly.runtime.scene.preload(...${JSON.stringify(preload_res)})
+  .then(() => spritly.runtime.Signal.send('START', spritly.runtime.scene));
+`);
+    } else {
+      allCode.push("spritly.runtime.Signal.send('START', spritly.runtime.scene);\n");
+    }
+    const comment = `/** 
+  Generated by spritly ${new Date().toLocaleString()};
+  Usage: 
+  <script src="https://unpkg.com/spritejs/dist/spritejs.min.js"></script>
+  <script src="https://unpkg.com/spritly/dist/spritly-runtime.min.js"></script>
+  <div id="stage" style="width:100%;height:100%;"></div>
+*/`; /* eslint-enable */
+    allCode.unshift(comment, 'spritly.runtime.use(spritejs);');
+
+    if (scriptsBefore.length) {
+      allCode.unshift('/* -- external scripts start -- */', ...scriptsBefore.map(({ code }) => code), '/* -- external scripts end -- */');
+    }
+    if (scriptsAfter.length) {
+      allCode.push('/* -- external scripts start -- */', ...scriptsAfter.map(({ code }) => code), '/* -- external scripts end -- */');
+    }
+    return allCode.join('\n\n');
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Application);
+
+/***/ }),
+/* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _toolbox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
+/* harmony import */ var _packer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(35);
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (async function loadBlocks(src = 'index.xml') {
+  if (src.indexOf('/') !== 0) {
+    src = `/blocks/${src}`;
+  }
+  if (!/xml$/.test(src)) {
+    src = `${src}.xml`;
+  }
+  const blockXml = await fetch(src).then(res => res.text()).then(str => new DOMParser().parseFromString(str, 'text/xml'));
+
+  const toolboxSrc = blockXml.documentElement.getAttribute('toolbox') || 'toolboxs/default.xml';
+
+  const { externals, toolbox } = await Object(_toolbox__WEBPACK_IMPORTED_MODULE_0__["default"])(toolboxSrc);
+
+  const preload_res = Array.from(blockXml.querySelectorAll('preload resource')).map(res => {
+    const type = res.getAttribute('type');
+    if (type === 'texture_packer') {
+      const texture = res.getAttribute('texture');
+      const data = res.getAttribute('data');
+      return [texture, data];
+    }
+
+    const src = res.getAttribute('src');
+    const id = res.getAttribute('id') || src;
+    return { id, src };
+  });
+
+  const scriptsBefore = [];
+  const scriptsAfter = [];
+  let scripts = scriptsBefore;
+  const children = blockXml.documentElement.children;
+  for (let i = 0; i < children.length; i++) {
+    const child = children[i];
+    if (child.tagName.toLowerCase() === 'script') {
+      const scriptLink = child.getAttribute('src');
+      if (scriptLink) {
+        const code = await fetch(scriptLink) // eslint-disable-line
+        .then(res => res.text());
+        scripts.push({ code, src: scriptLink });
+      }
+    } else if (child.tagName.toLowerCase() === 'block') {
+      scripts = scriptsAfter;
+    }
+  }
+  Object(_packer__WEBPACK_IMPORTED_MODULE_1__["unpack"])(blockXml);
+
+  return { externals, toolbox, toolboxSrc, blockXml, preload_res, scriptsBefore, scriptsAfter };
+});
+
+/***/ }),
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _packer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(35);
+
+
+function loadExternalModule(src) {
+  if (src.indexOf('/') !== 0) {
+    src = `/toolboxs/${src}`;
+  }
+  const script = document.querySelector(`script[src="${src}"]`);
+  if (!script) {
+    const script = document.createElement('script');
+    const promise = new Promise(resolve => {
+      script.onload = () => {
+        resolve(script);
+      };
+    });
+    script.src = src;
+    document.body.appendChild(script);
+    return promise;
+  }
+  return Promise.resolve();
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (async function loadToolbox(src = 'toolboxs/default.xml') {
+  const toolbox = await fetch(src).then(res => res.text()).then(str => new DOMParser().parseFromString(str, 'text/xml'));
+
+  Object(_packer__WEBPACK_IMPORTED_MODULE_0__["unpack"])(toolbox);
+
+  let externals = toolbox.querySelectorAll('externals module');
+  externals = [...externals].map(eb => eb.getAttribute('src'));
+
+  await Promise.all(externals.map(src => {
+    return loadExternalModule(src);
+  }));
+
+  return { externals, toolbox: toolbox.documentElement, toolboxSrc: src };
+});
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pack", function() { return pack; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unpack", function() { return unpack; });
+function pack(xml) {
+  const nexts = xml.querySelectorAll('next > block');
+  const allBlocks = [];
+
+  function getBlocksSet(block) {
+    for (let i = 0; i < allBlocks.length; i++) {
+      const blockSet = allBlocks[i];
+      if (blockSet.has(block)) return blockSet;
+    }
+    const blockSet = new Set();
+    blockSet.add(block);
+    allBlocks.push(blockSet);
+    return blockSet;
+  }
+
+  nexts.forEach(nextBlock => {
+    const parentBlock = nextBlock.parentNode.parentNode;
+    nextBlock.parentNode.remove();
+    nextBlock.remove();
+    const blockSet = getBlocksSet(parentBlock);
+    blockSet.add(nextBlock);
+  });
+
+  allBlocks.forEach(blockSet => {
+    const blocks = [...blockSet];
+    const parent = blocks[0].parentNode;
+    const blocksNode = document.createElement('blocks');
+    parent.insertBefore(blocksNode, blocks[0]);
+    blocks[0].remove();
+    blocks.forEach(block => blocksNode.appendChild(block));
+  });
+}
+
+function unpack(xml) {
+  const allBlocks = xml.querySelectorAll('blocks');
+  allBlocks.forEach(blocks => {
+    const root = blocks.children[0];
+    if (root) {
+      let parent = root;
+      const children = [...blocks.children];
+      for (let i = 1; i < children.length; i++) {
+        const block = children[i];
+        block.remove();
+        const next = document.createElement('next');
+        next.appendChild(block);
+        parent.appendChild(next);
+        parent = block;
+      }
+      root.remove();
+      blocks.parentNode.insertBefore(root, blocks);
+      blocks.remove();
+    }
+  });
+}
+
+/***/ }),
+/* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "debounce", function() { return debounce; });
+function debounce(action, delay = 300) {
+  let timer = null;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      action.apply(this, args);
+    }, delay);
+  };
+}
 
 /***/ })
 /******/ ]);

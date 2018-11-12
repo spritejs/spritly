@@ -111,7 +111,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const _ready = Symbol('ready');
+
 function use(spritejs, options = { container: '#stage', viewport: 'auto', resolution: 'flex' }) {
+  if (this.scene) throw Error('Cannot use twice.');
+
   const { container, viewport, resolution } = options;
   const scene = new spritejs.Scene(container, {
     viewport,
@@ -132,13 +136,26 @@ function use(spritejs, options = { container: '#stage', viewport: 'auto', resolu
     _signal__WEBPACK_IMPORTED_MODULE_0__["default"].send('KEYUP', document, evt);
   });
 
+  scene.fglayer = scene.layer('fglayer');
+  scene.bglayer = scene.layer('bglayer');
+
   this.scene = scene;
   this.spritejs = spritejs;
+
+  _signal__WEBPACK_IMPORTED_MODULE_0__["default"].on('START', () => {
+    this[_ready].forEach(handler => handler.call(this, scene, spritejs));
+  });
 
   return scene;
 }
 
+function ready(handler) {
+  this[_ready].push(handler);
+}
+
 const runtime = {
+  [_ready]: [],
+  ready,
   Signal: _signal__WEBPACK_IMPORTED_MODULE_0__["default"],
   Symbols: _symbols__WEBPACK_IMPORTED_MODULE_6__["default"],
   use,

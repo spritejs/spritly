@@ -114,7 +114,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       }, 500);
     }
   },
-  ondelete() {
+  destroyed() {
     const id = this.getFieldValue('ID');
     const sprites = this.workspace.getBlocksByType('sprite');
     sprites.forEach((sprite) => {
