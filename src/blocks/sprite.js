@@ -1,6 +1,3 @@
-import {Dropdown} from '../dropdown';
-import {spriteOptions} from './utils';
-
 const Blockly = require('blockly');
 
 const Msg = Blockly.Msg;
@@ -8,26 +5,32 @@ const colour = Blockly.Msg.SPRITE_HUE;
 const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
-const sender_receiver_dropdown = {
-  type: 'field_dropdown',
-  name: 'SPRITE',
-  options: spriteOptions,
-};
-
 Blockly.Blocks.sprite = {
   init() {
     this.jsonInit({
       message0: '%1',
       args0: [
-        sender_receiver_dropdown,
+        {
+          type: 'field_dropdown',
+          name: 'SPRITE',
+          options: () => {
+            const blocks = this.workspace.getBlocksByType('signal_new_sprite_as_receiver').map(block => block.getFieldValue('ID'));
+            return [
+              [Msg.COMMON_TARGET, 'target'],
+              [Msg.COMMON_SENDER, 'sender'],
+              [Msg.COMMON_RECEIVER, 'receiver'],
+              ...blocks.map(s => [s, s]),
+            ];
+          },
+        },
       ],
       colour,
       output: 'Sprite',
       tooltip: Msg.SPRITE_MSG0_TOOLTIP,
     });
   },
-  onchange(event) {
-    if(event instanceof Blockly.Events.Change && event.element === 'field' && event.name === 'SPRITE') {
+  updated(event) {
+    if(event.element === 'field' && event.name === 'SPRITE') {
       this.setWarningText(null);
       this.setDisabled(false);
     }
@@ -158,9 +161,9 @@ Blockly.Blocks.sprite_each_elements_named = {
           type: 'field_dropdown',
           name: 'NAME',
           options: () => {
-            const spriteNames = Dropdown.get('SpriteNames');
-            if(spriteNames.length > 0) {
-              return spriteNames.map(s => [s, s]);
+            const blocks = this.workspace.getBlocksByType('sprite_create_attrs').map(block => block.getFieldValue('NAME'));
+            if(blocks.length > 0) {
+              return blocks.map(s => [s, s]);
             }
             return [
               ['', ''],

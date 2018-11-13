@@ -1,4 +1,3 @@
-import {Dropdown} from '../dropdown';
 const Blockly = require('blockly');
 
 const Msg = Blockly.Msg;
@@ -183,9 +182,12 @@ Blockly.Blocks.list_item = {
           type: 'field_dropdown',
           name: 'ITEM',
           options: () => {
-            const items = Dropdown.get('ListItems');
-            if(items.length) {
-              return items.map(s => [s, s]);
+            const blocks = this.workspace.getBlocksByType('list_foreach');
+            if(blocks.length) {
+              return blocks.map((block) => {
+                const name = block.getFieldValue('ITEM');
+                return [name, name];
+              });
             }
             return [['item', 'item']];
           },

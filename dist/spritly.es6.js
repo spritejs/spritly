@@ -104,17 +104,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Blockly", function() { return Blockly; });
 /* harmony import */ var _messages__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(11);
 /* harmony import */ var _blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(15);
-/* harmony import */ var _generator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(31);
+/* harmony import */ var _generator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(29);
 /* harmony import */ var _generator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_generator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Dropdown", function() { return _dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"]; });
-
-/* harmony import */ var _application__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(32);
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return _application__WEBPACK_IMPORTED_MODULE_4__["default"]; });
-
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(36);
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "utils", function() { return _utils__WEBPACK_IMPORTED_MODULE_5__; });
-
+/* harmony import */ var _application__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(30);
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Application", function() { return _application__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
 
 
@@ -125,11 +118,6 @@ const Blockly = __webpack_require__(13);
 Blockly.BlockSvg.START_HAT = true;
 
 Blockly.Field.prototype.maxDisplayLength = 20;
-
-_dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"].addBlockFields('Signals', 'signal_onevent_send', 'SIGNAL');
-_dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"].addBlockFields('SpriteNames', 'sprite_create_attrs', 'NAME');
-_dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"].addBlockFields('ListItems', 'list_foreach', 'ITEM');
-_dropdown__WEBPACK_IMPORTED_MODULE_3__["Dropdown"].addBlockFields('Sprites', 'signal_new_sprite_as_receiver', 'ID');
 
 const _dispose = Blockly.Block.prototype.dispose;
 Blockly.Block.prototype.dispose = function (...args) {
@@ -567,23 +555,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _animate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(17);
 /* harmony import */ var _animate__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_animate__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _flow__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(18);
-/* harmony import */ var _literal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(20);
+/* harmony import */ var _flow__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_flow__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _literal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(19);
 /* harmony import */ var _literal__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_literal__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _signals__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(21);
-/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(22);
-/* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(24);
+/* harmony import */ var _signals__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(20);
+/* harmony import */ var _signals__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_signals__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(21);
+/* harmony import */ var _sprite__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_sprite__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(22);
 /* harmony import */ var _log__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_log__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(25);
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(23);
 /* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_math__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(26);
+/* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(24);
 /* harmony import */ var _lists__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_lists__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _getter_setter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(27);
+/* harmony import */ var _getter_setter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(25);
 /* harmony import */ var _getter_setter__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_getter_setter__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(28);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(26);
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_store__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var _sound__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(29);
+/* harmony import */ var _sound__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(27);
 /* harmony import */ var _sound__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(_sound__WEBPACK_IMPORTED_MODULE_11__);
-/* harmony import */ var _procedure__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(30);
+/* harmony import */ var _procedure__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(28);
 /* harmony import */ var _procedure__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_procedure__WEBPACK_IMPORTED_MODULE_12__);
 
 
@@ -1126,11 +1117,7 @@ Blockly.JavaScript.bezier_easing = function (block) {
 
 /***/ }),
 /* 18 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
+/***/ (function(module, exports, __webpack_require__) {
 
 const Blockly = __webpack_require__(13);
 
@@ -1297,9 +1284,12 @@ Blockly.Blocks.list_item = {
         type: 'field_dropdown',
         name: 'ITEM',
         options: () => {
-          const items = _dropdown__WEBPACK_IMPORTED_MODULE_0__["Dropdown"].get('ListItems');
-          if (items.length) {
-            return items.map(s => [s, s]);
+          const blocks = this.workspace.getBlocksByType('list_foreach');
+          if (blocks.length) {
+            return blocks.map(block => {
+              const name = block.getFieldValue('ITEM');
+              return [name, name];
+            });
           }
           return [['item', 'item']];
         }
@@ -1318,48 +1308,6 @@ Blockly.JavaScript.list_item = function (block) {
 
 /***/ }),
 /* 19 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Dropdown", function() { return Dropdown; });
-const dropdowns = new Map();
-const fromBlocks = [];
-
-const Dropdown = {
-  set(key, value) {
-    const dropdown = dropdowns.get(key) || new Set();
-    dropdown.add(value);
-    dropdowns.set(key, dropdown);
-    return dropdown;
-  },
-  delete(key, value) {
-    const dropdown = dropdowns.get(key) || new Set();
-    dropdown.delete(value);
-    return dropdown;
-  },
-  get(key) {
-    return [...(dropdowns.get(key) || [])];
-  },
-  clear() {
-    dropdowns.clear();
-  },
-  addBlockFields(key, type, fieldName) {
-    fromBlocks.push({ key, type, fieldName });
-  },
-  createFromBlockFields(xml) {
-    fromBlocks.forEach(block => {
-      const { key, type, fieldName } = block;
-      const blockFields = xml.querySelectorAll(`block[type="${type}"] > field[name="${fieldName}"]`);
-      blockFields.forEach(blockField => {
-        Dropdown.set(key, blockField.textContent);
-      });
-    });
-  }
-};
-
-/***/ }),
-/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Blockly = __webpack_require__(13);
@@ -1463,13 +1411,8 @@ Blockly.JavaScript.loop_get_index = function (block) {
 };
 
 /***/ }),
-/* 21 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
-
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
 
 const Blockly = __webpack_require__(13);
 
@@ -1478,17 +1421,18 @@ const colour = Blockly.Msg.SIGNALS_HUE;
 const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
-function listSignal(...extras) {
+function listSignal(workspace, ...extras) {
   const signals = ['START', 'STORE_PROPERTY_UPDATE', 'LAYER_CLICKED', 'KEYDOWN', 'KEYUP', 'ELEMENT_CREATED', 'ELEMENT_DESTROYED'];
   return () => {
-    return [...signals, ...extras, ..._dropdown__WEBPACK_IMPORTED_MODULE_0__["Dropdown"].get('Signals')].map(s => [Msg.$(s, 'SIGNAL_DO_OPTION_SIGNAL'), s]);
+    const blocks = workspace.getBlocksByType('signal_onevent_send').map(block => block.getFieldValue('SIGNAL'));
+    return [...signals, ...extras, ...blocks].map(s => [Msg.$(s, 'SIGNAL_DO_OPTION_SIGNAL'), s]);
   };
 }
 
-function listSprite() {
-  const sprites = _dropdown__WEBPACK_IMPORTED_MODULE_0__["Dropdown"].get('Sprites');
-  if (sprites.length > 0) {
-    return sprites.map(s => [s, s]);
+function listSprite(workspace) {
+  const blocks = workspace.getBlocksByType('signal_new_sprite_as_receiver').map(block => block.getFieldValue('ID'));
+  if (blocks.length > 0) {
+    return blocks.map(s => [s, s]);
   }
   return [['', '']];
 }
@@ -1500,7 +1444,7 @@ Blockly.Blocks.signal_do = {
       args0: [{
         type: 'field_dropdown',
         name: 'SIGNAL',
-        options: listSignal()
+        options: listSignal(this.workspace)
       }],
       colour,
       nextStatement,
@@ -1529,7 +1473,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       args0: [{
         type: 'field_dropdown',
         name: 'SIGNAL',
-        options: listSignal()
+        options: listSignal(this.workspace)
       }],
       message1: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG1,
       args1: [{
@@ -1548,24 +1492,15 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP
     });
   },
-  onchange(event) {
-    if (event instanceof Blockly.Events.Change && event.element === 'field' && event.name === 'ID' && event.blockId === this.id) {
-      if (!this.oldValue_) {
-        this.oldValue_ = event.oldValue;
-      }
-      clearTimeout(this.changeIdTimer_);
-      this.changeIdTimer_ = setTimeout(() => {
-        const oldID = this.oldValue_;
-        delete this.oldValue_;
-        const newID = this.getFieldValue('ID');
-        const sprites = this.workspace.getBlocksByType('sprite');
-        sprites.forEach(sprite => {
-          const key = sprite.getFieldValue('SPRITE');
-          if (key === oldID) {
-            sprite.setFieldValue(newID, 'SPRITE');
-          }
-        });
-      }, 500);
+  updated(event) {
+    if (event.element === 'field' && event.name === 'ID') {
+      const sprites = this.workspace.getBlocksByType('sprite');
+      sprites.forEach(sprite => {
+        const key = sprite.getFieldValue('SPRITE');
+        if (key === event.oldValue) {
+          sprite.setFieldValue(event.newValue, 'SPRITE');
+        }
+      });
     }
   },
   destroyed() {
@@ -1606,13 +1541,13 @@ Blockly.Blocks.signal_when_receiver_is = {
       args0: [{
         type: 'field_dropdown',
         name: 'SIGNAL',
-        options: listSignal('ELEMENT_CREATED')
+        options: listSignal(this.workspace, 'ELEMENT_CREATED')
       }],
       message1: Msg.SIGNAL_WHEN_RECEIVER_IS_MSG1,
       args1: [{
         type: 'field_dropdown',
         name: 'ID',
-        options: listSprite
+        options: () => listSprite(this.workspace)
       }],
       colour,
       nextStatement,
@@ -1768,15 +1703,8 @@ ${target}.forceUpdate();
 };
 
 /***/ }),
-/* 22 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(23);
-
-
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
 
 const Blockly = __webpack_require__(13);
 
@@ -1785,24 +1713,25 @@ const colour = Blockly.Msg.SPRITE_HUE;
 const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
-const sender_receiver_dropdown = {
-  type: 'field_dropdown',
-  name: 'SPRITE',
-  options: _utils__WEBPACK_IMPORTED_MODULE_1__["spriteOptions"]
-};
-
 Blockly.Blocks.sprite = {
   init() {
     this.jsonInit({
       message0: '%1',
-      args0: [sender_receiver_dropdown],
+      args0: [{
+        type: 'field_dropdown',
+        name: 'SPRITE',
+        options: () => {
+          const blocks = this.workspace.getBlocksByType('signal_new_sprite_as_receiver').map(block => block.getFieldValue('ID'));
+          return [[Msg.COMMON_TARGET, 'target'], [Msg.COMMON_SENDER, 'sender'], [Msg.COMMON_RECEIVER, 'receiver'], ...blocks.map(s => [s, s])];
+        }
+      }],
       colour,
       output: 'Sprite',
       tooltip: Msg.SPRITE_MSG0_TOOLTIP
     });
   },
-  onchange(event) {
-    if (event instanceof Blockly.Events.Change && event.element === 'field' && event.name === 'SPRITE') {
+  updated(event) {
+    if (event.element === 'field' && event.name === 'SPRITE') {
       this.setWarningText(null);
       this.setDisabled(false);
     }
@@ -1916,9 +1845,9 @@ Blockly.Blocks.sprite_each_elements_named = {
         type: 'field_dropdown',
         name: 'NAME',
         options: () => {
-          const spriteNames = _dropdown__WEBPACK_IMPORTED_MODULE_0__["Dropdown"].get('SpriteNames');
-          if (spriteNames.length > 0) {
-            return spriteNames.map(s => [s, s]);
+          const blocks = this.workspace.getBlocksByType('sprite_create_attrs').map(block => block.getFieldValue('NAME'));
+          if (blocks.length > 0) {
+            return blocks.map(s => [s, s]);
           }
           return [['', '']];
         }
@@ -1989,25 +1918,7 @@ Blockly.JavaScript.sprite_get_attr = function (block) {
 };
 
 /***/ }),
-/* 23 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "spriteOptions", function() { return spriteOptions; });
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19);
-
-
-const Blockly = __webpack_require__(13);
-const Msg = Blockly.Msg;
-
-function spriteOptions() {
-  const sprites = _dropdown__WEBPACK_IMPORTED_MODULE_0__["Dropdown"].get('Sprites');
-  return [[Msg.COMMON_TARGET, 'target'], [Msg.COMMON_SENDER, 'sender'], [Msg.COMMON_RECEIVER, 'receiver']].concat(sprites.map(s => [s, s]));
-}
-
-/***/ }),
-/* 24 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Blockly = __webpack_require__(13);
@@ -2065,7 +1976,7 @@ Blockly.JavaScript.log_alert = function (block) {
 };
 
 /***/ }),
-/* 25 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Blockly = __webpack_require__(13);
@@ -2138,7 +2049,7 @@ Blockly.JavaScript.random_colour_hue = function (block) {
 };
 
 /***/ }),
-/* 26 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Blockly = __webpack_require__(13);
@@ -2176,7 +2087,7 @@ Blockly.JavaScript.lists_create_range = function (block) {
 };
 
 /***/ }),
-/* 27 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Blockly = __webpack_require__(13);
@@ -2237,7 +2148,7 @@ Blockly.JavaScript.object_get_prop = function (block) {
 };
 
 /***/ }),
-/* 28 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Blockly = __webpack_require__(13);
@@ -2316,7 +2227,7 @@ Blockly.JavaScript.store_delete = function (block) {
 };
 
 /***/ }),
-/* 29 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Blockly = __webpack_require__(13);
@@ -2347,7 +2258,7 @@ Blockly.JavaScript.sound_play = function (block) {
 };
 
 /***/ }),
-/* 30 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Blockly = __webpack_require__(13);
@@ -2557,7 +2468,7 @@ Blockly.JavaScript.procedures_call = function (block) {
 };
 
 /***/ }),
-/* 31 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -2650,17 +2561,13 @@ Blockly.Generator.prototype.workspaceToCode = function (workspace) {
 };
 
 /***/ }),
-/* 32 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _block__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(33);
-/* harmony import */ var _dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
-/* harmony import */ var _packer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(35);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(36);
-
-
+/* harmony import */ var _block__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31);
+/* harmony import */ var _packer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(33);
 
 
 
@@ -2750,7 +2657,7 @@ class Application {
         } else if (workspace.toolboxWorkspace && event.workspaceId === workspace.toolboxWorkspace.id) {
           block = workspace.toolboxWorkspace.getBlockById(id);
         }
-        if (block && block.changed) {
+        if (block && block.updated) {
           if (!block.oldValue_) {
             block.oldValue_ = event.oldValue;
           }
@@ -2759,7 +2666,7 @@ class Application {
             const oldValue = block.oldValue_;
             delete block.oldValue_;
             event.oldValue = oldValue;
-            block.changed(event);
+            block.updated(event);
           }, 500);
         }
       } else if (event instanceof Blockly.Events.Create) {
@@ -2797,7 +2704,7 @@ class Application {
     if (!this.workspace) return '';
     const { workspace, preload_res, scriptsBefore, scriptsAfter, toolboxSrc, externals } = this;
     const xml = Blockly.Xml.workspaceToDom(workspace);
-    Object(_packer__WEBPACK_IMPORTED_MODULE_2__["pack"])(xml);
+    Object(_packer__WEBPACK_IMPORTED_MODULE_1__["pack"])(xml);
     let code = xml.innerHTML;
     if (preload_res) {
       const resources = [];
@@ -2849,8 +2756,6 @@ class Application {
     // Add each top block one by one and generate code.
     const allCode = [];
 
-    _dropdown__WEBPACK_IMPORTED_MODULE_1__["Dropdown"].createFromBlockFields(xml);
-
     // Generate JavaScript code and run it.
     window.LoopTrap = 1e7;
     Blockly.JavaScript.INFINITE_LOOP_TRAP = `${Blockly.Generator.prototype.INDENT}if (--window.LoopTrap == 0) throw "Infinite loop.";\n`;
@@ -2889,13 +2794,13 @@ class Application {
 /* harmony default export */ __webpack_exports__["default"] = (Application);
 
 /***/ }),
-/* 33 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _toolbox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(34);
-/* harmony import */ var _packer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(35);
+/* harmony import */ var _toolbox__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(32);
+/* harmony import */ var _packer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(33);
 
 
 
@@ -2948,12 +2853,12 @@ __webpack_require__.r(__webpack_exports__);
 });
 
 /***/ }),
-/* 34 */
+/* 32 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _packer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(35);
+/* harmony import */ var _packer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(33);
 
 
 function loadExternalModule(src) {
@@ -2991,7 +2896,7 @@ function loadExternalModule(src) {
 });
 
 /***/ }),
-/* 35 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3051,23 +2956,6 @@ function unpack(xml) {
       blocks.remove();
     }
   });
-}
-
-/***/ }),
-/* 36 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "debounce", function() { return debounce; });
-function debounce(action, delay = 300) {
-  let timer = null;
-  return function (...args) {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      action.apply(this, args);
-    }, delay);
-  };
 }
 
 /***/ })

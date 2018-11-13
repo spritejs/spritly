@@ -79,9 +79,19 @@
   <script>
   /* global spritly */
   (async function () {
-    const {Blockly, Dropdown, Application, utils} = spritly;
+    const {Blockly, Application} = spritly;
 
-    const update = utils.debounce(() => {
+    function debounce(action, delay = 300) {
+      let timer = null;
+      return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          action.apply(this, args);
+        }, delay);
+      };
+    }
+  
+    const update = debounce(() => {
       window.frames[0].location.href = `sandbox.html?t=${Date.now()}`;
     });
 
@@ -138,7 +148,6 @@
 
     function runCode() {
       try {
-        Dropdown.clear();
         window.frames[0].exec(app.code);
       } catch (e) {
         console.error(e);

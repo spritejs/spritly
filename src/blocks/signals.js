@@ -1,5 +1,3 @@
-import {Dropdown} from '../dropdown';
-
 const Blockly = require('blockly');
 
 const Msg = Blockly.Msg;
@@ -7,7 +5,7 @@ const colour = Blockly.Msg.SIGNALS_HUE;
 const previousStatement = 'Statement';
 const nextStatement = 'Statement';
 
-function listSignal(...extras) {
+function listSignal(workspace, ...extras) {
   const signals = [
     'START',
     'STORE_PROPERTY_UPDATE',
@@ -16,14 +14,15 @@ function listSignal(...extras) {
     'ELEMENT_CREATED',
     'ELEMENT_DESTROYED'];
   return () => {
-    return [...signals, ...extras, ...Dropdown.get('Signals')].map(s => [Msg.$(s, 'SIGNAL_DO_OPTION_SIGNAL'), s]);
+    const blocks = workspace.getBlocksByType('signal_onevent_send').map(block => block.getFieldValue('SIGNAL'));
+    return [...signals, ...extras, ...blocks].map(s => [Msg.$(s, 'SIGNAL_DO_OPTION_SIGNAL'), s]);
   };
 }
 
-function listSprite() {
-  const sprites = Dropdown.get('Sprites');
-  if(sprites.length > 0) {
-    return sprites.map(s => [s, s]);
+function listSprite(workspace) {
+  const blocks = workspace.getBlocksByType('signal_new_sprite_as_receiver').map(block => block.getFieldValue('ID'));
+  if(blocks.length > 0) {
+    return blocks.map(s => [s, s]);
   }
   return [['', '']];
 }
@@ -36,7 +35,7 @@ Blockly.Blocks.signal_do = {
         {
           type: 'field_dropdown',
           name: 'SIGNAL',
-          options: listSignal(),
+          options: listSignal(this.workspace),
         },
       ],
       colour,
@@ -67,7 +66,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
         {
           type: 'field_dropdown',
           name: 'SIGNAL',
-          options: listSignal(),
+          options: listSignal(this.workspace),
         },
       ],
       message1: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG1,
@@ -91,27 +90,16 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP,
     });
   },
-  onchange(event) {
-    if(event instanceof Blockly.Events.Change
-      && event.element === 'field'
-      && event.name === 'ID'
-      && event.blockId === this.id) {
-      if(!this.oldValue_) {
-        this.oldValue_ = event.oldValue;
-      }
-      clearTimeout(this.changeIdTimer_);
-      this.changeIdTimer_ = setTimeout(() => {
-        const oldID = this.oldValue_;
-        delete this.oldValue_;
-        const newID = this.getFieldValue('ID');
-        const sprites = this.workspace.getBlocksByType('sprite');
-        sprites.forEach((sprite) => {
-          const key = sprite.getFieldValue('SPRITE');
-          if(key === oldID) {
-            sprite.setFieldValue(newID, 'SPRITE');
-          }
-        });
-      }, 500);
+  updated(event) {
+    if(event.element === 'field'
+      && event.name === 'ID') {
+      const sprites = this.workspace.getBlocksByType('sprite');
+      sprites.forEach((sprite) => {
+        const key = sprite.getFieldValue('SPRITE');
+        if(key === event.oldValue) {
+          sprite.setFieldValue(event.newValue, 'SPRITE');
+        }
+      });
     }
   },
   destroyed() {
@@ -153,7 +141,7 @@ Blockly.Blocks.signal_when_receiver_is = {
         {
           type: 'field_dropdown',
           name: 'SIGNAL',
-          options: listSignal('ELEMENT_CREATED'),
+          options: listSignal(this.workspace, 'ELEMENT_CREATED'),
         },
       ],
       message1: Msg.SIGNAL_WHEN_RECEIVER_IS_MSG1,
@@ -161,7 +149,7 @@ Blockly.Blocks.signal_when_receiver_is = {
         {
           type: 'field_dropdown',
           name: 'ID',
-          options: listSprite,
+          options: () => listSprite(this.workspace),
         },
       ],
       colour,

@@ -1180,26 +1180,8 @@ module.exports = function (exec, skipClosing) {
 
 
 /***/ }),
-/* 76 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(77), __esModule: true };
-
-/***/ }),
-/* 77 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(55);
-__webpack_require__(62);
-__webpack_require__(78);
-__webpack_require__(82);
-__webpack_require__(93);
-__webpack_require__(96);
-__webpack_require__(98);
-module.exports = __webpack_require__(7).Map;
-
-
-/***/ }),
+/* 76 */,
+/* 77 */,
 /* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1282,32 +1264,7 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var strong = __webpack_require__(83);
-var validate = __webpack_require__(88);
-var MAP = 'Map';
-
-// 23.1 Map Objects
-module.exports = __webpack_require__(89)(MAP, function (get) {
-  return function Map() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
-}, {
-  // 23.1.3.6 Map.prototype.get(key)
-  get: function get(key) {
-    var entry = strong.getEntry(validate(this, MAP), key);
-    return entry && entry.v;
-  },
-  // 23.1.3.9 Map.prototype.set(key, value)
-  set: function set(key, value) {
-    return strong.def(validate(this, MAP), key === 0 ? 0 : key, value);
-  }
-}, strong, true);
-
-
-/***/ }),
+/* 82 */,
 /* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1696,16 +1653,7 @@ module.exports = function (original) {
 
 
 /***/ }),
-/* 93 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var $export = __webpack_require__(5);
-
-$export($export.P + $export.R, 'Map', { toJSON: __webpack_require__(94)('Map') });
-
-
-/***/ }),
+/* 93 */,
 /* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1734,14 +1682,7 @@ module.exports = function (iter, ITERATOR) {
 
 
 /***/ }),
-/* 96 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://tc39.github.io/proposal-setmap-offrom/#sec-map.of
-__webpack_require__(97)('Map');
-
-
-/***/ }),
+/* 96 */,
 /* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1761,14 +1702,7 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 98 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://tc39.github.io/proposal-setmap-offrom/#sec-map.from
-__webpack_require__(99)('Map');
-
-
-/***/ }),
+/* 98 */,
 /* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2529,7 +2463,7 @@ $export($export.S, 'Promise', { 'try': function (callbackfn) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Dropdown = exports.utils = exports.Application = exports.Blockly = undefined;
+exports.Application = exports.Blockly = undefined;
 
 var _toConsumableArray2 = __webpack_require__(59);
 
@@ -2539,19 +2473,11 @@ __webpack_require__(143);
 
 __webpack_require__(147);
 
-__webpack_require__(167);
+__webpack_require__(165);
 
-var _dropdown = __webpack_require__(155);
-
-var _application = __webpack_require__(171);
+var _application = __webpack_require__(169);
 
 var _application2 = _interopRequireDefault(_application);
-
-var _utils = __webpack_require__(183);
-
-var utils = _interopRequireWildcard(_utils);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2559,11 +2485,6 @@ var Blockly = __webpack_require__(145);
 Blockly.BlockSvg.START_HAT = true;
 
 Blockly.Field.prototype.maxDisplayLength = 20;
-
-_dropdown.Dropdown.addBlockFields('Signals', 'signal_onevent_send', 'SIGNAL');
-_dropdown.Dropdown.addBlockFields('SpriteNames', 'sprite_create_attrs', 'NAME');
-_dropdown.Dropdown.addBlockFields('ListItems', 'list_foreach', 'ITEM');
-_dropdown.Dropdown.addBlockFields('Sprites', 'signal_new_sprite_as_receiver', 'ID');
 
 var _dispose = Blockly.Block.prototype.dispose;
 Blockly.Block.prototype.dispose = function () {
@@ -2609,8 +2530,6 @@ Blockly.Block.prototype.getAllDescendants = function () {
 
 exports.Blockly = Blockly;
 exports.Application = _application2.default;
-exports.utils = utils;
-exports.Dropdown = _dropdown.Dropdown;
 
 /***/ }),
 /* 143 */
@@ -3019,11 +2938,15 @@ __webpack_require__(153);
 
 __webpack_require__(154);
 
+__webpack_require__(155);
+
 __webpack_require__(156);
 
 __webpack_require__(157);
 
 __webpack_require__(158);
+
+__webpack_require__(159);
 
 __webpack_require__(160);
 
@@ -3034,10 +2957,6 @@ __webpack_require__(162);
 __webpack_require__(163);
 
 __webpack_require__(164);
-
-__webpack_require__(165);
-
-__webpack_require__(166);
 
 /***/ }),
 /* 148 */
@@ -3666,8 +3585,6 @@ Blockly.JavaScript.bezier_easing = function (block) {
 "use strict";
 
 
-var _dropdown = __webpack_require__(155);
-
 var Blockly = __webpack_require__(145);
 
 var Msg = Blockly.Msg;
@@ -3831,16 +3748,19 @@ Blockly.JavaScript.list_index = function (block) {
 
 Blockly.Blocks.list_item = {
   init: function init() {
+    var _this = this;
+
     this.jsonInit({
       message0: '%1',
       args0: [{
         type: 'field_dropdown',
         name: 'ITEM',
         options: function options() {
-          var items = _dropdown.Dropdown.get('ListItems');
-          if (items.length) {
-            return items.map(function (s) {
-              return [s, s];
+          var blocks = _this.workspace.getBlocksByType('list_foreach');
+          if (blocks.length) {
+            return blocks.map(function (block) {
+              var name = block.getFieldValue('ITEM');
+              return [name, name];
             });
           }
           return [['item', 'item']];
@@ -3860,70 +3780,6 @@ Blockly.JavaScript.list_item = function (block) {
 
 /***/ }),
 /* 155 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Dropdown = undefined;
-
-var _toConsumableArray2 = __webpack_require__(59);
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-var _set = __webpack_require__(108);
-
-var _set2 = _interopRequireDefault(_set);
-
-var _map = __webpack_require__(76);
-
-var _map2 = _interopRequireDefault(_map);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var dropdowns = new _map2.default();
-var fromBlocks = [];
-
-var Dropdown = exports.Dropdown = {
-  set: function set(key, value) {
-    var dropdown = dropdowns.get(key) || new _set2.default();
-    dropdown.add(value);
-    dropdowns.set(key, dropdown);
-    return dropdown;
-  },
-  delete: function _delete(key, value) {
-    var dropdown = dropdowns.get(key) || new _set2.default();
-    dropdown.delete(value);
-    return dropdown;
-  },
-  get: function get(key) {
-    return [].concat((0, _toConsumableArray3.default)(dropdowns.get(key) || []));
-  },
-  clear: function clear() {
-    dropdowns.clear();
-  },
-  addBlockFields: function addBlockFields(key, type, fieldName) {
-    fromBlocks.push({ key: key, type: type, fieldName: fieldName });
-  },
-  createFromBlockFields: function createFromBlockFields(xml) {
-    fromBlocks.forEach(function (block) {
-      var key = block.key,
-          type = block.type,
-          fieldName = block.fieldName;
-
-      var blockFields = xml.querySelectorAll("block[type=\"" + type + "\"] > field[name=\"" + fieldName + "\"]");
-      blockFields.forEach(function (blockField) {
-        Dropdown.set(key, blockField.textContent);
-      });
-    });
-  }
-};
-
-/***/ }),
-/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4034,7 +3890,7 @@ Blockly.JavaScript.loop_get_index = function (block) {
 };
 
 /***/ }),
-/* 157 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4043,8 +3899,6 @@ Blockly.JavaScript.loop_get_index = function (block) {
 var _toConsumableArray2 = __webpack_require__(59);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
-var _dropdown = __webpack_require__(155);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4055,23 +3909,28 @@ var colour = Blockly.Msg.SIGNALS_HUE;
 var previousStatement = 'Statement';
 var nextStatement = 'Statement';
 
-function listSignal() {
-  for (var _len = arguments.length, extras = Array(_len), _key = 0; _key < _len; _key++) {
-    extras[_key] = arguments[_key];
+function listSignal(workspace) {
+  for (var _len = arguments.length, extras = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    extras[_key - 1] = arguments[_key];
   }
 
   var signals = ['START', 'STORE_PROPERTY_UPDATE', 'LAYER_CLICKED', 'KEYDOWN', 'KEYUP', 'ELEMENT_CREATED', 'ELEMENT_DESTROYED'];
   return function () {
-    return [].concat(signals, extras, (0, _toConsumableArray3.default)(_dropdown.Dropdown.get('Signals'))).map(function (s) {
+    var blocks = workspace.getBlocksByType('signal_onevent_send').map(function (block) {
+      return block.getFieldValue('SIGNAL');
+    });
+    return [].concat(signals, extras, (0, _toConsumableArray3.default)(blocks)).map(function (s) {
       return [Msg.$(s, 'SIGNAL_DO_OPTION_SIGNAL'), s];
     });
   };
 }
 
-function listSprite() {
-  var sprites = _dropdown.Dropdown.get('Sprites');
-  if (sprites.length > 0) {
-    return sprites.map(function (s) {
+function listSprite(workspace) {
+  var blocks = workspace.getBlocksByType('signal_new_sprite_as_receiver').map(function (block) {
+    return block.getFieldValue('ID');
+  });
+  if (blocks.length > 0) {
+    return blocks.map(function (s) {
       return [s, s];
     });
   }
@@ -4085,7 +3944,7 @@ Blockly.Blocks.signal_do = {
       args0: [{
         type: 'field_dropdown',
         name: 'SIGNAL',
-        options: listSignal()
+        options: listSignal(this.workspace)
       }],
       colour: colour,
       nextStatement: nextStatement,
@@ -4110,7 +3969,7 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       args0: [{
         type: 'field_dropdown',
         name: 'SIGNAL',
-        options: listSignal()
+        options: listSignal(this.workspace)
       }],
       message1: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_MSG1,
       args1: [{
@@ -4129,26 +3988,15 @@ Blockly.Blocks.signal_new_sprite_as_receiver = {
       tooltip: Msg.SIGNAL_NEW_SPRITE_AS_RECEIVER_TOOLTIP
     });
   },
-  onchange: function onchange(event) {
-    var _this = this;
-
-    if (event instanceof Blockly.Events.Change && event.element === 'field' && event.name === 'ID' && event.blockId === this.id) {
-      if (!this.oldValue_) {
-        this.oldValue_ = event.oldValue;
-      }
-      clearTimeout(this.changeIdTimer_);
-      this.changeIdTimer_ = setTimeout(function () {
-        var oldID = _this.oldValue_;
-        delete _this.oldValue_;
-        var newID = _this.getFieldValue('ID');
-        var sprites = _this.workspace.getBlocksByType('sprite');
-        sprites.forEach(function (sprite) {
-          var key = sprite.getFieldValue('SPRITE');
-          if (key === oldID) {
-            sprite.setFieldValue(newID, 'SPRITE');
-          }
-        });
-      }, 500);
+  updated: function updated(event) {
+    if (event.element === 'field' && event.name === 'ID') {
+      var sprites = this.workspace.getBlocksByType('sprite');
+      sprites.forEach(function (sprite) {
+        var key = sprite.getFieldValue('SPRITE');
+        if (key === event.oldValue) {
+          sprite.setFieldValue(event.newValue, 'SPRITE');
+        }
+      });
     }
   },
   destroyed: function destroyed() {
@@ -4176,18 +4024,22 @@ Blockly.JavaScript.signal_new_sprite_as_receiver = function (block) {
 
 Blockly.Blocks.signal_when_receiver_is = {
   init: function init() {
+    var _this = this;
+
     this.jsonInit({
       message0: Msg.SIGNAL_WHEN_RECEIVER_IS_MSG0,
       args0: [{
         type: 'field_dropdown',
         name: 'SIGNAL',
-        options: listSignal('ELEMENT_CREATED')
+        options: listSignal(this.workspace, 'ELEMENT_CREATED')
       }],
       message1: Msg.SIGNAL_WHEN_RECEIVER_IS_MSG1,
       args1: [{
         type: 'field_dropdown',
         name: 'ID',
-        options: listSprite
+        options: function options() {
+          return listSprite(_this.workspace);
+        }
       }],
       colour: colour,
       nextStatement: nextStatement,
@@ -4319,15 +4171,17 @@ Blockly.JavaScript.signal_onevent_send = function (block) {
 };
 
 /***/ }),
-/* 158 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _dropdown = __webpack_require__(155);
+var _toConsumableArray2 = __webpack_require__(59);
 
-var _utils = __webpack_require__(159);
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Blockly = __webpack_require__(145);
 
@@ -4336,24 +4190,31 @@ var colour = Blockly.Msg.SPRITE_HUE;
 var previousStatement = 'Statement';
 var nextStatement = 'Statement';
 
-var sender_receiver_dropdown = {
-  type: 'field_dropdown',
-  name: 'SPRITE',
-  options: _utils.spriteOptions
-};
-
 Blockly.Blocks.sprite = {
   init: function init() {
+    var _this = this;
+
     this.jsonInit({
       message0: '%1',
-      args0: [sender_receiver_dropdown],
+      args0: [{
+        type: 'field_dropdown',
+        name: 'SPRITE',
+        options: function options() {
+          var blocks = _this.workspace.getBlocksByType('signal_new_sprite_as_receiver').map(function (block) {
+            return block.getFieldValue('ID');
+          });
+          return [[Msg.COMMON_TARGET, 'target'], [Msg.COMMON_SENDER, 'sender'], [Msg.COMMON_RECEIVER, 'receiver']].concat((0, _toConsumableArray3.default)(blocks.map(function (s) {
+            return [s, s];
+          })));
+        }
+      }],
       colour: colour,
       output: 'Sprite',
       tooltip: Msg.SPRITE_MSG0_TOOLTIP
     });
   },
-  onchange: function onchange(event) {
-    if (event instanceof Blockly.Events.Change && event.element === 'field' && event.name === 'SPRITE') {
+  updated: function updated(event) {
+    if (event.element === 'field' && event.name === 'SPRITE') {
       this.setWarningText(null);
       this.setDisabled(false);
     }
@@ -4456,15 +4317,19 @@ Blockly.JavaScript.sprite_create_attrs = function (block) {
 
 Blockly.Blocks.sprite_each_elements_named = {
   init: function init() {
+    var _this2 = this;
+
     this.jsonInit({
       message0: Msg.SPRITE_EACH_ELEMENTS_NAMED_MSG0,
       args0: [{
         type: 'field_dropdown',
         name: 'NAME',
         options: function options() {
-          var spriteNames = _dropdown.Dropdown.get('SpriteNames');
-          if (spriteNames.length > 0) {
-            return spriteNames.map(function (s) {
+          var blocks = _this2.workspace.getBlocksByType('sprite_create_attrs').map(function (block) {
+            return block.getFieldValue('NAME');
+          });
+          if (blocks.length > 0) {
+            return blocks.map(function (s) {
               return [s, s];
             });
           }
@@ -4539,31 +4404,7 @@ Blockly.JavaScript.sprite_get_attr = function (block) {
 };
 
 /***/ }),
-/* 159 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.spriteOptions = spriteOptions;
-
-var _dropdown = __webpack_require__(155);
-
-var Blockly = __webpack_require__(145);
-var Msg = Blockly.Msg;
-
-function spriteOptions() {
-  var sprites = _dropdown.Dropdown.get('Sprites');
-  return [[Msg.COMMON_TARGET, 'target'], [Msg.COMMON_SENDER, 'sender'], [Msg.COMMON_RECEIVER, 'receiver']].concat(sprites.map(function (s) {
-    return [s, s];
-  }));
-}
-
-/***/ }),
-/* 160 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4624,7 +4465,7 @@ Blockly.JavaScript.log_alert = function (block) {
 };
 
 /***/ }),
-/* 161 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4700,7 +4541,7 @@ Blockly.JavaScript.random_colour_hue = function (block) {
 };
 
 /***/ }),
-/* 162 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4741,7 +4582,7 @@ Blockly.JavaScript.lists_create_range = function (block) {
 };
 
 /***/ }),
-/* 163 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4805,7 +4646,7 @@ Blockly.JavaScript.object_get_prop = function (block) {
 };
 
 /***/ }),
-/* 164 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4887,7 +4728,7 @@ Blockly.JavaScript.store_delete = function (block) {
 };
 
 /***/ }),
-/* 165 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4921,7 +4762,7 @@ Blockly.JavaScript.sound_play = function (block) {
 };
 
 /***/ }),
-/* 166 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5134,13 +4975,13 @@ Blockly.JavaScript.procedures_call = function (block) {
 };
 
 /***/ }),
-/* 167 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _create = __webpack_require__(168);
+var _create = __webpack_require__(166);
 
 var _create2 = _interopRequireDefault(_create);
 
@@ -5237,16 +5078,16 @@ Blockly.Generator.prototype.workspaceToCode = function (workspace) {
 };
 
 /***/ }),
-/* 168 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(169), __esModule: true };
+module.exports = { "default": __webpack_require__(167), __esModule: true };
 
 /***/ }),
-/* 169 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(170);
+__webpack_require__(168);
 var $Object = __webpack_require__(7).Object;
 module.exports = function create(P, D) {
   return $Object.create(P, D);
@@ -5254,7 +5095,7 @@ module.exports = function create(P, D) {
 
 
 /***/ }),
-/* 170 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(5);
@@ -5263,7 +5104,7 @@ $export($export.S, 'Object', { create: __webpack_require__(49) });
 
 
 /***/ }),
-/* 171 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5277,35 +5118,31 @@ var _toConsumableArray2 = __webpack_require__(59);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _stringify = __webpack_require__(172);
+var _stringify = __webpack_require__(170);
 
 var _stringify2 = _interopRequireDefault(_stringify);
 
-var _regenerator = __webpack_require__(174);
+var _regenerator = __webpack_require__(172);
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _asyncToGenerator2 = __webpack_require__(177);
+var _asyncToGenerator2 = __webpack_require__(175);
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _classCallCheck2 = __webpack_require__(178);
+var _classCallCheck2 = __webpack_require__(176);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-var _createClass2 = __webpack_require__(179);
+var _createClass2 = __webpack_require__(177);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _block3 = __webpack_require__(180);
+var _block3 = __webpack_require__(178);
 
 var _block4 = _interopRequireDefault(_block3);
 
-var _dropdown = __webpack_require__(155);
-
-var _packer = __webpack_require__(182);
-
-var _utils = __webpack_require__(183);
+var _packer = __webpack_require__(180);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -5421,7 +5258,7 @@ var Application = function () {
                     } else if (workspace.toolboxWorkspace && event.workspaceId === workspace.toolboxWorkspace.id) {
                       block = workspace.toolboxWorkspace.getBlockById(id);
                     }
-                    if (block && block.changed) {
+                    if (block && block.updated) {
                       if (!block.oldValue_) {
                         block.oldValue_ = event.oldValue;
                       }
@@ -5430,7 +5267,7 @@ var Application = function () {
                         var oldValue = block.oldValue_;
                         delete block.oldValue_;
                         event.oldValue = oldValue;
-                        block.changed(event);
+                        block.updated(event);
                       }, 500);
                     }
                   } else if (event instanceof Blockly.Events.Create) {
@@ -5553,8 +5390,6 @@ var Application = function () {
       // Add each top block one by one and generate code.
       var allCode = [];
 
-      _dropdown.Dropdown.createFromBlockFields(xml);
-
       // Generate JavaScript code and run it.
       window.LoopTrap = 1e7;
       Blockly.JavaScript.INFINITE_LOOP_TRAP = Blockly.Generator.prototype.INDENT + 'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
@@ -5593,13 +5428,13 @@ var Application = function () {
 exports.default = Application;
 
 /***/ }),
-/* 172 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(173), __esModule: true };
+module.exports = { "default": __webpack_require__(171), __esModule: true };
 
 /***/ }),
-/* 173 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var core = __webpack_require__(7);
@@ -5610,14 +5445,14 @@ module.exports = function stringify(it) { // eslint-disable-line no-unused-vars
 
 
 /***/ }),
-/* 174 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(175);
+module.exports = __webpack_require__(173);
 
 
 /***/ }),
-/* 175 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -5642,7 +5477,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(176);
+module.exports = __webpack_require__(174);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -5658,7 +5493,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 176 */
+/* 174 */
 /***/ (function(module, exports) {
 
 /**
@@ -6391,7 +6226,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 177 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6435,7 +6270,7 @@ exports.default = function (fn) {
 };
 
 /***/ }),
-/* 178 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6450,7 +6285,7 @@ exports.default = function (instance, Constructor) {
 };
 
 /***/ }),
-/* 179 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6483,7 +6318,7 @@ exports.default = function () {
 }();
 
 /***/ }),
-/* 180 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6493,7 +6328,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _regenerator = __webpack_require__(174);
+var _regenerator = __webpack_require__(172);
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
@@ -6501,15 +6336,15 @@ var _from = __webpack_require__(60);
 
 var _from2 = _interopRequireDefault(_from);
 
-var _asyncToGenerator2 = __webpack_require__(177);
+var _asyncToGenerator2 = __webpack_require__(175);
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _toolbox = __webpack_require__(181);
+var _toolbox = __webpack_require__(179);
 
 var _toolbox2 = _interopRequireDefault(_toolbox);
 
-var _packer = __webpack_require__(182);
+var _packer = __webpack_require__(180);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6630,7 +6465,7 @@ exports.default = function () {
 }();
 
 /***/ }),
-/* 181 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6640,7 +6475,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _regenerator = __webpack_require__(174);
+var _regenerator = __webpack_require__(172);
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
@@ -6648,7 +6483,7 @@ var _toConsumableArray2 = __webpack_require__(59);
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _asyncToGenerator2 = __webpack_require__(177);
+var _asyncToGenerator2 = __webpack_require__(175);
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
@@ -6656,7 +6491,7 @@ var _promise = __webpack_require__(115);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _packer = __webpack_require__(182);
+var _packer = __webpack_require__(180);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6730,7 +6565,7 @@ exports.default = function () {
 }();
 
 /***/ }),
-/* 182 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6808,35 +6643,6 @@ function unpack(xml) {
       blocks.remove();
     }
   });
-}
-
-/***/ }),
-/* 183 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.debounce = debounce;
-function debounce(action) {
-  var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 300;
-
-  var timer = null;
-  return function () {
-    var _this = this;
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    clearTimeout(timer);
-    timer = setTimeout(function () {
-      action.apply(_this, args);
-    }, delay);
-  };
 }
 
 /***/ })

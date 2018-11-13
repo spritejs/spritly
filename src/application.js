@@ -1,7 +1,5 @@
 import loadBlocks from './block';
-import {Dropdown} from './dropdown';
 import {pack} from './packer';
-import {debounce} from './utils';
 
 const Blockly = require('blockly');
 Blockly.BlockSvg.START_HAT = true;
@@ -89,7 +87,7 @@ class Application {
         } else if(workspace.toolboxWorkspace && event.workspaceId === workspace.toolboxWorkspace.id) {
           block = workspace.toolboxWorkspace.getBlockById(id);
         }
-        if(block && block.changed) {
+        if(block && block.updated) {
           if(!block.oldValue_) {
             block.oldValue_ = event.oldValue;
           }
@@ -98,7 +96,7 @@ class Application {
             const oldValue = block.oldValue_;
             delete block.oldValue_;
             event.oldValue = oldValue;
-            block.changed(event);
+            block.updated(event);
           }, 500);
         }
       } else if(event instanceof Blockly.Events.Create) {
@@ -188,8 +186,6 @@ class Application {
     const xml = Blockly.Xml.workspaceToDom(workspace);
     // Add each top block one by one and generate code.
     const allCode = [];
-
-    Dropdown.createFromBlockFields(xml);
 
     // Generate JavaScript code and run it.
     window.LoopTrap = 1e7;
