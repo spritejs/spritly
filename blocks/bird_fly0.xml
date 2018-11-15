@@ -2,5 +2,32 @@
   <script src="/blocks/js/birds.js"/>
   <preload>
     <resource type="texture_packer" texture="https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png" data="https://s5.ssl.qhres.com/static/5f6911b7b91c88da.json"/>
-  </preload>  
+  </preload>
+  <block type="fly_proc_def" id="|JNsq*n*zowc`1)Vx@gf" x="63" y="63">
+    <field name="NAME">过程_0</field>
+    <statement name="PROC">
+      <blocks>
+        <block type="fly_forward" id="IIZ-SpV1GHTL=Pd$|EQr">
+        </block>
+        <block type="fly_forward" id="j|BDLre)gz8-D=x4)TIC">
+        </block>
+        <block type="fly_forward" id="Z-V#OGwV27#{p$1zG~z1">
+        </block>
+        <block type="fly_turn" id="OROM$yox~NMJObIC%T^?">
+          <field name="DIRECTION">Left</field>
+        </block>
+        <block type="fly_proc_call" id=".NC?RaZFWq45WxOeMJfm">
+          <field name="NAME">过程_0</field>
+        </block>
+      </blocks>
+    </statement>
+  </block>
+  <blocks>
+    <block type="signal_do" id="IA*fE,8PhW-0{w_+H8D:" x="63" y="337">
+      <field name="SIGNAL">START</field>
+    </block>
+    <block type="fly_proc_call" id="kRhhDXkOrfE@wy]3zUhF">
+      <field name="NAME">过程_0</field>
+    </block>
+  </blocks>
 </xml>
