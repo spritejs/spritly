@@ -1,7 +1,7 @@
 <xml toolbox="/toolboxs/bird_fly.xml">
   <script src="/blocks/js/birds.js"/>
   <preload>
-    <resource type="texture_packer" texture="https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png" data="https://s5.ssl.qhres.com/static/5f6911b7b91c88da.json"/>
+    <resource type="texture_packer" texture="https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png" data="https://s5.ssl.qhres2.com/static/5f6911b7b91c88da.json"/>
   </preload>
   <block type="fly_proc_def" id="|JNsq*n*zowc`1)Vx@gf" x="63" y="63">
     <field name="NAME">过程_0</field>

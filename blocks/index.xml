@@ -1,6 +1,6 @@
 <xml toolbox="/toolboxs/default.xml">
   <preload>
-    <resource type="texture_packer" texture="https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png" data="https://s5.ssl.qhres.com/static/5f6911b7b91c88da.json"/>
+    <resource type="texture_packer" texture="https://p.ssl.qhimg.com/d/inn/c886d09f/birds.png" data="https://s5.ssl.qhres2.com/static/5f6911b7b91c88da.json"/>
     <resource type="image" src="https://p0.ssl.qhimg.com/t01a72262146b87165f.png" id="robot"/>
   </preload>
   <blocks>
